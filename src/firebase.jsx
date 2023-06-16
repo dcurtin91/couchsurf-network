@@ -73,7 +73,7 @@ const registerWithEmailAndPassword = async (name, email, password) => {
             uid: user.uid,
             name,
             authProvider: "local",
-            email,
+            email
         });
     } catch (err) {
         console.error(err);
@@ -97,7 +97,8 @@ const logout = () => {
 
 async function sendMessage(user, text, text2, checkbox, rooms) {
     try {
-        await addDoc(collection(db, 'house'), {
+        const collectionName = `${user.uid}`;
+        await addDoc(collection(db, collectionName), {
             uid: user.uid,
             displayName: user.displayName,
             name: text.trim(),
@@ -111,21 +112,23 @@ async function sendMessage(user, text, text2, checkbox, rooms) {
     }
 }
 
-async function updateMessage(user, text, text2, checkbox, rooms) {
+async function updateMessage(user, text, text2) {
+    //checkbox, rooms
     try {
-        const querySnapshot = await getDocs(collection(db, 'house'));
+        const collectionName = `${user.uid}`;
+        const querySnapshot = await getDocs(collection(db, collectionName));
         if (querySnapshot.size > 0) {
             const docRef = querySnapshot.docs[0].ref;
 
 
             await updateDoc(docRef, {
-                uid: user.uid,
-                displayName: user.displayName,
+                // uid: user.uid,
+                // displayName: user.displayName,
                 name: text.trim(),
                 email: text2.trim(),
-                vacancy: checkbox ? 'Checked' : 'Not Checked',
-                availability: rooms,
-                timestamp: serverTimestamp(),
+                // vacancy: checkbox ? 'Checked' : 'Not Checked',
+                // availability: rooms,
+                // timestamp: serverTimestamp(),
             });
         }
     } catch (error) {
@@ -133,22 +136,23 @@ async function updateMessage(user, text, text2, checkbox, rooms) {
     }
 }
 
-function getMessages(callback) {
+function getMessages(user, callback) {
+    const collectionName = `${user.uid}`;
     return onSnapshot(
-        query(
-            collection(db, 'house')
-
-        ),
+        collection(db, collectionName),
         (querySnapshot) => {
             const messages = querySnapshot.docs.map((x) => ({
                 id: x.id,
                 ...x.data(),
             }));
 
-            callback(messages);
+            if (typeof callback === 'function') {
+                callback(messages);
+            }
         }
     );
 }
+
 
 
 export {

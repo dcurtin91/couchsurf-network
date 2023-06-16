@@ -30,7 +30,8 @@ function Login() {
 
         if (user) {
             const checkUserDocs = async () => {
-                const querySnapshot = await getDocs(collection(db, 'house'));
+                const collectionName = `${user.uid}`;
+                const querySnapshot = await getDocs(collection(db, collectionName));
                 if (!querySnapshot.empty) {
                     navigate("/dashboard");
                 }
