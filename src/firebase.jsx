@@ -100,10 +100,10 @@ async function sendMessage(user, text, text2, checkbox, rooms) {
         const collectionName = `${user.uid}`;
         await addDoc(collection(db, collectionName), {
             uid: user.uid,
-            displayName: user.displayName,
+            // displayName: user.displayName,
             name: text.trim(),
             email: text2.trim(),
-            vacancy: checkbox ? 'Checked' : 'Not Checked',
+            vacancy: checkbox ? 'Yes' : 'No',
             availability: rooms,
             timestamp: serverTimestamp(),
         });
@@ -112,8 +112,8 @@ async function sendMessage(user, text, text2, checkbox, rooms) {
     }
 }
 
-async function updateMessage(user, text, text2) {
-    //checkbox, rooms
+async function updateMessage(user, text, text2, rooms, checkbox) {
+    
     try {
         const collectionName = `${user.uid}`;
         const querySnapshot = await getDocs(collection(db, collectionName));
@@ -126,8 +126,8 @@ async function updateMessage(user, text, text2) {
                 // displayName: user.displayName,
                 name: text.trim(),
                 email: text2.trim(),
-                // vacancy: checkbox ? 'Checked' : 'Not Checked',
-                // availability: rooms,
+                vacancy: checkbox ? 'Yes' : 'No',
+                availability: rooms,
                 // timestamp: serverTimestamp(),
             });
         }
