@@ -65,46 +65,43 @@ function Dashboard() {
   }
 
   const handleUpdate = async () => {
-  try {
-    const collectionName = `${user.uid}`;
-    const querySnapshot = await getDocs(collection(db, collectionName));
-    if (querySnapshot.size > 0) {
-      const docRef = querySnapshot.docs[0].ref;
-
-      await updateMessage(user, name, email);
-
-      // Update the document in Firestore with the new name, email, vacancy, and availability
-      const updateData = {
-        name: name,
-        email: email,
-        vacancy: vacancy,
-      };
-
-      // Check if availability has a valid value before adding it to updateData
-      if (availability !== " ") {
-        updateData.availability = availability;
+    try {
+      const collectionName = `${user.uid}`;
+      const querySnapshot = await getDocs(collection(db, collectionName));
+      if (querySnapshot.size > 0) {
+        const docRef = querySnapshot.docs[0].ref;
+  
+        await updateMessage(user, name, email, availability); // Call the updateMessage function passing the updated name and email
+  
+        // Update the document in Firestore with the new name and email
+        await updateDoc(docRef, {
+          name: name,
+          email: email,
+          vacancy: vacancy,
+          availability: availability,
+        }, 
+        
+        
+        { merge: true }); // Specify merge option to merge new data with existing data
+  
+        // Fetch the updated user data and set it in the state variables
+        const updatedDoc = await getDoc(docRef);
+        const updatedData = updatedDoc.data();
+        setName(updatedData.name);
+        setEmail(updatedData.email);
+        setVacancy(updatedData.vacancy);
+        setAvailability(updatedData.availability);
+  
+        setIsEditingName(false);
+        setIsEditingEmail(false);
+        setisEditingVacancy(false);
+        setIsEditingAvailability(false);
       }
-
-      await updateDoc(docRef, updateData, { merge: true });
-
-      // Fetch the updated user data and set it in the state variables
-      const updatedDoc = await getDoc(docRef);
-      const updatedData = updatedDoc.data();
-      setName(updatedData.name);
-      setEmail(updatedData.email);
-      setVacancy(updatedData.vacancy);
-      setAvailability(updatedData.availability);
-
-      setIsEditingName(false);
-      setIsEditingEmail(false);
-      setisEditingVacancy(false);
-      setIsEditingAvailability(false);
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
-  }
-};
-
+  };
+  
   
   
   
@@ -145,32 +142,40 @@ function Dashboard() {
           )}
         </div>
         <div>
-        Vacancy:{" "}
-            {isEditingVacancy ? (
-                <input type="text" value={vacancy} onChange={handleVacancyChange} />
-            ) : (
-                <>
-                {vacancy}{" "}
-                <span className="edit-icon" onClick={handleVacancyEdit}>
-                &#x270E;   
-                </span>
-                </>
-            )}
-            
+          Vacancy:{" "}
+          {isEditingVacancy ? (
+            <select value={vacancy} onChange={handleVacancyChange}>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          ) : (
+            <>
+              {vacancy}{" "}
+              <span className="edit-icon" onClick={handleVacancyEdit}>
+                &#x270E;
+              </span>
+            </>
+          )}
         </div>
-        <div>
+        {vacancy === "Yes" && (
+          <div>
             Number of vacant rooms:{" "}
             {isEditingAvailability ? (
-                <input type="text" value={availability} onChange={handleAvailabilityChange} />
+              <input
+                type="text"
+                value={availability}
+                onChange={handleAvailabilityChange}
+              />
             ) : (
-                <>
+              <>
                 {availability}{" "}
                 <span className="edit-icon" onClick={handleAvailabilityEdit}>
-                &#x270E;
+                  &#x270E;
                 </span>
-                </>
+              </>
             )}
-        </div>
+          </div>
+        )}
         <button className="dashboard__btn" onClick={handleUpdate}>
           Update
         </button>
