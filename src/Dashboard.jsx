@@ -9,6 +9,8 @@ function Dashboard() {
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [address, setAddress] = useState(" ");
+  const [phone, setPhone] = useState(" ");
   const [vacancy, setVacancy] = useState(" ");
   const [availability, setAvailability] = useState(" ");
   const navigate = useNavigate();
@@ -16,22 +18,31 @@ function Dashboard() {
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [isEditingVacancy, setisEditingVacancy] = useState(false);
   const [isEditingAvailability, setIsEditingAvailability] = useState(false);
- 
+  const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [isEditingPhone, setIsEditingPhone] = useState(false);
   const fetchUserData = async () => {
     try {
       const collectionName = `${user.uid}`;
       const doc = await getDocs(collection(db, collectionName));
       const data = doc.docs[0].data();
 
+      setAddress(data.address);
       setName(data.name);
       setEmail(data.email);
+      setPhone(data.phone);
       setVacancy(data.vacancy);
       setAvailability(data.availability);
+      
+      
     } catch (err) {
       console.error(err);
       alert("An error occurred while fetching user data");
     }
   };
+
+  const handleAddressChange = (event) => {
+    setAddress(event.target.value);
+  }
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -41,6 +52,10 @@ function Dashboard() {
     setEmail(event.target.value);
   };
 
+  const handlePhoneChange = (event) => {
+    setPhone(event.target.value);
+  }
+
   const handleVacancyChange = (event) => {
     setVacancy(event.target.value);
   };
@@ -48,6 +63,10 @@ function Dashboard() {
   const handleAvailabilityChange = (event) => {
     setAvailability(event.target.value);
   }
+
+  const handleAddressEdit = () => {
+    setIsEditingAddress(true);
+  };
  
   const handleNameEdit = () => {
     setIsEditingName(true);
@@ -57,12 +76,23 @@ function Dashboard() {
     setIsEditingEmail(true);
   };
 
+  const handlePhoneEdit = () => {
+    setIsEditingPhone(true);
+  }
+
   const handleVacancyEdit = (event) => {
     setisEditingVacancy(true);
-  }
+  };
+
   const handleAvailabilityEdit = () => {
     setIsEditingAvailability(true);
-  }
+  };
+
+  
+
+  
+
+
 
   const handleUpdate = async () => {
     try {
@@ -71,12 +101,15 @@ function Dashboard() {
       if (querySnapshot.size > 0) {
         const docRef = querySnapshot.docs[0].ref;
   
-        await updateMessage(user, name, email, availability); // Call the updateMessage function passing the updated name and email
+        await updateMessage(user, name, email, availability, phone, address); // Call the updateMessage function passing the updated name and email
   
         // Update the document in Firestore with the new name and email
         await updateDoc(docRef, {
-          name: name,
+            address: address,
+            name: name,
           email: email,
+          
+          phone: phone,
           vacancy: vacancy,
           availability: availability,
         }, 
@@ -91,11 +124,15 @@ function Dashboard() {
         setEmail(updatedData.email);
         setVacancy(updatedData.vacancy);
         setAvailability(updatedData.availability);
+        setAddress(updatedData.address);
+        setPhone(updatedData.phone);
   
         setIsEditingName(false);
         setIsEditingEmail(false);
         setisEditingVacancy(false);
         setIsEditingAvailability(false);
+        setIsEditingAddress(false);
+        setIsEditingPhone(false);
       }
     } catch (error) {
       console.error(error);
@@ -116,7 +153,19 @@ function Dashboard() {
   return (
     <div className="dashboard">
       <div className="dashboard__container">
-        Your Profile
+        <h2>Your Property Address and Contact Info</h2>
+        <div>
+          {isEditingAddress ? (
+            <input type="text" value={address} onChange={handleAddressChange} />
+          ) : (
+            <>
+              {address}{" "}
+              <span className="edit-icon" onClick={handleAddressEdit}>
+                &#x270E;
+              </span>
+            </>
+          )}
+        </div>
         <div>
           {isEditingName ? (
             <input type="text" value={name} onChange={handleNameChange} />
@@ -136,6 +185,18 @@ function Dashboard() {
             <>
               {email}{" "}
               <span className="edit-icon" onClick={handleEmailEdit}>
+                &#x270E;
+              </span>
+            </>
+          )}
+        </div>
+        <div>
+          {isEditingPhone ? (
+            <input type="tel" value={phone} onChange={handlePhoneChange} />
+          ) : (
+            <>
+              {phone}{" "}
+              <span className="edit-icon" onClick={handlePhoneEdit}>
                 &#x270E;
               </span>
             </>
@@ -162,9 +223,11 @@ function Dashboard() {
             Number of vacant rooms:{" "}
             {isEditingAvailability ? (
               <input
-                type="text"
+                type="number"
                 value={availability}
                 onChange={handleAvailabilityChange}
+                min={0}
+                max={10}
               />
             ) : (
               <>

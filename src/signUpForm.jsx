@@ -9,10 +9,12 @@ function SignUpForm() {
     const navigate = useNavigate();
     const [user] = useAuthState(auth);
     const [formData, setFormData] = useState({
+        address: '',
         name: '',
         email: '',
-        roomsAvailable: false,
-        numberOfRooms: ''
+        phone: '',
+        vacancy: false,
+        availability: ''
     });
 
     const handleChange = (event) => {
@@ -27,12 +29,14 @@ function SignUpForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        sendMessage(user, formData.name, formData.email, formData.roomsAvailable, formData.numberOfRooms);
+        sendMessage(user, formData.address, formData.name, formData.email, formData.phone, formData.vacancy, formData.availability);
         setFormData({
+            address: '',
             name: '',
             email: '',
-            roomsAvailable: false,
-            numberOfRooms: ''
+            phone: '',
+            vacancy: false,
+            availability: ''
         });
         navigate('/dashboard');
     }
@@ -40,10 +44,20 @@ function SignUpForm() {
     return (
         <div>
             <form onSubmit={handleSubmit} className="message-input-container">
+            <input
+                    type="text"
+                    name="address"
+                    placeholder="property address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    className="message-input"
+                    required
+                    minLength={1}
+                />
                 <input
                     type="text"
                     name="name"
-                    placeholder="name"
+                    placeholder="conact first and last name"
                     value={formData.name}
                     onChange={handleChange}
                     className="message-input"
@@ -53,34 +67,47 @@ function SignUpForm() {
                 <input
                     type="email"
                     name="email"
-                    placeholder="email"
+                    placeholder="contact email"
                     value={formData.email}
                     onChange={handleChange}
                     className="message-input"
                     required
                     minLength={1}
                 />
+                <input
+                    type="tel"
+                    name="phone"
+                    placeholder="contact phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="message-input"
+                    
+                    minLength={1}
+                />
                 <label>
                     <input
                         type="checkbox"
-                        name="roomsAvailable"
-                        checked={formData.roomsAvailable}
+                        name="vacancy"
+                        checked={formData.vacancy}
                         onChange={handleChange}
-                        placeholder="rooms available"
+                        placeholder="number of rooms available"
                     />
-                    Rooms Available
+                    Vacant Rooms?
                 </label>
-                {formData.roomsAvailable && (
+                {formData.vacancy && (
+                    
                     <input
                         type="number"
-                        name="numberOfRooms"
+                        name="availability"
                         placeholder="1"
-                        value={formData.numberOfRooms}
+                        value={formData.availability}
                         onChange={handleChange}
                         className="message-input"
+                        min={0}
+                        max={10}
 
                     />
-                )}
+                ) }
                 <button type="submit" disabled={formData.name < 1} className="send-message">
                     Submit
                 </button>

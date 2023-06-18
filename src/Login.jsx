@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, logInWithEmailAndPassword, signInWithGoogle } from "./firebase";
+import { auth, logInWithEmailAndPassword } from "./firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getDocs, collection, getFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
@@ -44,6 +44,12 @@ function Login() {
         }
     }, [user, loading, navigate]);
 
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+        logInWithEmailAndPassword(email, password);
+        }
+        }
+
     return (
         <div className="login">
             <div className="login__container">
@@ -53,6 +59,7 @@ function Login() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="E-mail Address"
+                    onKeyDown={handleKeyPress}
                 />
                 <input
                     type="password"
@@ -60,6 +67,7 @@ function Login() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
+                    onKeyDown={handleKeyPress}
                 />
                 <button
                     className="login__btn"
@@ -67,9 +75,7 @@ function Login() {
                 >
                     Login
                 </button>
-                <button className="login__btn login__google" onClick={signInWithGoogle}>
-                    Login with Google
-                </button>
+                
                 <div>
                     <Link to="/reset">Forgot Password</Link>
                 </div>
