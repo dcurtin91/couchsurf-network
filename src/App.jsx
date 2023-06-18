@@ -3,7 +3,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Reset from "./Reset";
 import Dashboard from "./Dashboard";
-import Building1 from "./Building1";
+import Directory from "./Directory";
 import { SignUpForm } from "./signUpForm";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
           <Route exact path="/reset" element={<Reset />} />
           <Route exact path="/signupform" element={<SignUpForm />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
-          <Route exact path="/building1" element={<Building1 />} />
+          <Route exact path="/directory" element={<Directory />} />
         </Routes>
       </Router>
     </div>
