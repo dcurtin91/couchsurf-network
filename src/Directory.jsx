@@ -1,59 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { db } from "./firebase";
-import { collection, getDoc, getDocs } from "firebase/firestore";
+import React from "react";
+import Building1 from "./Building1";
+import Building2 from "./Building2";
+import Building3 from "./Building3";
+import Building4 from "./Building4";
 
-
-function Directory() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState(" ");
-  const [phone, setPhone] = useState(" ");
-  const [vacancy, setVacancy] = useState(" ");
-  const [availability, setAvailability] = useState(" ");
-  const fetchCollectionData = async () => {
-    try {
-      const collectionName = `ggjpRieR0nU8OaqeEotpQqDOs3I2`;
-      const doc = await getDocs(collection(db, collectionName));
-      const data = doc.docs[0].data();
-
-      setAddress(data.address);
-      setName(data.name);
-      setEmail(data.email);
-      setPhone(data.phone);
-      setVacancy(data.vacancy);
-      setAvailability(data.availability);
-      
-      
-    } catch (err) {
-      console.error(err);
-      alert("An error occurred while fetching data");
-    }
-  };
-
-  
-  
-  
-
-  useEffect(() => {
-    
-    
-
-    fetchCollectionData();
-  }, []);
-
+export default function Directory() {
   return (
-    
-        <div>
-          <h3>{address}</h3>
-          {name}<br></br>
-          {email}<br></br>
-          {phone}<br></br>
-          Vacancy:{" "}{vacancy}<br></br>
-          Number of Rooms Available:{" "}{availability}<br></br>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          marginBottom: "1rem", // Add margin between the rows
+        }}
+      >
+        <div style={{ marginRight: "3rem" }}>
+          <Building1 />
         </div>
-        
+        <div style={{ marginRight: "3rem" }}>
+          <Building2 />
+        </div>
+        <div style={{ marginRight: "3rem" }}>
+          <Building3 />
+        </div>
+        <div>
+          <Building4 />
+        </div>
+      
+      </div>
+      
+    </div>
   );
 }
-
-export default Directory;
-

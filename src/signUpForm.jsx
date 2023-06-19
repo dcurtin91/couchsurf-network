@@ -57,7 +57,7 @@ function SignUpForm() {
                 <input
                     type="text"
                     name="name"
-                    placeholder="conact first and last name"
+                    placeholder="contact first and last name"
                     value={formData.name}
                     onChange={handleChange}
                     className="message-input"
