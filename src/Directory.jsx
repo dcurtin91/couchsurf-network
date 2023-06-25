@@ -1,10 +1,19 @@
-import React from "react";
-import Building1 from "./Building1";
-import Building2 from "./Building2";
-import Building3 from "./Building3";
-import Building4 from "./Building4";
+import React, { useState, useEffect } from "react";
+import { getMessages } from "./firebase";
 
-export default function Directory() {
+const Directory = () => {
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = getMessages((newMessages) => {
+      setMessages(newMessages);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   return (
     <div
       style={{
@@ -13,27 +22,20 @@ export default function Directory() {
         alignItems: "center",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          marginBottom: "1rem", // Add margin between the rows
-        }}
-      >
-        <div style={{ marginRight: "3rem" }}>
-          <Building1 />
+      {messages.map((message) => (
+        <div key={message.id}>
+          <h2>{message.address}</h2>
+          <p>{message.name}</p>
+          <p>{message.email}</p>
+          <p>{message.phone}</p>
+          <p>Vacant rooms: {message.vacancy}</p>
+          {message.vacancy === "No" ? null : (
+            <p>Number of rooms available: {message.availability}</p>
+          )}
         </div>
-        <div style={{ marginRight: "3rem" }}>
-          <Building2 />
-        </div>
-        <div style={{ marginRight: "3rem" }}>
-          <Building3 />
-        </div>
-        <div>
-          <Building4 />
-        </div>
-      
-      </div>
-      
+      ))}
     </div>
   );
-}
+};
+
+export default Directory;

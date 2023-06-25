@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db, logout } from "./firebase";
-import { collection, getDoc, getDocs, updateDoc } from "firebase/firestore";
-import { updateMessage } from "./firebase";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+//import { updateMessage } from "./firebase";
 
 function Dashboard() {
   const [user, loading, error] = useAuthState(auth);
@@ -22,18 +22,21 @@ function Dashboard() {
   const [isEditingPhone, setIsEditingPhone] = useState(false);
   const fetchUserData = async () => {
     try {
-      const collectionName = `${user.uid}`;
-      const doc = await getDocs(collection(db, collectionName));
-      const data = doc.docs[0].data();
+      const docId = user.uid;
+      const docRef = await getDoc(doc(db, "properties", docId));
 
-      setAddress(data.address);
-      setName(data.name);
-      setEmail(data.email);
-      setPhone(data.phone);
-      setVacancy(data.vacancy);
-      setAvailability(data.availability);
-      
-      
+      if (docRef.exists()) {
+        const data = docRef.data();
+        setAddress(data.address);
+        setName(data.name);
+        setEmail(data.email);
+        setPhone(data.phone);
+        setVacancy(data.vacancy);
+        setAvailability(data.availability);
+      } else {
+        // Handle the case where the document doesn't exist
+        console.log("User data not found.");
+      }
     } catch (err) {
       console.error(err);
       alert("An error occurred while fetching user data");
@@ -42,7 +45,7 @@ function Dashboard() {
 
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
-  }
+  };
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -54,7 +57,7 @@ function Dashboard() {
 
   const handlePhoneChange = (event) => {
     setPhone(event.target.value);
-  }
+  };
 
   const handleVacancyChange = (event) => {
     setVacancy(event.target.value);
@@ -62,12 +65,12 @@ function Dashboard() {
 
   const handleAvailabilityChange = (event) => {
     setAvailability(event.target.value);
-  }
+  };
 
   const handleAddressEdit = () => {
     setIsEditingAddress(true);
   };
- 
+
   const handleNameEdit = () => {
     setIsEditingName(true);
   };
@@ -78,9 +81,9 @@ function Dashboard() {
 
   const handlePhoneEdit = () => {
     setIsEditingPhone(true);
-  }
+  };
 
-  const handleVacancyEdit = (event) => {
+  const handleVacancyEdit = () => {
     setisEditingVacancy(true);
   };
 
@@ -88,60 +91,41 @@ function Dashboard() {
     setIsEditingAvailability(true);
   };
 
-  
-
-  
-
-
-
   const handleUpdate = async () => {
     try {
-      const collectionName = `${user.uid}`;
-      const querySnapshot = await getDocs(collection(db, collectionName));
-      if (querySnapshot.size > 0) {
-        const docRef = querySnapshot.docs[0].ref;
-  
-        await updateMessage(user, name, email, availability, phone, address); // Call the updateMessage function passing the updated name and email
-  
-        // Update the document in Firestore with the new name and email
-        await updateDoc(docRef, {
-            address: address,
-            name: name,
-          email: email,
-          
-          phone: phone,
-          vacancy: vacancy,
-          availability: availability,
-        }, 
-        
-        
-        { merge: true }); // Specify merge option to merge new data with existing data
-  
-        // Fetch the updated user data and set it in the state variables
-        const updatedDoc = await getDoc(docRef);
-        const updatedData = updatedDoc.data();
-        setName(updatedData.name);
-        setEmail(updatedData.email);
-        setVacancy(updatedData.vacancy);
-        setAvailability(updatedData.availability);
-        setAddress(updatedData.address);
-        setPhone(updatedData.phone);
-  
-        setIsEditingName(false);
-        setIsEditingEmail(false);
-        setisEditingVacancy(false);
-        setIsEditingAvailability(false);
-        setIsEditingAddress(false);
-        setIsEditingPhone(false);
-      }
+      const docId = user.uid;
+      const docRef = doc(db, "properties", docId);
+
+      // Update the document in Firestore with the new data
+      await updateDoc(docRef, {
+        address: address,
+        name: name,
+        email: email,
+        phone: phone,
+        vacancy: vacancy,
+        availability: availability,
+      });
+
+      // Fetch the updated user data and set it in the state variables
+      const updatedDoc = await getDoc(docRef);
+      const updatedData = updatedDoc.data();
+      setAddress(updatedData.address);
+      setName(updatedData.name);
+      setEmail(updatedData.email);
+      setPhone(updatedData.phone);
+      setVacancy(updatedData.vacancy);
+      setAvailability(updatedData.availability);
+
+      setIsEditingName(false);
+      setIsEditingEmail(false);
+      setisEditingVacancy(false);
+      setIsEditingAvailability(false);
+      setIsEditingAddress(false);
+      setIsEditingPhone(false);
     } catch (error) {
       console.error(error);
     }
   };
-  
-  
-  
-  
 
   useEffect(() => {
     if (loading) return;
@@ -251,4 +235,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
