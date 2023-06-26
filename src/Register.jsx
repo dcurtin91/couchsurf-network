@@ -22,7 +22,7 @@ function Register() {
 
     useEffect(() => {
         if (loading) return;
-        if (user) navigate("/signupform");
+        if (user) navigate("/member-portal/signupform");
     }, [user, loading]);
 
     const handleKeyPress = (e) => {
@@ -64,7 +64,7 @@ function Register() {
                 
 
                 <div>
-                    Already have an account? <Link to="/">Login</Link> now.
+                    Already have an account? <Link to="/member-portal/">Login</Link> now.
                 </div>
             </div>
         </div>

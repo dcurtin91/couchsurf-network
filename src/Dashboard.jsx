@@ -129,7 +129,7 @@ function Dashboard() {
 
   useEffect(() => {
     if (loading) return;
-    if (!user) return navigate("/");
+    if (!user) return navigate("/member-portal/");
 
     fetchUserData();
   }, [user, loading]);

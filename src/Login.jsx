@@ -33,10 +33,10 @@ function Login() {
                 //const collectionName = `${user.uid}`;
                 const querySnapshot = await getDocs(collection(db, 'properties'));
                 if (!querySnapshot.empty) {
-                    navigate("/dashboard");
+                    navigate("/member-portal/dashboard");
                 }
                 else {
-                    navigate("/signupform");
+                    navigate("/member-portal/signupform");
                 }
             };
 
@@ -77,10 +77,10 @@ function Login() {
                 </button>
                 
                 <div>
-                    <Link to="/reset">Forgot Password</Link>
+                    <Link to="/member-portal/reset">Forgot Password</Link>
                 </div>
                 <div>
-                    Don't have an account? <Link to="/register">Register</Link> now.
+                    Don't have an account? <Link to="/member-portal/register">Register</Link> now.
                 </div>
             </div>
         </div>
