@@ -5,11 +5,13 @@ import Reset from "./Reset";
 import Dashboard from "./Dashboard";
 import Directory from "./Directory";
 import { SignUpForm } from "./signUpForm";
+import Navigation from "./Navbar";
 
 function App() {
   return (
     <div className="app">
       <Router>
+        <Navigation />
         <Routes>
           <Route exact path="/member-portal/" element={<Login />} />
           <Route exact path="/member-portal/register" element={<Register />} />
