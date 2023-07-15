@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getMessages } from "./firebase";
+import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 const Directory = () => {
   const [messages, setMessages] = useState([]);
@@ -22,18 +25,31 @@ const Directory = () => {
         alignItems: "center",
       }}
     >
-      {messages.map((message) => (
-        <div key={message.id}>
-          <h2>{message.address}</h2>
-          <p>{message.name}</p>
-          <p>{message.email}</p>
-          <p>{message.phone}</p>
-          <p>Vacant rooms: {message.vacancy}</p>
-          {message.vacancy === "No" ? null : (
-            <p>Number of rooms available: {message.availability}</p>
-          )}
-        </div>
-      ))}
+      {messages.map(
+        (message, index) =>
+          index % 3 === 0 && (
+            <Row key={index}>
+              {messages.slice(index, index + 3).map((message, subIndex) => (
+                <Col key={subIndex}>
+                  <Card>
+                    <Card.Body>
+                      <Card.Title>{message.address}</Card.Title>
+                      <Card.Text>{message.name}</Card.Text>
+                      <Card.Text>{message.email}</Card.Text>
+                      <Card.Text>{message.phone}</Card.Text>
+                      <Card.Text>Vacant rooms: {message.vacancy}</Card.Text>
+                      {message.vacancy === "No" ? null : (
+                        <Card.Text>
+                          Number of rooms available: {message.availability}
+                        </Card.Text>
+                      )}
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          )
+      )}
     </div>
   );
 };

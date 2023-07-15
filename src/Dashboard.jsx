@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { auth, db, logout } from "./firebase";
+import { auth, db, storage } from "./firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-//import { updateMessage } from "./firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import Card from "react-bootstrap/Card";
 
 function Dashboard() {
   const [user, loading, error] = useAuthState(auth);
@@ -13,13 +14,18 @@ function Dashboard() {
   const [phone, setPhone] = useState(" ");
   const [vacancy, setVacancy] = useState(" ");
   const [availability, setAvailability] = useState(" ");
+  const [photo, setPhoto] = useState(null);
+
   const navigate = useNavigate();
+
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [isEditingVacancy, setisEditingVacancy] = useState(false);
   const [isEditingAvailability, setIsEditingAvailability] = useState(false);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
+  const [isEditingPhoto, setIsEditingPhoto] = useState(false);
+
   const fetchUserData = async () => {
     try {
       const docId = user.uid;
@@ -33,8 +39,8 @@ function Dashboard() {
         setPhone(data.phone);
         setVacancy(data.vacancy);
         setAvailability(data.availability);
+        setPhoto(data.photo);
       } else {
-        // Handle the case where the document doesn't exist
         console.log("User data not found.");
       }
     } catch (err) {
@@ -67,6 +73,11 @@ function Dashboard() {
     setAvailability(event.target.value);
   };
 
+  const handlePhotoChange = (event) => {
+    const file = event.target.files[0];
+    setPhoto(file);
+  };
+
   const handleAddressEdit = () => {
     setIsEditingAddress(true);
   };
@@ -91,12 +102,21 @@ function Dashboard() {
     setIsEditingAvailability(true);
   };
 
+  const handlePhotoEdit = () => {
+    setIsEditingPhoto(true);
+  };
+
   const handleUpdate = async () => {
     try {
       const docId = user.uid;
       const docRef = doc(db, "properties", docId);
 
-      // Update the document in Firestore with the new data
+      // Upload the photo to storage (assuming you have storage setup)
+      if (photo) {
+        const storageRef = ref(storage, `photos/${user.uid}`);
+        await uploadBytes(storageRef, photo);
+      }
+
       await updateDoc(docRef, {
         address: address,
         name: name,
@@ -104,9 +124,11 @@ function Dashboard() {
         phone: phone,
         vacancy: vacancy,
         availability: availability,
+        photo: photo
+          ? getDownloadURL(ref(storage, `photos/${user.uid}`))
+          : null,
       });
 
-      // Fetch the updated user data and set it in the state variables
       const updatedDoc = await getDoc(docRef);
       const updatedData = updatedDoc.data();
       setAddress(updatedData.address);
@@ -115,6 +137,7 @@ function Dashboard() {
       setPhone(updatedData.phone);
       setVacancy(updatedData.vacancy);
       setAvailability(updatedData.availability);
+      setPhoto(updatedData.photo);
 
       setIsEditingName(false);
       setIsEditingEmail(false);
@@ -122,6 +145,7 @@ function Dashboard() {
       setIsEditingAvailability(false);
       setIsEditingAddress(false);
       setIsEditingPhone(false);
+      setIsEditingPhoto(false);
     } catch (error) {
       console.error(error);
     }
@@ -135,10 +159,22 @@ function Dashboard() {
   }, [user, loading]);
 
   return (
-    <div className="dashboard">
-      <div className="dashboard__container">
-        <h2>Your Property Address and Contact Info</h2>
-        <div>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+      }}
+    >
+      <Card
+        style={{
+          border: "1px solid black",
+          backgroundColor: "lightgrey",
+        }}
+      >
+        <h2>Your Property Address & Contact Info</h2>
+        <div className="dash_item">
           {isEditingAddress ? (
             <input type="text" value={address} onChange={handleAddressChange} />
           ) : (
@@ -150,7 +186,7 @@ function Dashboard() {
             </>
           )}
         </div>
-        <div>
+        <div className="dash_item">
           {isEditingName ? (
             <input type="text" value={name} onChange={handleNameChange} />
           ) : (
@@ -162,7 +198,7 @@ function Dashboard() {
             </>
           )}
         </div>
-        <div>
+        <div className="dash_item">
           {isEditingEmail ? (
             <input type="text" value={email} onChange={handleEmailChange} />
           ) : (
@@ -174,7 +210,7 @@ function Dashboard() {
             </>
           )}
         </div>
-        <div>
+        <div className="dash_item">
           {isEditingPhone ? (
             <input type="tel" value={phone} onChange={handlePhoneChange} />
           ) : (
@@ -186,7 +222,7 @@ function Dashboard() {
             </>
           )}
         </div>
-        <div>
+        <div className="dash_item">
           Vacancy:{" "}
           {isEditingVacancy ? (
             <select value={vacancy} onChange={handleVacancyChange}>
@@ -203,8 +239,8 @@ function Dashboard() {
           )}
         </div>
         {vacancy === "Yes" && (
-          <div>
-            Number of vacant rooms:{" "}
+          <div className="dash_item">
+            Capacity:{" "}
             {isEditingAvailability ? (
               <input
                 type="number"
@@ -223,13 +259,23 @@ function Dashboard() {
             )}
           </div>
         )}
+        <div className="dash_item">
+          {isEditingPhoto ? (
+            <input type="file" accept="image/*" onChange={handlePhotoChange} />
+          ) : (
+            <>
+              {photo ? photo.name : ""}{" "}
+              <span className="edit-icon" onClick={handlePhotoEdit}>
+                &#x270E;
+              </span>
+            </>
+          )}
+        </div>
+
         <button className="dashboard__btn" onClick={handleUpdate}>
           Update
         </button>
-        <button className="dashboard__btn" onClick={logout}>
-          Logout
-        </button>
-      </div>
+      </Card>
     </div>
   );
 }
