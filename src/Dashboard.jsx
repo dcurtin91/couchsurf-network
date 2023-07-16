@@ -5,6 +5,8 @@ import { auth, db, storage } from "./firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 function Dashboard() {
   const [user, loading, error] = useAuthState(auth);
@@ -171,110 +173,153 @@ function Dashboard() {
         style={{
           border: "1px solid black",
           backgroundColor: "lightgrey",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <h2>Your Property Address & Contact Info</h2>
-        <div className="dash_item">
-          {isEditingAddress ? (
-            <input type="text" value={address} onChange={handleAddressChange} />
-          ) : (
-            <>
-              {address}{" "}
-              <span className="edit-icon" onClick={handleAddressEdit}>
-                &#x270E;
-              </span>
-            </>
-          )}
-        </div>
-        <div className="dash_item">
-          {isEditingName ? (
-            <input type="text" value={name} onChange={handleNameChange} />
-          ) : (
-            <>
-              {name}{" "}
-              <span className="edit-icon" onClick={handleNameEdit}>
-                &#x270E;
-              </span>
-            </>
-          )}
-        </div>
-        <div className="dash_item">
-          {isEditingEmail ? (
-            <input type="text" value={email} onChange={handleEmailChange} />
-          ) : (
-            <>
-              {email}{" "}
-              <span className="edit-icon" onClick={handleEmailEdit}>
-                &#x270E;
-              </span>
-            </>
-          )}
-        </div>
-        <div className="dash_item">
-          {isEditingPhone ? (
-            <input type="tel" value={phone} onChange={handlePhoneChange} />
-          ) : (
-            <>
-              {phone}{" "}
-              <span className="edit-icon" onClick={handlePhoneEdit}>
-                &#x270E;
-              </span>
-            </>
-          )}
-        </div>
-        <div className="dash_item">
-          Vacancy:{" "}
-          {isEditingVacancy ? (
-            <select value={vacancy} onChange={handleVacancyChange}>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </select>
-          ) : (
-            <>
-              {vacancy}{" "}
-              <span className="edit-icon" onClick={handleVacancyEdit}>
-                &#x270E;
-              </span>
-            </>
-          )}
-        </div>
-        {vacancy === "Yes" && (
-          <div className="dash_item">
-            Capacity:{" "}
-            {isEditingAvailability ? (
-              <input
-                type="number"
-                value={availability}
-                onChange={handleAvailabilityChange}
-                min={0}
-                max={10}
-              />
-            ) : (
-              <>
-                {availability}{" "}
-                <span className="edit-icon" onClick={handleAvailabilityEdit}>
-                  &#x270E;
-                </span>
-              </>
-            )}
-          </div>
-        )}
-        <div className="dash_item">
-          {isEditingPhoto ? (
-            <input type="file" accept="image/*" onChange={handlePhotoChange} />
-          ) : (
-            <>
-              {photo ? photo.name : ""}{" "}
-              <span className="edit-icon" onClick={handlePhotoEdit}>
-                &#x270E;
-              </span>
-            </>
-          )}
-        </div>
+        <Row>
+          <Col
+            style={{
+              justifyContent: "center",
+              textAlign: "center",
+            }}
+          >
+            <Card.Header
+              style={{
+                backgroundColor: "lightsteelblue",
+                width: "100%",
+                marginTop: "0px",
+                textAlign: "center",
+                marginBottom: 0,
+              }}
+            >
+              Your Property Address and Contact Info
+            </Card.Header>
 
-        <button className="dashboard__btn" onClick={handleUpdate}>
-          Update
-        </button>
+            <div className="dash_item">
+              {isEditingAddress ? (
+                <input
+                  type="text"
+                  value={address}
+                  onChange={handleAddressChange}
+                />
+              ) : (
+                <>
+                  {address}{" "}
+                  <span className="edit-icon" onClick={handleAddressEdit}>
+                    &#x270E;
+                  </span>
+                </>
+              )}
+            </div>
+            <div className="dash_item">
+              {isEditingName ? (
+                <input type="text" value={name} onChange={handleNameChange} />
+              ) : (
+                <>
+                  {name}{" "}
+                  <span className="edit-icon" onClick={handleNameEdit}>
+                    &#x270E;
+                  </span>
+                </>
+              )}
+            </div>
+            <div className="dash_item">
+              {isEditingEmail ? (
+                <input type="text" value={email} onChange={handleEmailChange} />
+              ) : (
+                <>
+                  {email}{" "}
+                  <span className="edit-icon" onClick={handleEmailEdit}>
+                    &#x270E;
+                  </span>
+                </>
+              )}
+            </div>
+            <div className="dash_item">
+              {isEditingPhone ? (
+                <input type="tel" value={phone} onChange={handlePhoneChange} />
+              ) : (
+                <>
+                  {phone}{" "}
+                  <span className="edit-icon" onClick={handlePhoneEdit}>
+                    &#x270E;
+                  </span>
+                </>
+              )}
+            </div>
+            <div className="dash_item">
+              Vacancy:{" "}
+              {isEditingVacancy ? (
+                <select value={vacancy} onChange={handleVacancyChange}>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              ) : (
+                <>
+                  {vacancy}{" "}
+                  <span className="edit-icon" onClick={handleVacancyEdit}>
+                    &#x270E;
+                  </span>
+                </>
+              )}
+            </div>
+            {vacancy === "Yes" && (
+              <div className="dash_item">
+                Capacity:{" "}
+                {isEditingAvailability ? (
+                  <input
+                    type="number"
+                    value={availability}
+                    onChange={handleAvailabilityChange}
+                    min={0}
+                    max={10}
+                  />
+                ) : (
+                  <>
+                    {availability}{" "}
+                    <span
+                      className="edit-icon"
+                      onClick={handleAvailabilityEdit}
+                    >
+                      &#x270E;
+                    </span>
+                  </>
+                )}
+              </div>
+            )}
+            <div className="dash_item">
+              {isEditingPhoto ? (
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoChange}
+                />
+              ) : (
+                <>
+                  {photo ? photo.name : ""}{" "}
+                  <span className="edit-icon" onClick={handlePhotoEdit}>
+                    &#x270E;
+                  </span>
+                </>
+              )}
+            </div>
+
+            <button
+              style={{
+                borderRadius: "8px",
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "10px",
+                marginLeft: "112px",
+              }}
+              onClick={handleUpdate}
+            >
+              Update
+            </button>
+          </Col>
+        </Row>
       </Card>
     </div>
   );

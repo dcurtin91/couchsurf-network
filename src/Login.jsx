@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, logInWithEmailAndPassword } from "./firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getDocs, collection, getFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC1IqrdEPTT1ZoeKikj2jm04xUteoGHxlk",
@@ -60,38 +62,73 @@ function Login() {
         style={{
           border: "1px solid black",
           backgroundColor: "lightgrey",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "2em",
         }}
       >
-        <input
-          type="text"
-          className="login__textBox"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="E-mail Address"
-          onKeyDown={handleKeyPress}
-        />
-        <input
-          type="password"
-          className="login__textBox"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          onKeyDown={handleKeyPress}
-        />
-        <button
-          className="login__btn"
-          onClick={() => logInWithEmailAndPassword(email, password)}
-        >
-          Login
-        </button>
+        <Row>
+          <Col>
+            <input
+              type="text"
+              className="login__textBox"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="E-mail Address"
+              onKeyDown={handleKeyPress}
+            />
 
-        <div>
-          <Link to="/member-portal/reset">Forgot Password</Link>
-        </div>
-        <div>
-          Don't have an account?{" "}
-          <Link to="/member-portal/register">Register</Link> now.
-        </div>
+            <div style={{ marginTop: "10px", display: "flex" }}>
+              <Link
+                className="navOption2"
+                to="/member-portal/reset"
+                tabIndex={-1}
+              >
+                Forgot Password
+              </Link>
+            </div>
+            <div
+              style={{
+                fontSize: "15px",
+                marginTop: "5px",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Don't have an account?{" "}
+              <Link
+                className="navOption2"
+                to="/member-portal/register"
+                tabIndex={-1}
+              >
+                Register
+              </Link>{" "}
+              now.
+            </div>
+          </Col>
+          <Col>
+            <input
+              type="password"
+              className="login__textBox"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              onKeyDown={handleKeyPress}
+            />
+          </Col>
+          <Col style={{ marginTop: "-10px" }}>
+            <button
+              style={{
+                borderRadius: "8px",
+                width: "80px",
+                display: "flex",
+              }}
+              onClick={() => logInWithEmailAndPassword(email, password)}
+            >
+              Login
+            </button>
+          </Col>
+        </Row>
       </Card>
     </div>
   );

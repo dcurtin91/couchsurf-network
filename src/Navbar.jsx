@@ -25,14 +25,16 @@ export default function Navigation() {
           justifyContent: "space-between",
         }}
       >
-        <div style={{ marginLeft: "2rem" }}>
-          <Link
-            to="/member-portal/directory"
-            className={`navOption ${isActive("/member-portal/directory")}`}
-          >
-            Directory
-          </Link>
-        </div>
+        {user && (
+          <div style={{ marginLeft: "2rem" }}>
+            <Link
+              to="/member-portal/directory"
+              className={`navOption ${isActive("/member-portal/directory")}`}
+            >
+              Directory
+            </Link>
+          </div>
+        )}
         {user && ( // Check if user is logged in
           <div style={{ marginLeft: "60rem" }}>
             <Link
@@ -45,7 +47,7 @@ export default function Navigation() {
         )}
         {user && ( // Check if user is logged in
           <div style={{ marginRight: "2rem" }}>
-            <Link className="navOption" onClick={logout}>
+            <Link to="/member-portal" className="navOption" onClick={logout}>
               Log Out
             </Link>
           </div>

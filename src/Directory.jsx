@@ -37,11 +37,9 @@ const Directory = () => {
                       <Card.Text>{message.name}</Card.Text>
                       <Card.Text>{message.email}</Card.Text>
                       <Card.Text>{message.phone}</Card.Text>
-                      <Card.Text>Vacant rooms: {message.vacancy}</Card.Text>
+                      <Card.Text>Vacancy: {message.vacancy}</Card.Text>
                       {message.vacancy === "No" ? null : (
-                        <Card.Text>
-                          Number of rooms available: {message.availability}
-                        </Card.Text>
+                        <Card.Text>Capacity: {message.availability}</Card.Text>
                       )}
                     </Card.Body>
                   </Card>

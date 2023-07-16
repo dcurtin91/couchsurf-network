@@ -3,6 +3,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, registerWithEmailAndPassword } from "./firebase";
 import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -40,31 +42,59 @@ function Register() {
         style={{
           border: "1px solid black",
           backgroundColor: "lightgrey",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "2em",
         }}
       >
-        <input
-          type="text"
-          className="login__textBox"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="E-mail Address"
-          onKeyDown={handleKeyPress}
-        />
-        <input
-          type="password"
-          className="login__textBox"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          onKeyDown={handleKeyPress}
-        />
-        <button className="login__btn" onClick={register}>
-          Register
-        </button>
-
-        <div>
-          Already have an account? <Link to="/member-portal/">Login</Link> now.
-        </div>
+        <Row>
+          <Col>
+            <input
+              type="text"
+              className="login__textBox"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="E-mail Address"
+              onKeyDown={handleKeyPress}
+            />
+            <div
+              style={{
+                fontSize: "15px",
+                marginTop: "5px",
+              }}
+            >
+              Already have an account?{" "}
+              <Link className="navOption2" to="/member-portal/" tabIndex={-1}>
+                Login
+              </Link>{" "}
+              now.
+            </div>
+          </Col>
+          <Col>
+            <input
+              type="password"
+              className="login__textBox"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              onKeyDown={handleKeyPress}
+            />
+          </Col>
+          <Col style={{ marginTop: "-10px" }}>
+            <button
+              style={{
+                borderRadius: "8px",
+                width: "80px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+              onClick={register}
+            >
+              Register
+            </button>
+          </Col>
+        </Row>
       </Card>
     </div>
   );
