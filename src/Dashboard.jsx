@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { auth, db, storage } from "./firebase";
+import { auth, db } from "./firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import PhotoUpload from "./PhotoUpload";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -16,7 +16,6 @@ function Dashboard() {
   const [phone, setPhone] = useState(" ");
   const [vacancy, setVacancy] = useState(" ");
   const [availability, setAvailability] = useState(" ");
-  const [photo, setPhoto] = useState(null);
 
   const navigate = useNavigate();
 
@@ -26,7 +25,6 @@ function Dashboard() {
   const [isEditingAvailability, setIsEditingAvailability] = useState(false);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
-  const [isEditingPhoto, setIsEditingPhoto] = useState(false);
 
   const fetchUserData = async () => {
     try {
@@ -41,7 +39,6 @@ function Dashboard() {
         setPhone(data.phone);
         setVacancy(data.vacancy);
         setAvailability(data.availability);
-        setPhoto(data.photo);
       } else {
         console.log("User data not found.");
       }
@@ -75,11 +72,6 @@ function Dashboard() {
     setAvailability(event.target.value);
   };
 
-  const handlePhotoChange = (event) => {
-    const file = event.target.files[0];
-    setPhoto(file);
-  };
-
   const handleAddressEdit = () => {
     setIsEditingAddress(true);
   };
@@ -104,20 +96,10 @@ function Dashboard() {
     setIsEditingAvailability(true);
   };
 
-  const handlePhotoEdit = () => {
-    setIsEditingPhoto(true);
-  };
-
   const handleUpdate = async () => {
     try {
       const docId = user.uid;
       const docRef = doc(db, "properties", docId);
-
-      // Upload the photo to storage (assuming you have storage setup)
-      if (photo) {
-        const storageRef = ref(storage, `photos/${user.uid}`);
-        await uploadBytes(storageRef, photo);
-      }
 
       await updateDoc(docRef, {
         address: address,
@@ -126,9 +108,6 @@ function Dashboard() {
         phone: phone,
         vacancy: vacancy,
         availability: availability,
-        photo: photo
-          ? getDownloadURL(ref(storage, `photos/${user.uid}`))
-          : null,
       });
 
       const updatedDoc = await getDoc(docRef);
@@ -139,7 +118,6 @@ function Dashboard() {
       setPhone(updatedData.phone);
       setVacancy(updatedData.vacancy);
       setAvailability(updatedData.availability);
-      setPhoto(updatedData.photo);
 
       setIsEditingName(false);
       setIsEditingEmail(false);
@@ -147,7 +125,6 @@ function Dashboard() {
       setIsEditingAvailability(false);
       setIsEditingAddress(false);
       setIsEditingPhone(false);
-      setIsEditingPhoto(false);
     } catch (error) {
       console.error(error);
     }
@@ -289,22 +266,7 @@ function Dashboard() {
                 )}
               </div>
             )}
-            <div className="dash_item">
-              {isEditingPhoto ? (
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePhotoChange}
-                />
-              ) : (
-                <>
-                  {photo ? photo.name : ""}{" "}
-                  <span className="edit-icon" onClick={handlePhotoEdit}>
-                    &#x270E;
-                  </span>
-                </>
-              )}
-            </div>
+            <div><PhotoUpload /></div>
 
             <button
               style={{
