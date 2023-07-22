@@ -86,6 +86,11 @@ h2 {
   justify-content: center;
 }
 
+img {
+  width: 300px;
+  
+}
+
 .login__textBox {
   width: 280px;
   height: 28px;

@@ -153,6 +153,7 @@ function Dashboard() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          marginRight: "20px",
         }}
       >
         <Row>
@@ -242,31 +243,26 @@ function Dashboard() {
                 </>
               )}
             </div>
-            {vacancy === "Yes" && (
-              <div className="dash_item">
-                Capacity:{" "}
-                {isEditingAvailability ? (
-                  <input
-                    type="number"
-                    value={availability}
-                    onChange={handleAvailabilityChange}
-                    min={0}
-                    max={10}
-                  />
-                ) : (
-                  <>
-                    {availability}{" "}
-                    <span
-                      className="edit-icon"
-                      onClick={handleAvailabilityEdit}
-                    >
-                      &#x270E;
-                    </span>
-                  </>
-                )}
-              </div>
-            )}
-            <div><PhotoUpload /></div>
+
+            <div className="dash_item">
+              Capacity:{" "}
+              {isEditingAvailability ? (
+                <input
+                  type="number"
+                  value={availability}
+                  onChange={handleAvailabilityChange}
+                  min={0}
+                  max={10}
+                />
+              ) : (
+                <>
+                  {availability}{" "}
+                  <span className="edit-icon" onClick={handleAvailabilityEdit}>
+                    &#x270E;
+                  </span>
+                </>
+              )}
+            </div>
 
             <button
               style={{
@@ -282,6 +278,28 @@ function Dashboard() {
             </button>
           </Col>
         </Row>
+      </Card>
+      <Card
+        style={{
+          border: "1px solid black",
+          backgroundColor: "lightgrey",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Card.Header
+          style={{
+            backgroundColor: "lightsteelblue",
+            width: "100%",
+            marginTop: "0px",
+            textAlign: "center",
+            marginBottom: 0,
+          }}
+        >
+          Upload an Image of Your Space
+        </Card.Header>
+        <PhotoUpload />
       </Card>
     </div>
   );

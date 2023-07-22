@@ -97,7 +97,6 @@ function SignUpForm() {
                 required
                 minLength={1}
               />
-
               <input
                 style={{ marginTop: "15px" }}
                 type="text"
@@ -109,7 +108,6 @@ function SignUpForm() {
                 required
                 minLength={1}
               />
-
               <input
                 style={{ marginTop: "15px" }}
                 type="email"
@@ -121,7 +119,6 @@ function SignUpForm() {
                 required
                 minLength={1}
               />
-
               <input
                 style={{ marginTop: "15px" }}
                 type="tel"
@@ -132,7 +129,6 @@ function SignUpForm() {
                 className="login__textBox"
                 minLength={1}
               />
-
               <label style={{ marginTop: "15px", fontSize: "13px" }}>
                 <input
                   type="checkbox"
@@ -141,21 +137,24 @@ function SignUpForm() {
                   onChange={handleChange}
                   placeholder="number of rooms available"
                 />{" "}
-                Vacancy? *Enter capacity if checked*
+                Vacancy?
               </label>
               <br></br>
-              {formData.vacancy && (
-                <input
-                  style={{ marginTop: "15px", fontSize: "13px" }}
-                  type="number"
-                  name="availability"
-                  placeholder="1"
-                  value={formData.availability}
-                  onChange={handleChange}
-                  min={0}
-                  max={10}
-                />
-              )}
+              <div style={{ marginTop: "15px", fontSize: "13px" }}>
+                {" "}
+                Capacity{" "}
+              </div>
+              <input
+                style={{ marginTop: "5px", fontSize: "13px" }}
+                type="number"
+                name="availability"
+                placeholder="1"
+                value={formData.availability}
+                onChange={handleChange}
+                min={0}
+                max={10}
+              />
+
               <br></br>
               <br></br>
               <button
