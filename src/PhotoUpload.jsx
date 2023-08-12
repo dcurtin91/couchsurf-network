@@ -9,7 +9,6 @@ function PhotoUpload() {
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
   const [user] = useAuthState(auth);
-
   const imagesListRef = ref(storage, `${user.uid}`);
 
   const cropImage = (file) => {
@@ -71,11 +70,11 @@ function PhotoUpload() {
   };
 
   useEffect(() => {
-    let isMounted = true; // Flag to track initial mount
+    let isMounted = true; 
 
     listAll(imagesListRef).then((response) => {
       if (isMounted) {
-        setImageUrls([]); // Clear the imageUrls state before populating it again
+        setImageUrls([]); 
         response.items.forEach((item) => {
           getDownloadURL(item).then((url) => {
             setImageUrls((prev) => [...prev, url]);
@@ -109,20 +108,23 @@ function PhotoUpload() {
             marginLeft: "190px",
           }}
           type="file"
+          disabled={imageUrls.length > 0}
           onChange={(event) => {
             setImageUpload(event.target.files[0]);
           }}
         />
         <button
           style={{
-            borderRadius: "8px",
-            marginBottom: "10px",
-            marginTop: "20px",
-          }}
+          borderRadius: "8px",
+          marginBottom: "10px",
+          marginTop: "20px",
+           }}
           onClick={uploadFile}
-        >
+          disabled={imageUrls.length > 0}
+        >     
           Upload Image
         </button>
+
         {imageUrls.map((url, index) => (
           <img
             style={{

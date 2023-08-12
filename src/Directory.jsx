@@ -88,7 +88,7 @@ const Directory = () => {
 
                       <Card.Text>Capacity: {message.availability}</Card.Text>
 
-                      {/* Render images for the current message */}
+                      
                       {imageUrlsMap[message.uid] &&
                         imageUrlsMap[message.uid].map((url, index) => (
                           <img
