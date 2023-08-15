@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import { storage, auth } from "./firebase";
+import image from "./hd1080.png";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
@@ -125,18 +126,30 @@ function PhotoUpload() {
           Upload Image
         </button>
 
-        {imageUrls.map((url, index) => (
+        {imageUrls.length === 0 ? (
           <img
             style={{
               border: "1px solid black",
               marginBottom: "20px",
               marginTop: "20px",
             }}
-            key={index}
-            src={url}
-            alt="Uploaded"
+            src={image}
+            alt="Placeholder"
           />
-        ))}
+        ) : (
+          imageUrls.map((url, index) => (
+            <img
+              style={{
+                border: "1px solid black",
+                marginBottom: "20px",
+                marginTop: "20px",
+              }}
+              key={index}
+              src={url}
+              alt="Uploaded"
+            />
+          ))
+        )}
       </Col>
     </Row>
   );
