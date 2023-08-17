@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  deleteObject,
+} from "firebase/storage";
 import { storage, auth } from "./firebase";
 import image from "./hd1080.png";
 import Row from "react-bootstrap/Row";
@@ -62,7 +68,7 @@ function PhotoUpload() {
   const uploadFile = async () => {
     if (imageUpload === null || user === null) return;
     const croppedImageUrl = await cropImage(imageUpload);
-    const imageRef = ref(storage, `${user.uid}/${imageUpload.name}`);
+    const imageRef = ref(storage, `${user.uid}/${imageUpload.name}`); //
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
         setImageUrls((prev) => [...prev, croppedImageUrl]);
@@ -70,12 +76,37 @@ function PhotoUpload() {
     });
   };
 
+  const deleteImage = async (url) => {
+    // Find the index of the image URL in the imageUrls array
+    const index = imageUrls.findIndex((imageUrl) => imageUrl === url);
+
+    if (index !== -1) {
+      // Remove the URL from the array
+      const updatedImageUrls = [...imageUrls];
+      updatedImageUrls.splice(index, 1);
+      setImageUrls(updatedImageUrls);
+
+      try {
+        const userFolderRef = ref(storage, `${user.uid}`);
+        const userFolderImages = await listAll(userFolderRef);
+
+        userFolderImages.items.forEach(async (itemRef) => {
+          await deleteObject(itemRef);
+        });
+
+        console.log("All images deleted successfully.");
+      } catch (error) {
+        console.error("Error deleting images:", error);
+      }
+    }
+  };
+
   useEffect(() => {
-    let isMounted = true; 
+    let isMounted = true;
 
     listAll(imagesListRef).then((response) => {
       if (isMounted) {
-        setImageUrls([]); 
+        setImageUrls([]);
         response.items.forEach((item) => {
           getDownloadURL(item).then((url) => {
             setImageUrls((prev) => [...prev, url]);
@@ -116,13 +147,13 @@ function PhotoUpload() {
         />
         <button
           style={{
-          borderRadius: "8px",
-          marginBottom: "10px",
-          marginTop: "20px",
-           }}
+            borderRadius: "8px",
+            marginBottom: "10px",
+            marginTop: "20px",
+          }}
           onClick={uploadFile}
           disabled={imageUrls.length > 0}
-        >     
+        >
           Upload Image
         </button>
 
@@ -138,16 +169,30 @@ function PhotoUpload() {
           />
         ) : (
           imageUrls.map((url, index) => (
-            <img
-              style={{
-                border: "1px solid black",
-                marginBottom: "20px",
-                marginTop: "20px",
-              }}
+            <div
               key={index}
-              src={url}
-              alt="Uploaded"
-            />
+              style={{
+                position: "relative", // Add this to make positioning relative for absolute children
+                display: "inline-block", // Adjust display property
+                margin: "20px",
+              }}
+            >
+              <img
+                style={{
+                  border: "1px solid black",
+                  marginBottom: "20px",
+                  marginTop: "20px",
+                }}
+                src={url}
+                alt="Uploaded"
+              />
+              <button
+                className="delete-button"
+                onClick={() => deleteImage(url)}
+              >
+                X
+              </button>
+            </div>
           ))
         )}
       </Col>
