@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
+
+
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -19,8 +21,11 @@ import {
   setDoc,
 } from "firebase/firestore";
 
+const API_KEY = import.meta.env.VITE_SOME_KEY;
+
+
 const firebaseConfig = {
-  apiKey: "AIzaSyC1IqrdEPTT1ZoeKikj2jm04xUteoGHxlk",
+  apiKey: API_KEY,
   authDomain: "member-portal-8a367.firebaseapp.com",
   projectId: "member-portal-8a367",
   storageBucket: "member-portal-8a367.appspot.com",
