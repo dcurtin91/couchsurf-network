@@ -1,6 +1,6 @@
 import { Navbar } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-import { auth, logout } from "./firebase";
+import { auth, logout } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./App.css";
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, logInWithEmailAndPassword, db } from "./firebase";
+import { auth, logInWithEmailAndPassword, db } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getDocs, collection } from "firebase/firestore";
 import Card from "react-bootstrap/Card";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "./firebase";
+import { auth, db } from "./Firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import PhotoUpload from "./PhotoUpload";
 import Card from "react-bootstrap/Card";

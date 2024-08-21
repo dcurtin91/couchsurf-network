@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getMessages, storage } from "./firebase";
+import { getMessages, storage } from "./Firebase";
 import { ref, getDownloadURL, listAll } from "firebase/storage";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";

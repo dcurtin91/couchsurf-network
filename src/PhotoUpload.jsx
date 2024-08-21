@@ -7,7 +7,7 @@ import {
   listAll,
   deleteObject,
 } from "firebase/storage";
-import { storage, auth } from "./firebase";
+import { storage, auth } from "./Firebase";
 import image from "./hd1080.png";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
