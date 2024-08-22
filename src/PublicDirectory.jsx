@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { getMessages, storage } from "./Firebase";
 import { ref, getDownloadURL, listAll } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
+import { auth, db } from "./Firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getDocs, collection } from "firebase/firestore";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -8,6 +12,24 @@ import Col from "react-bootstrap/Col";
 const PublicDirectory = () => {
   const [messages, setMessages] = useState([]);
   const [imageUrlsMap, setImageUrlsMap] = useState({});
+  const [user, loading] = useAuthState(auth);
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    if (user) {
+      const checkUserDocs = async () => {
+        const querySnapshot = await getDocs(collection(db, "properties"));
+        if (!querySnapshot.empty) {
+          navigate("/member-portal/directory");
+        } else {
+          navigate("/member-portal/");
+        }
+      };
+
+      checkUserDocs();
+    }
+  }, [user, loading, navigate]);
 
   useEffect(() => {
     const unsubscribe = getMessages((newMessages) => {
@@ -80,10 +102,7 @@ const PublicDirectory = () => {
                         lineHeight: "4px",
                       }}
                     >
-                      <Card.Title>{message.address}</Card.Title>
-                      <Card.Text>{message.name}</Card.Text>
-                      <Card.Text>{message.email}</Card.Text>
-                      <Card.Text>{message.phone}</Card.Text>
+                      
                       <Card.Text>Vacancy: {message.vacancy}</Card.Text>
 
                       <Card.Text>Capacity: {message.availability}</Card.Text>
