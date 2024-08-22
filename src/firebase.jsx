@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
 
+
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -21,7 +22,8 @@ import {
   setDoc,
 } from "firebase/firestore";
 
-const API_KEY = import.meta.env.VITE_SOME_KEY;
+const API_KEY = import.meta.env.VITE_API_KEY;
+console.log(API_KEY);
 
 
 const firebaseConfig = {

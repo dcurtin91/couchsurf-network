@@ -6,6 +6,7 @@ import Dashboard from "./Dashboard";
 import Directory from "./Directory";
 import { SignUpForm } from "./signUpForm";
 import Navigation from "./Navbar";
+import PublicDirectory from "./PublicDirectory";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route exact path="/member-portal/signupform" element={<SignUpForm />} />
           <Route exact path="/member-portal/dashboard" element={<Dashboard />} />
           <Route exact path="/member-portal/directory" element={<Directory />} />
+          <Route exact path="/member-portal/directory-public" element={<PublicDirectory />} />
         </Routes>
       </Router>
     </div>

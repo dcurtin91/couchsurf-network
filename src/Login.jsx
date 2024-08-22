@@ -20,7 +20,6 @@ function Login() {
   useEffect(() => {
     if (user) {
       const checkUserDocs = async () => {
-        //const collectionName = `${user.uid}`;
         const querySnapshot = await getDocs(collection(db, "properties"));
         if (!querySnapshot.empty) {
           navigate("/member-portal/dashboard");

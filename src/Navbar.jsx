@@ -16,7 +16,7 @@ export default function Navigation() {
     <div>
       <Navbar
         style={{
-          //backgroundColor: "darkblue",
+          backgroundColor: "white",
           color: "white",
           fontWeight: "bold",
           height: "2rem",
