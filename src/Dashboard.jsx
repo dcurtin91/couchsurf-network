@@ -13,6 +13,8 @@ function Dashboard() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState(" ");
+  const [city, setCity] = useState(" ");
+  const [province, setProvince] = useState(" ");
   const [phone, setPhone] = useState(" ");
   const [vacancy, setVacancy] = useState(" ");
   const [availability, setAvailability] = useState(" ");
@@ -24,6 +26,8 @@ function Dashboard() {
   const [isEditingVacancy, setisEditingVacancy] = useState(false);
   const [isEditingAvailability, setIsEditingAvailability] = useState(false);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [isEditingCity, setIsEditingCity] = useState(false);
+  const [isEditingProvince, setIsEditingProvince] = useState(false);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
 
   const fetchUserData = async () => {
@@ -34,6 +38,8 @@ function Dashboard() {
       if (docRef.exists()) {
         const data = docRef.data();
         setAddress(data.address);
+        setCity(data.city);
+        setProvince(data.state);
         setName(data.name);
         setEmail(data.email);
         setPhone(data.phone);
@@ -51,6 +57,14 @@ function Dashboard() {
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
   };
+
+  const handleCityChange = (event) => {
+    setCity(event.target.value);
+  }
+
+  const handleProvinceChange = (event) => {
+    setProvince(event.target.value);
+  }
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -75,6 +89,14 @@ function Dashboard() {
   const handleAddressEdit = () => {
     setIsEditingAddress(true);
   };
+
+  const handleCityEdit = () => {
+    setIsEditingCity(true);
+  }
+
+  const handleProvinceEdit = () => {
+    setIsEditingProvince(true);
+  }
 
   const handleNameEdit = () => {
     setIsEditingName(true);
@@ -103,6 +125,8 @@ function Dashboard() {
 
       await updateDoc(docRef, {
         address: address,
+        city: city,
+        state: province,
         name: name,
         email: email,
         phone: phone,
@@ -113,6 +137,8 @@ function Dashboard() {
       const updatedDoc = await getDoc(docRef);
       const updatedData = updatedDoc.data();
       setAddress(updatedData.address);
+      setCity(updatedData.city);
+      setProvince(updatedData.state);
       setName(updatedData.name);
       setEmail(updatedData.email);
       setPhone(updatedData.phone);
@@ -124,6 +150,8 @@ function Dashboard() {
       setisEditingVacancy(false);
       setIsEditingAvailability(false);
       setIsEditingAddress(false);
+      setIsEditingCity(false);
+      setIsEditingProvince(false);
       setIsEditingPhone(false);
     } catch (error) {
       console.error(error);
@@ -186,6 +214,38 @@ function Dashboard() {
                 <>
                   {address}{" "}
                   <span className="edit-icon" onClick={handleAddressEdit}>
+                    &#x270E;
+                  </span>
+                </>
+              )}
+            </div>
+            <div className="dash_item">
+              {isEditingCity ? (
+                <input
+                  type="text"
+                  value={city}
+                  onChange={handleCityChange}
+                />
+              ) : (
+                <>
+                  {city}{" "}
+                  <span className="edit-icon" onClick={handleCityEdit}>
+                    &#x270E;
+                  </span>
+                </>
+              )}
+            </div>
+            <div className="dash_item">
+              {isEditingProvince ? (
+                <input
+                  type="text"
+                  value={province}
+                  onChange={handleProvinceChange}
+                />
+              ) : (
+                <>
+                  {province}{" "}
+                  <span className="edit-icon" onClick={handleProvinceEdit}>
                     &#x270E;
                   </span>
                 </>

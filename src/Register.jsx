@@ -9,12 +9,10 @@ import Col from "react-bootstrap/Col";
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [name, setName] = useState("");
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
 
-  const register = () => {
-    // if (!name) alert("Please enter name");
+  const registration = () => {
     registerWithEmailAndPassword(email, password);
   };
 
@@ -25,7 +23,7 @@ function Register() {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      register(email, password);
+      registration(email, password);
     }
   };
 
@@ -89,7 +87,7 @@ function Register() {
                 display: "flex",
                 justifyContent: "center",
               }}
-              onClick={register}
+              onClick={registration}
             >
               Register
             </button>

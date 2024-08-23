@@ -103,6 +103,8 @@ const Directory = () => {
                       }}
                     >
                       <Card.Title>{message.address}</Card.Title>
+                      <Card.Title>{message.city}</Card.Title>
+                      <Card.Title>{message.state}</Card.Title>
                       <Card.Text>{message.name}</Card.Text>
                       <Card.Text>{message.email}</Card.Text>
                       <Card.Text>{message.phone}</Card.Text>

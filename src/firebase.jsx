@@ -82,6 +82,8 @@ const logout = () => {
 async function sendMessage(
   user,
   address,
+  city,
+  state,
   name,
   email,
   phone,
@@ -94,6 +96,8 @@ async function sendMessage(
     await setDoc(docRef, {
       uid: user.uid,
       address: address,
+      city: city,
+      state: state,
       name: name,
       email: email,
       phone: phone,
@@ -109,6 +113,8 @@ async function sendMessage(
 async function updateMessage(
   user,
   address,
+  city,
+  state,
   name,
   email,
   phone,
@@ -123,6 +129,8 @@ async function updateMessage(
       await updateDoc(docRef, {
         uid: user.uid,
         address: address,
+        city: city,
+        state: state,
         name: name,
         email: email,
         phone: phone,

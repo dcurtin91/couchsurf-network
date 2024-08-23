@@ -57,7 +57,7 @@ export default function Navigation() {
         )}
         {user && (
           <div style={{ marginRight: "2rem" }}>
-            <Link to="/member-portal" className="navOption" onClick={logout}>
+            <Link to="/member-portal/dashboard/login" className="navOption" onClick={logout}>
               Log Out
             </Link>
           </div>

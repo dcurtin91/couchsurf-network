@@ -22,7 +22,7 @@ function Login() {
       const checkUserDocs = async () => {
         const querySnapshot = await getDocs(collection(db, "properties"));
         if (!querySnapshot.empty) {
-          navigate("/member-portal/dashboard");
+          navigate("/member-portal/directory");
         } else {
           navigate("/member-portal/signupform");
         }
