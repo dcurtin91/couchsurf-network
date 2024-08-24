@@ -14,7 +14,7 @@ function Dashboard() {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState(" ");
   const [city, setCity] = useState(" ");
-  const [province, setProvince] = useState(" ");
+  const [territory, setTerritory] = useState(" ");
   const [phone, setPhone] = useState(" ");
   const [vacancy, setVacancy] = useState(" ");
   const [availability, setAvailability] = useState(" ");
@@ -27,7 +27,7 @@ function Dashboard() {
   const [isEditingAvailability, setIsEditingAvailability] = useState(false);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
   const [isEditingCity, setIsEditingCity] = useState(false);
-  const [isEditingProvince, setIsEditingProvince] = useState(false);
+  const [isEditingTerritory, setIsEditingTerritory] = useState(false);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
 
   const fetchUserData = async () => {
@@ -39,7 +39,7 @@ function Dashboard() {
         const data = docRef.data();
         setAddress(data.address);
         setCity(data.city);
-        setProvince(data.state);
+        setTerritory(data.territory);
         setName(data.name);
         setEmail(data.email);
         setPhone(data.phone);
@@ -62,8 +62,8 @@ function Dashboard() {
     setCity(event.target.value);
   }
 
-  const handleProvinceChange = (event) => {
-    setProvince(event.target.value);
+  const handleTerritoryChange = (event) => {
+    setTerritory(event.target.value);
   }
 
   const handleNameChange = (event) => {
@@ -94,8 +94,8 @@ function Dashboard() {
     setIsEditingCity(true);
   }
 
-  const handleProvinceEdit = () => {
-    setIsEditingProvince(true);
+  const handleTerritoryEdit = () => {
+    setIsEditingTerritory(true);
   }
 
   const handleNameEdit = () => {
@@ -126,7 +126,7 @@ function Dashboard() {
       await updateDoc(docRef, {
         address: address,
         city: city,
-        state: province,
+        territory: territory,
         name: name,
         email: email,
         phone: phone,
@@ -138,7 +138,7 @@ function Dashboard() {
       const updatedData = updatedDoc.data();
       setAddress(updatedData.address);
       setCity(updatedData.city);
-      setProvince(updatedData.state);
+      setTerritory(updatedData.territory);
       setName(updatedData.name);
       setEmail(updatedData.email);
       setPhone(updatedData.phone);
@@ -151,7 +151,7 @@ function Dashboard() {
       setIsEditingAvailability(false);
       setIsEditingAddress(false);
       setIsEditingCity(false);
-      setIsEditingProvince(false);
+      setIsEditingTerritory(false);
       setIsEditingPhone(false);
     } catch (error) {
       console.error(error);
@@ -236,16 +236,16 @@ function Dashboard() {
               )}
             </div>
             <div className="dash_item">
-              {isEditingProvince ? (
+              {isEditingTerritory ? (
                 <input
                   type="text"
-                  value={province}
-                  onChange={handleProvinceChange}
+                  value={territory}
+                  onChange={handleTerritoryChange}
                 />
               ) : (
                 <>
-                  {province}{" "}
-                  <span className="edit-icon" onClick={handleProvinceEdit}>
+                  {territory}{" "}
+                  <span className="edit-icon" onClick={handleTerritoryEdit}>
                     &#x270E;
                   </span>
                 </>

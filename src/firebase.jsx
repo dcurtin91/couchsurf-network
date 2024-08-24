@@ -23,7 +23,7 @@ import {
 } from "firebase/firestore";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
-console.log(API_KEY);
+
 
 
 const firebaseConfig = {
@@ -83,7 +83,7 @@ async function sendMessage(
   user,
   address,
   city,
-  state,
+  territory,
   name,
   email,
   phone,
@@ -97,7 +97,7 @@ async function sendMessage(
       uid: user.uid,
       address: address,
       city: city,
-      state: state,
+      territory: territory,
       name: name,
       email: email,
       phone: phone,
@@ -114,7 +114,7 @@ async function updateMessage(
   user,
   address,
   city,
-  state,
+  territory,
   name,
   email,
   phone,
@@ -130,7 +130,7 @@ async function updateMessage(
         uid: user.uid,
         address: address,
         city: city,
-        state: state,
+        territory: territory,
         name: name,
         email: email,
         phone: phone,

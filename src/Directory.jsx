@@ -8,11 +8,16 @@ import { getDocs, collection } from "firebase/firestore";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 const Directory = () => {
   const [messages, setMessages] = useState([]);
   const [imageUrlsMap, setImageUrlsMap] = useState({});
   const [user, loading] = useAuthState(auth);
+  const [city, setCity] = useState("");
+  const [territory, setTerritory] = useState("");
+  const [filteredMessages, setFilteredMessages] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,6 +76,17 @@ const Directory = () => {
     };
   }, [messages]);
 
+  useEffect(() => {
+    setFilteredMessages(
+      messages.filter((message) => {
+        return (
+          (city === "" || message.city.toLowerCase().includes(city.toLowerCase())) &&
+          (territory === "" || message.territory.toLowerCase().includes(territory.toLowerCase()))
+        );
+      })
+    );
+  }, [city, territory, messages]);
+
   return (
     <div
       style={{
@@ -79,11 +95,30 @@ const Directory = () => {
         alignItems: "center",
       }}
     >
-      {messages.map(
+      <Form inline style={{ margin: "20px 0"  }}>
+        <Form.Control
+          type="text"
+          placeholder="Search by City"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          style={{ marginRight: "10px"  }}
+        />
+        <Form.Control
+          type="text"
+          placeholder="Search by State"
+          value={territory}
+          onChange={((e) => setTerritory(e.target.value))}
+          style={{ marginRight: "10px" }}
+        />
+        <Button variant="primary" onClick={() => setFilteredMessages(messages)}>
+          Reset
+        </Button>
+      </Form>
+      {filteredMessages.map(
         (message, index) =>
           index % 3 === 0 && (
             <Row key={index}>
-              {messages.slice(index, index + 3).map((message, subIndex) => (
+              {filteredMessages.slice(index, index + 3).map((message, subIndex) => (
                 <Col key={subIndex}>
                   <Card
                     style={{
@@ -104,7 +139,7 @@ const Directory = () => {
                     >
                       <Card.Title>{message.address}</Card.Title>
                       <Card.Title>{message.city}</Card.Title>
-                      <Card.Title>{message.state}</Card.Title>
+                      <Card.Title>{message.territory}</Card.Title>
                       <Card.Text>{message.name}</Card.Text>
                       <Card.Text>{message.email}</Card.Text>
                       <Card.Text>{message.phone}</Card.Text>

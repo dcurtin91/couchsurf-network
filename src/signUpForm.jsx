@@ -12,7 +12,7 @@ function SignUpForm() {
   const [formData, setFormData] = useState({
     address: "",
     city: "",
-    state: "",
+    territory: "",
     name: "",
     email: "",
     phone: "",
@@ -36,7 +36,7 @@ function SignUpForm() {
       user,
       formData.address,
       formData.city,
-      formData.state,
+      formData.territory,
       formData.name,
       formData.email,
       formData.phone,
@@ -46,7 +46,7 @@ function SignUpForm() {
     setFormData({
       address: "",
       city: "",
-      state: "",
+      territory: "",
       name: "",
       email: "",
       phone: "",
@@ -115,7 +115,7 @@ function SignUpForm() {
               />
               <select
   name="state"
-  value={formData.state}
+  value={formData.territory}
   onChange={handleChange}
   className="login__textBox"
   required
