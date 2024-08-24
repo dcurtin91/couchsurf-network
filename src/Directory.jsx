@@ -15,8 +15,7 @@ const Directory = () => {
   const [messages, setMessages] = useState([]);
   const [imageUrlsMap, setImageUrlsMap] = useState({});
   const [user, loading] = useAuthState(auth);
-  const [city, setCity] = useState("");
-  const [territory, setTerritory] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [filteredMessages, setFilteredMessages] = useState([]);
   const navigate = useNavigate();
 
@@ -79,13 +78,11 @@ const Directory = () => {
   useEffect(() => {
     setFilteredMessages(
       messages.filter((message) => {
-        return (
-          (city === "" || message.city.toLowerCase().includes(city.toLowerCase())) &&
-          (territory === "" || message.territory.toLowerCase().includes(territory.toLowerCase()))
-        );
+        const combinedSearch  = `${message.city} ${message.territory}`.toLowerCase();
+        return combinedSearch.includes(searchInput.toLowerCase());
       })
     );
-  }, [city, territory, messages]);
+  }, [searchInput, messages]);
 
   return (
     <div
@@ -98,21 +95,11 @@ const Directory = () => {
       <Form inline style={{ margin: "20px 0"  }}>
         <Form.Control
           type="text"
-          placeholder="Search by City"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
+          placeholder="Search by Location"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           style={{ marginRight: "10px"  }}
         />
-        <Form.Control
-          type="text"
-          placeholder="Search by State"
-          value={territory}
-          onChange={((e) => setTerritory(e.target.value))}
-          style={{ marginRight: "10px" }}
-        />
-        <Button variant="primary" onClick={() => setFilteredMessages(messages)}>
-          Reset
-        </Button>
       </Form>
       {filteredMessages.map(
         (message, index) =>

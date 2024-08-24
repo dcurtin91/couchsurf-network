@@ -9,14 +9,13 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+
 
 
 const PublicDirectory = () => {
   const [messages, setMessages] = useState([]);
   const [imageUrlsMap, setImageUrlsMap] = useState({});
-  const [city, setCity] = useState("");
-  const [territory, setTerritory] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [user, loading] = useAuthState(auth);
   const [filteredMessages, setFilteredMessages] = useState([]);
   const navigate = useNavigate();
@@ -77,13 +76,11 @@ const PublicDirectory = () => {
 useEffect(() => {
   setFilteredMessages(
     messages.filter((message) => {
-      return (
-        (city === "" || message.city.toLowerCase().includes(city.toLowerCase())) &&
-        (territory === "" || message.territory.toLowerCase().includes(territory.toLowerCase()))
-      );
+      const combinedSearch = `${message.city} ${message.territory}`.toLowerCase();
+      return combinedSearch.includes(searchInput.toLowerCase());
     })
   );
-}, [city, territory, messages]);
+}, [searchInput, messages]);
 
   return (
     <div
@@ -96,22 +93,13 @@ useEffect(() => {
       <Form inline style={{ margin: "20px 0"  }}>
         <Form.Control
           type="text"
-          placeholder="Search by City"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
+          placeholder="Search by Location"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           style={{ marginRight: "10px"  }}
         />
-        <Form.Control
-          type="text"
-          placeholder="Search by State"
-          value={territory}
-          onChange={((e) => setTerritory(e.target.value))}
-          style={{ marginRight: "10px" }}
-        />
-        <Button variant="primary" onClick={() => setFilteredMessages(messages)}>
-          Reset
-        </Button>
       </Form>
+      <div><a href="/member-portal/login">Sign in</a> or <a href="/member-portal/register">register as a host</a> to View Contact Info</div>
       {filteredMessages.map(
         (message, index) =>
           index % 3 === 0 && (
@@ -135,10 +123,8 @@ useEffect(() => {
                         lineHeight: "4px",
                       }}
                     >
-                      <Card.Text>City: {message.city}</Card.Text>
-                      
-                      <Card.Text>State: {message.territory}</Card.Text>
-                      
+                      <Card.Text>{message.city}, {message.territory}</Card.Text>
+                    
                       <Card.Text>Vacancy: {message.vacancy}</Card.Text>
 
                       <Card.Text>Capacity: {message.availability}</Card.Text>
