@@ -159,7 +159,7 @@ function PhotoUpload() {
             marginTop: "20px",
           }}
           onClick={uploadFile}
-          disabled={imageUrls.length > 0}
+          disabled={imageUpload === null}
         >
           Upload Image
         </button>
