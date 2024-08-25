@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, sendMessage } from "./Firebase";
+import { PatternFormat } from "react-number-format";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -195,16 +196,18 @@ function SignUpForm() {
                 required
                 minLength={1}
               />
-              <input
+              <PatternFormat
                 style={{ marginTop: "15px" }}
                 type="tel"
                 name="phone"
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                placeholder="contact phone"
+                format="(###) ###-####" 
+                mask="_"
+                placeholder="(123) 456-7890"
                 value={formData.phone}
                 onChange={handleChange}
                 className="login__textBox"
                 minLength={1}
+                required
               />
               <label style={{ marginTop: "15px", fontSize: "13px" }}>
                 <input
