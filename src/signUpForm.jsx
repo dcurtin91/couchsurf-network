@@ -114,7 +114,7 @@ function SignUpForm() {
                 minLength={1}
               />
               <select
-                name="state"
+                name="territory"
                 value={formData.territory}
                 onChange={handleChange}
                 className="login__textBox"
@@ -199,6 +199,7 @@ function SignUpForm() {
                 style={{ marginTop: "15px" }}
                 type="tel"
                 name="phone"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 placeholder="contact phone"
                 value={formData.phone}
                 onChange={handleChange}
