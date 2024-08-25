@@ -15,8 +15,67 @@ import Col from "react-bootstrap/Col";
 function PhotoUpload() {
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
   const [user] = useAuthState(auth);
-  const imagesListRef = ref(storage, `${user.uid}`);
+
+  useEffect(() => {
+    if (!user) return; // Return early if user is null
+
+    const imagesListRef = ref(storage, `${user.uid}`);
+    let isMounted = true;
+
+    listAll(imagesListRef).then((response) => {
+      if (isMounted) {
+        setImageUrls([]);
+        response.items.forEach((item) => {
+          getDownloadURL(item).then((url) => {
+            setImageUrls((prev) => [...prev, url]);
+          });
+        });
+        setLoading(false); // Set loading to false once images are loaded
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [user]); // Add user as a dependency
+
+  const uploadFile = async () => {
+    if (imageUpload === null || user === null) return;
+    const croppedImageUrl = await cropImage(imageUpload);
+    const imageRef = ref(storage, `${user.uid}/${imageUpload.name}`);
+    uploadBytes(imageRef, imageUpload).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        setImageUrls((prev) => [...prev, croppedImageUrl]);
+      });
+    });
+  };
+
+  const deleteImage = async (url) => {
+    if (!user) return; // Ensure user is not null before proceeding
+
+    const index = imageUrls.findIndex((imageUrl) => imageUrl === url);
+
+    if (index !== -1) {
+      const updatedImageUrls = [...imageUrls];
+      updatedImageUrls.splice(index, 1);
+      setImageUrls(updatedImageUrls);
+
+      try {
+        const userFolderRef = ref(storage, `${user.uid}`);
+        const userFolderImages = await listAll(userFolderRef);
+
+        userFolderImages.items.forEach(async (itemRef) => {
+          await deleteObject(itemRef);
+        });
+
+        console.log("All images deleted successfully.");
+      } catch (error) {
+        console.error("Error deleting images:", error);
+      }
+    }
+  };
 
   const cropImage = (file) => {
     return new Promise((resolve) => {
@@ -65,61 +124,9 @@ function PhotoUpload() {
     });
   };
 
-  const uploadFile = async () => {
-    if (imageUpload === null || user === null) return;
-    const croppedImageUrl = await cropImage(imageUpload);
-    const imageRef = ref(storage, `${user.uid}/${imageUpload.name}`); //
-    uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
-        setImageUrls((prev) => [...prev, croppedImageUrl]);
-      });
-    });
-  };
-
-  const deleteImage = async (url) => {
-    // Find the index of the image URL in the imageUrls array
-    const index = imageUrls.findIndex((imageUrl) => imageUrl === url);
-
-    if (index !== -1) {
-      // Remove the URL from the array
-      const updatedImageUrls = [...imageUrls];
-      updatedImageUrls.splice(index, 1);
-      setImageUrls(updatedImageUrls);
-
-      try {
-        const userFolderRef = ref(storage, `${user.uid}`);
-        const userFolderImages = await listAll(userFolderRef);
-
-        userFolderImages.items.forEach(async (itemRef) => {
-          await deleteObject(itemRef);
-        });
-
-        console.log("All images deleted successfully.");
-      } catch (error) {
-        console.error("Error deleting images:", error);
-      }
-    }
-  };
-
-  useEffect(() => {
-    let isMounted = true;
-
-    listAll(imagesListRef).then((response) => {
-      if (isMounted) {
-        setImageUrls([]);
-        response.items.forEach((item) => {
-          getDownloadURL(item).then((url) => {
-            setImageUrls((prev) => [...prev, url]);
-          });
-        });
-      }
-    });
-
-    // Cleanup function
-    return () => {
-      isMounted = false; // Set the flag to false when unmounting
-    };
-  }, []);
+  if (loading) {
+    return <div>Loading...</div>; // Display a loading indicator while user data is loading
+  }
 
   return (
     <Row>
@@ -172,8 +179,8 @@ function PhotoUpload() {
             <div
               key={index}
               style={{
-                position: "relative", // Add this to make positioning relative for absolute children
-                display: "inline-block", // Adjust display property
+                position: "relative",
+                display: "inline-block",
                 margin: "20px",
               }}
             >
