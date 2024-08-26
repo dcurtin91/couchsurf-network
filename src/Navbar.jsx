@@ -15,10 +15,11 @@ export default function Navigation() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse className="justify-content-end">
           {!user && (
-            <Dropdown style={{
-              backgroundColor: "white"
+            <Dropdown align="end"  style={{
+              backgroundColor: "white",
+              
             }}>
-              <Dropdown.Toggle id="dropdown-basic" style={{
+              <Dropdown.Toggle style={{
               backgroundColor: "white",
               border: "none"
             }}>
@@ -29,7 +30,12 @@ export default function Navigation() {
                 }} src="src/0000.png" alt="User Icon"/>
               </Dropdown.Toggle>
 
-              <Dropdown.Menu>
+              <Dropdown.Menu 
+             
+              style={{
+                textAlign: "center",
+                
+              }}>
                 <Dropdown.Item href="/member-portal/login">Sign In</Dropdown.Item>
                 <Dropdown.Item href="/member-portal/register">Sign Up</Dropdown.Item>
               </Dropdown.Menu>
