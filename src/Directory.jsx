@@ -112,6 +112,7 @@ const Directory = () => {
                       alignItems: "center",
                       justifyContent: "center",
                       marginTop: "20px",
+                      marginBottom: "30px"
                     }}
                   >
                     <Card.Body
@@ -139,16 +140,16 @@ const Directory = () => {
 
                       <Card.Text>{message.address}</Card.Text>
                       <Card.Text style={{ paddingBottom: "10px"}}>{message.city}, {message.territory}</Card.Text>
-                      <Card.Text style={{ paddingBottom: "10px"}}>Vacancy: {message.vacancy}  |  Capacity: {message.availability}</Card.Text>
+                      <Card.Text style={{ paddingBottom: "10px"}}>Capacity: {message.availability}</Card.Text>
                       
                       <Card style={{ 
-                        backgroundColor: "lightblue",
+                        backgroundColor: "#d4e4fc",
                         height: "80px",
                         border: "none"
                       }}>
                         <Card.Body>
                       <Card.Text>{message.name}</Card.Text>
-                      <Card.Text type="email">{message.email}</Card.Text>
+                      <Card.Text type="email"><a href={`mailto:${message.email}`}>{message.email}</a></Card.Text>
                       <Card.Text>{message.phone}</Card.Text>
                       </Card.Body>
                       </Card>
