@@ -1,5 +1,6 @@
-import { Navbar } from "react-bootstrap";
+import Navbar from 'react-bootstrap/Navbar';
 import Dropdown from "react-bootstrap/Dropdown";
+import Container from 'react-bootstrap/Container';
 import { auth, logout } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./App.css";
@@ -7,40 +8,48 @@ import "./App.css";
 export default function Navigation() {
   const [user] = useAuthState(auth);
 
-  
   return (
-   
-      <Navbar>
-        {!user && (
-          
+    <Container>
+      <Navbar expand="lg">
+        <Navbar.Brand href="#home">Navbar with text</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse className="justify-content-end">
+          {!user && (
+            <Dropdown style={{
+              backgroundColor: "white"
+            }}>
+              <Dropdown.Toggle id="dropdown-basic" style={{
+              backgroundColor: "white",
+              border: "none"
+            }}>
+                <img style={{
+                  backgroundColor: "white",
+                  width: "30px",
+                  height: "30px"
+                }} src="src/0000.png" alt="User Icon"/>
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href="/member-portal/login">Sign In</Dropdown.Item>
+                <Dropdown.Item href="/member-portal/register">Sign Up</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
+          {user && (
             <Dropdown>
-            <Dropdown.Toggle id="dropdown-basic">
-              <img src="src/0000.png" />
-            </Dropdown.Toggle>
+              <Dropdown.Toggle id="dropdown-basic">
+                <img src="src/0000.png" alt="User Icon" />
+              </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              <Dropdown.Item href="/member-portal/login">Sign In</Dropdown.Item>
-              <Dropdown.Item href="/member-portal/register">Sign Up</Dropdown.Item>
+              <Dropdown.Menu>
+                <Dropdown.Item href="/member-portal/dashboard">Profile</Dropdown.Item>
+                <Dropdown.Item href="/member-portal/directory">Directory</Dropdown.Item>
+                <Dropdown.Item href="/member-portal/login" onClick={logout}>Log Out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-        
-        )}
-        {user && (
-          
-            <Dropdown class="my-2 my-sm-0">
-            <Dropdown.Toggle id="dropdown-basic" class="my-2 my-sm-0">
-              <img src="src/0000.png" />
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu class="my-2 my-sm-0">
-              <Dropdown.Item href="/member-portal/dashboard">Profile</Dropdown.Item>
-              <Dropdown.Item href="/member-portal/directory">Directory</Dropdown.Item>
-              <Dropdown.Item href="/member-portal/login" onClick={logout}>Log Out</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-        
-        )}
+          )}
+        </Navbar.Collapse>
       </Navbar>
-  
+    </Container>
   );
 }
