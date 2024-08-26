@@ -96,20 +96,22 @@ useEffect(() => {
           placeholder="Search by Location"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          style={{ marginRight: "10px"  }}
+          style={{ 
+            marginRight: "10px",
+            borderRadius: "15px",
+             }}
         />
       </Form>
       <div><a href="/member-portal/login">Sign in</a> or <a href="/member-portal/register">register as a host</a> to View Contact Info</div>
       {filteredMessages.map(
         (message, index) =>
-          index % 3 === 0 && (
+          index % 4 === 0 && (
             <Row key={index}>
-              {filteredMessages.slice(index, index + 3).map((message, subIndex) => (
+              {filteredMessages.slice(index, index + 4).map((message, subIndex) => (
                 <Col key={subIndex}>
                   <Card
                     style={{
-                      border: "1px solid black",
-                      backgroundColor: "lightgrey",
+                      border: "none",                
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -123,18 +125,12 @@ useEffect(() => {
                         lineHeight: "4px",
                       }}
                     >
-                      <Card.Text>{message.city}, {message.territory}</Card.Text>
-                    
-                      <Card.Text>Vacancy: {message.vacancy}</Card.Text>
-
-                      <Card.Text>Capacity: {message.availability}</Card.Text>
-
                       
                       {imageUrlsMap[message.uid] &&
                         imageUrlsMap[message.uid].map((url, index) => (
                           <img
                             style={{
-                              border: "1px solid black",
+                              borderRadius: "10px",
                               marginBottom: "20px",
                               marginTop: "20px",
                             }}
@@ -143,6 +139,13 @@ useEffect(() => {
                             alt="Uploaded"
                           />
                         ))}
+
+                    <Card.Text>{message.city}, {message.territory}</Card.Text>
+                    
+                    <Card.Text>Vacancy: {message.vacancy}</Card.Text>
+
+                    <Card.Text>Capacity: {message.availability}</Card.Text>
+
                     </Card.Body>
                   </Card>
                 </Col>

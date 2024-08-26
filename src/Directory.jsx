@@ -9,7 +9,7 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import Container  from "react-bootstrap/Container";
 
 const Directory = () => {
   const [messages, setMessages] = useState([]);
@@ -46,12 +46,8 @@ const Directory = () => {
   }, []);
 
   useEffect(() => {
-    let isMounted = true; // Flag to track initial mount
-
-    // Initialize an empty object to store image URLs for each message's uid
+    let isMounted = true; 
     const accumulatedUrls = {};
-
-    // Loop through all the messages and fetch image URLs
     Promise.all(
       messages.map((message) => {
         const imagesListRef = ref(storage, `${message.uid}`);
@@ -59,7 +55,7 @@ const Directory = () => {
           return Promise.all(
             response.items.map((item) => getDownloadURL(item))
           ).then((urls) => {
-            accumulatedUrls[message.uid] = urls; // Store image URLs using uid as the key
+            accumulatedUrls[message.uid] = urls; 
           });
         });
       })
@@ -69,9 +65,9 @@ const Directory = () => {
       }
     });
 
-    // Cleanup function
+ 
     return () => {
-      isMounted = false; // Set the flag to false when unmounting
+      isMounted = false; 
     };
   }, [messages]);
 
@@ -98,19 +94,20 @@ const Directory = () => {
           placeholder="Search by Location"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          style={{ marginRight: "10px"  }}
+          style={{ 
+            marginRight: "10px",
+            borderRadius: "15px" }}
         />
       </Form>
       {filteredMessages.map(
         (message, index) =>
-          index % 3 === 0 && (
+          index % 4 === 0 && (
             <Row key={index}>
-              {filteredMessages.slice(index, index + 3).map((message, subIndex) => (
+              {filteredMessages.slice(index, index + 4).map((message, subIndex) => (
                 <Col key={subIndex}>
                   <Card
                     style={{
-                      border: "1px solid black",
-                      backgroundColor: "lightgrey",
+                      border: "none",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -124,22 +121,13 @@ const Directory = () => {
                         lineHeight: "4px",
                       }}
                     >
-                      <Card.Title>{message.address}</Card.Title>
-                      <Card.Title>{message.city}</Card.Title>
-                      <Card.Title>{message.territory}</Card.Title>
-                      <Card.Text>{message.name}</Card.Text>
-                      <Card.Text>{message.email}</Card.Text>
-                      <Card.Text>{message.phone}</Card.Text>
-                      <Card.Text>Vacancy: {message.vacancy}</Card.Text>
-
-                      <Card.Text>Capacity: {message.availability}</Card.Text>
-
                       
+
                       {imageUrlsMap[message.uid] &&
                         imageUrlsMap[message.uid].map((url, index) => (
                           <img
                             style={{
-                              border: "1px solid black",
+                              borderRadius: "10px",
                               marginBottom: "20px",
                               marginTop: "20px",
                             }}
@@ -148,6 +136,23 @@ const Directory = () => {
                             alt="Uploaded"
                           />
                         ))}
+
+                      <Card.Text>{message.address}</Card.Text>
+                      <Card.Text style={{ paddingBottom: "10px"}}>{message.city}, {message.territory}</Card.Text>
+                      <Card.Text style={{ paddingBottom: "10px"}}>Vacancy: {message.vacancy}  |  Capacity: {message.availability}</Card.Text>
+                      
+                      <Card style={{ 
+                        backgroundColor: "lightblue",
+                        height: "80px",
+                        border: "none"
+                      }}>
+                        <Card.Body>
+                      <Card.Text>{message.name}</Card.Text>
+                      <Card.Text type="email">{message.email}</Card.Text>
+                      <Card.Text>{message.phone}</Card.Text>
+                      </Card.Body>
+                      </Card>
+
                     </Card.Body>
                   </Card>
                 </Col>
@@ -160,3 +165,41 @@ const Directory = () => {
 };
 
 export default Directory;
+
+
+// Cleanup function
+// return () => {
+//   isMounted = false; // Set the flag to false when unmounting
+// };
+// }, [messages]);
+
+
+// useEffect(() => {
+//   let isMounted = true; // Flag to track initial mount
+
+//   // Initialize an empty object to store image URLs for each message's uid
+//   const accumulatedUrls = {};
+
+//   // Loop through all the messages and fetch image URLs
+//   Promise.all(
+//     messages.map((message) => {
+//       const imagesListRef = ref(storage, `${message.uid}`);
+//       return listAll(imagesListRef).then((response) => {
+//         return Promise.all(
+//           response.items.map((item) => getDownloadURL(item))
+//         ).then((urls) => {
+//           accumulatedUrls[message.uid] = urls; // Store image URLs using uid as the key
+//         });
+//       });
+//     })
+//   ).then(() => {
+//     if (isMounted) {
+//       setImageUrlsMap(accumulatedUrls);
+//     }
+//   });
+
+
+//   return () => {
+//     isMounted = false; 
+//   };
+// }, [messages]);
