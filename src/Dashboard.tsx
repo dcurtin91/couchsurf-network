@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "./Firebase";
@@ -8,45 +8,49 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function Dashboard() {
+const Dashboard: React.FC = () => {
   const [user, loading, error] = useAuthState(auth);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState(" ");
-  const [city, setCity] = useState(" ");
-  const [territory, setTerritory] = useState(" ");
-  const [phone, setPhone] = useState(" ");
-  const [vacancy, setVacancy] = useState(" ");
-  const [availability, setAvailability] = useState(" ");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [address, setAddress] = useState<string>(" ");
+  const [city, setCity] = useState<string>(" ");
+  const [territory, setTerritory] = useState<string>(" ");
+  const [phone, setPhone] = useState<string>(" ");
+  const [vacancy, setVacancy] = useState<string>(" ");
+  const [availability, setAvailability] = useState<string>(" ");
 
   const navigate = useNavigate();
 
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [isEditingEmail, setIsEditingEmail] = useState(false);
-  const [isEditingVacancy, setisEditingVacancy] = useState(false);
-  const [isEditingAvailability, setIsEditingAvailability] = useState(false);
-  const [isEditingAddress, setIsEditingAddress] = useState(false);
-  const [isEditingCity, setIsEditingCity] = useState(false);
-  const [isEditingTerritory, setIsEditingTerritory] = useState(false);
-  const [isEditingPhone, setIsEditingPhone] = useState(false);
+  const [isEditingName, setIsEditingName] = useState<boolean>(false);
+  const [isEditingEmail, setIsEditingEmail] = useState<boolean>(false);
+  const [isEditingVacancy, setIsEditingVacancy] = useState<boolean>(false);
+  const [isEditingAvailability, setIsEditingAvailability] = useState<boolean>(false);
+  const [isEditingAddress, setIsEditingAddress] = useState<boolean>(false);
+  const [isEditingCity, setIsEditingCity] = useState<boolean>(false);
+  const [isEditingTerritory, setIsEditingTerritory] = useState<boolean>(false);
+  const [isEditingPhone, setIsEditingPhone] = useState<boolean>(false);
 
   const fetchUserData = async () => {
     try {
-      const docId = user.uid;
-      const docRef = await getDoc(doc(db, "properties", docId));
+      if (user) {
+        const docId = user.uid;
+        const docRef = await getDoc(doc(db, "properties", docId));
 
-      if (docRef.exists()) {
-        const data = docRef.data();
-        setAddress(data.address);
-        setCity(data.city);
-        setTerritory(data.territory);
-        setName(data.name);
-        setEmail(data.email);
-        setPhone(data.phone);
-        setVacancy(data.vacancy);
-        setAvailability(data.availability);
-      } else {
-        console.log("User data not found.");
+        if (docRef.exists()) {
+          const data = docRef.data();
+          if (data) {
+            setAddress(data.address || "");
+            setCity(data.city || "");
+            setTerritory(data.territory || "");
+            setName(data.name || "");
+            setEmail(data.email || "");
+            setPhone(data.phone || "");
+            setVacancy(data.vacancy || "");
+            setAvailability(data.availability || "");
+          }
+        } else {
+          console.log("User data not found.");
+        }
       }
     } catch (err) {
       console.error(err);
@@ -54,105 +58,55 @@ function Dashboard() {
     }
   };
 
-  const handleAddressChange = (event) => {
-    setAddress(event.target.value);
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setter(event.target.value);
   };
 
-  const handleCityChange = (event) => {
-    setCity(event.target.value);
-  }
-
-  const handleTerritoryChange = (event) => {
-    setTerritory(event.target.value);
-  }
-
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePhoneChange = (event) => {
-    setPhone(event.target.value);
-  };
-
-  const handleVacancyChange = (event) => {
-    setVacancy(event.target.value);
-  };
-
-  const handleAvailabilityChange = (event) => {
-    setAvailability(event.target.value);
-  };
-
-  const handleAddressEdit = () => {
-    setIsEditingAddress(true);
-  };
-
-  const handleCityEdit = () => {
-    setIsEditingCity(true);
-  }
-
-  const handleTerritoryEdit = () => {
-    setIsEditingTerritory(true);
-  }
-
-  const handleNameEdit = () => {
-    setIsEditingName(true);
-  };
-
-  const handleEmailEdit = () => {
-    setIsEditingEmail(true);
-  };
-
-  const handlePhoneEdit = () => {
-    setIsEditingPhone(true);
-  };
-
-  const handleVacancyEdit = () => {
-    setisEditingVacancy(true);
-  };
-
-  const handleAvailabilityEdit = () => {
-    setIsEditingAvailability(true);
+  const handleEditToggle = (setter: React.Dispatch<React.SetStateAction<boolean>>) => () => {
+    setter(true);
   };
 
   const handleUpdate = async () => {
     try {
-      const docId = user.uid;
-      const docRef = doc(db, "properties", docId);
+      if (user) {
+        const docId = user.uid;
+        const docRef = doc(db, "properties", docId);
 
-      await updateDoc(docRef, {
-        address: address,
-        city: city,
-        territory: territory,
-        name: name,
-        email: email,
-        phone: phone,
-        vacancy: vacancy,
-        availability: availability,
-      });
+        await updateDoc(docRef, {
+          address,
+          city,
+          territory,
+          name,
+          email,
+          phone,
+          vacancy,
+          availability,
+        });
 
-      const updatedDoc = await getDoc(docRef);
-      const updatedData = updatedDoc.data();
-      setAddress(updatedData.address);
-      setCity(updatedData.city);
-      setTerritory(updatedData.territory);
-      setName(updatedData.name);
-      setEmail(updatedData.email);
-      setPhone(updatedData.phone);
-      setVacancy(updatedData.vacancy);
-      setAvailability(updatedData.availability);
+        const updatedDoc = await getDoc(docRef);
+        const updatedData = updatedDoc.data();
+        if (updatedData) {
+          setAddress(updatedData.address || "");
+          setCity(updatedData.city || "");
+          setTerritory(updatedData.territory || "");
+          setName(updatedData.name || "");
+          setEmail(updatedData.email || "");
+          setPhone(updatedData.phone || "");
+          setVacancy(updatedData.vacancy || "");
+          setAvailability(updatedData.availability || "");
+        }
 
-      setIsEditingName(false);
-      setIsEditingEmail(false);
-      setisEditingVacancy(false);
-      setIsEditingAvailability(false);
-      setIsEditingAddress(false);
-      setIsEditingCity(false);
-      setIsEditingTerritory(false);
-      setIsEditingPhone(false);
+        setIsEditingName(false);
+        setIsEditingEmail(false);
+        setIsEditingVacancy(false);
+        setIsEditingAvailability(false);
+        setIsEditingAddress(false);
+        setIsEditingCity(false);
+        setIsEditingTerritory(false);
+        setIsEditingPhone(false);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -161,7 +115,6 @@ function Dashboard() {
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate("/member-portal/");
-
     fetchUserData();
   }, [user, loading]);
 
@@ -208,12 +161,12 @@ function Dashboard() {
                 <input
                   type="text"
                   value={address}
-                  onChange={handleAddressChange}
+                  onChange={handleInputChange(setAddress)}
                 />
               ) : (
                 <>
                   {address}{" "}
-                  <span className="edit-icon" onClick={handleAddressEdit}>
+                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingAddress)}>
                     &#x270E;
                   </span>
                 </>
@@ -224,12 +177,12 @@ function Dashboard() {
                 <input
                   type="text"
                   value={city}
-                  onChange={handleCityChange}
+                  onChange={handleInputChange(setCity)}
                 />
               ) : (
                 <>
                   {city}{" "}
-                  <span className="edit-icon" onClick={handleCityEdit}>
+                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingCity)}>
                     &#x270E;
                   </span>
                 </>
@@ -240,12 +193,12 @@ function Dashboard() {
                 <input
                   type="text"
                   value={territory}
-                  onChange={handleTerritoryChange}
+                  onChange={handleInputChange(setTerritory)}
                 />
               ) : (
                 <>
                   {territory}{" "}
-                  <span className="edit-icon" onClick={handleTerritoryEdit}>
+                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingTerritory)}>
                     &#x270E;
                   </span>
                 </>
@@ -253,11 +206,11 @@ function Dashboard() {
             </div>
             <div className="dash_item">
               {isEditingName ? (
-                <input type="text" value={name} onChange={handleNameChange} />
+                <input type="text" value={name} onChange={handleInputChange(setName)} />
               ) : (
                 <>
                   {name}{" "}
-                  <span className="edit-icon" onClick={handleNameEdit}>
+                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingName)}>
                     &#x270E;
                   </span>
                 </>
@@ -265,11 +218,11 @@ function Dashboard() {
             </div>
             <div className="dash_item">
               {isEditingEmail ? (
-                <input type="text" value={email} onChange={handleEmailChange} />
+                <input type="text" value={email} onChange={handleInputChange(setEmail)} />
               ) : (
                 <>
                   {email}{" "}
-                  <span className="edit-icon" onClick={handleEmailEdit}>
+                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingEmail)}>
                     &#x270E;
                   </span>
                 </>
@@ -277,11 +230,11 @@ function Dashboard() {
             </div>
             <div className="dash_item">
               {isEditingPhone ? (
-                <input type="tel" value={phone} onChange={handlePhoneChange} />
+                <input type="tel" value={phone} onChange={handleInputChange(setPhone)} />
               ) : (
                 <>
                   {phone}{" "}
-                  <span className="edit-icon" onClick={handlePhoneEdit}>
+                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingPhone)}>
                     &#x270E;
                   </span>
                 </>
@@ -290,14 +243,14 @@ function Dashboard() {
             <div className="dash_item">
               Vacancy:{" "}
               {isEditingVacancy ? (
-                <select value={vacancy} onChange={handleVacancyChange}>
+                <select value={vacancy} onChange={handleInputChange(setVacancy)}>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
                 </select>
               ) : (
                 <>
                   {vacancy}{" "}
-                  <span className="edit-icon" onClick={handleVacancyEdit}>
+                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingVacancy)}>
                     &#x270E;
                   </span>
                 </>
@@ -310,14 +263,14 @@ function Dashboard() {
                 <input
                   type="number"
                   value={availability}
-                  onChange={handleAvailabilityChange}
+                  onChange={handleInputChange(setAvailability)}
                   min={0}
                   max={10}
                 />
               ) : (
                 <>
                   {availability}{" "}
-                  <span className="edit-icon" onClick={handleAvailabilityEdit}>
+                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingAvailability)}>
                     &#x270E;
                   </span>
                 </>
@@ -357,12 +310,12 @@ function Dashboard() {
             marginBottom: 0,
           }}
         >
-          Upload an Image of Your Space
+          Add Property Photos
         </Card.Header>
         <PhotoUpload />
       </Card>
     </div>
   );
-}
+};
 
 export default Dashboard;

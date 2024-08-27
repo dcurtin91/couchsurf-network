@@ -11,7 +11,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 
 
-const Directory = () => {
+const Directory: React.FC = () => {
   const [messages, setMessages] = useState([]);
   const [imageUrlsMap, setImageUrlsMap] = useState({});
   const [user, loading] = useAuthState(auth);
@@ -168,39 +168,3 @@ const Directory = () => {
 export default Directory;
 
 
-// Cleanup function
-// return () => {
-//   isMounted = false; // Set the flag to false when unmounting
-// };
-// }, [messages]);
-
-
-// useEffect(() => {
-//   let isMounted = true; // Flag to track initial mount
-
-//   // Initialize an empty object to store image URLs for each message's uid
-//   const accumulatedUrls = {};
-
-//   // Loop through all the messages and fetch image URLs
-//   Promise.all(
-//     messages.map((message) => {
-//       const imagesListRef = ref(storage, `${message.uid}`);
-//       return listAll(imagesListRef).then((response) => {
-//         return Promise.all(
-//           response.items.map((item) => getDownloadURL(item))
-//         ).then((urls) => {
-//           accumulatedUrls[message.uid] = urls; // Store image URLs using uid as the key
-//         });
-//       });
-//     })
-//   ).then(() => {
-//     if (isMounted) {
-//       setImageUrlsMap(accumulatedUrls);
-//     }
-//   });
-
-
-//   return () => {
-//     isMounted = false; 
-//   };
-// }, [messages]);
