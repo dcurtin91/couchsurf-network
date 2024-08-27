@@ -11,24 +11,37 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 
 
+interface Message {
+  uid: string;
+  city: string;
+  territory: string;
+  address: string;
+  availability: number;
+  name: string;
+  email: string;
+  phone: string;
+}
 
-const PublicDirectory = () => {
-  const [messages, setMessages] = useState([]);
-  const [imageUrlsMap, setImageUrlsMap] = useState({});
-  const [searchInput, setSearchInput] = useState("");
+interface ImageUrlsMap {
+  [uid: string]: string[];
+}
+
+const Directory: React.FC = () => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [imageUrlsMap, setImageUrlsMap] = useState<ImageUrlsMap>({});
   const [user, loading] = useAuthState(auth);
-  const [filteredMessages, setFilteredMessages] = useState([]);
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
   const navigate = useNavigate();
 
-
   useEffect(() => {
-    if (user) {
+    if (!user) {
       const checkUserDocs = async () => {
         const querySnapshot = await getDocs(collection(db, "properties"));
         if (!querySnapshot.empty) {
-          navigate("/member-portal/directory");
-        } else {
           navigate("/member-portal/");
+        } else {
+          navigate("/member-portal/directory");
         }
       };
 
@@ -37,7 +50,7 @@ const PublicDirectory = () => {
   }, [user, loading, navigate]);
 
   useEffect(() => {
-    const unsubscribe = getMessages((newMessages) => {
+    const unsubscribe = getMessages((newMessages: Message[]) => {
       setMessages(newMessages);
     });
 
@@ -48,8 +61,7 @@ const PublicDirectory = () => {
 
   useEffect(() => {
     let isMounted = true; 
-    const accumulatedUrls = {};
-
+    const accumulatedUrls: ImageUrlsMap = {};
     Promise.all(
       messages.map((message) => {
         const imagesListRef = ref(storage, `${message.uid}`);
@@ -67,20 +79,19 @@ const PublicDirectory = () => {
       }
     });
 
-   
     return () => {
       isMounted = false; 
     };
   }, [messages]);
 
-useEffect(() => {
-  setFilteredMessages(
-    messages.filter((message) => {
-      const combinedSearch = `${message.city} ${message.territory}`.toLowerCase();
-      return combinedSearch.includes(searchInput.toLowerCase());
-    })
-  );
-}, [searchInput, messages]);
+  useEffect(() => {
+    setFilteredMessages(
+      messages.filter((message) => {
+        const combinedSearch = `${message.city} ${message.territory}`.toLowerCase();
+        return combinedSearch.includes(searchInput.toLowerCase());
+      })
+    );
+  }, [searchInput, messages]);
 
   return (
     <div
@@ -90,19 +101,18 @@ useEffect(() => {
         alignItems: "center",
       }}
     >
-      <Form inline style={{ margin: "20px 0"  }}>
+      <Form style={{ margin: "20px 0" }}>
         <Form.Control
           type="text"
           placeholder="Search by Location"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          style={{ 
+          style={{
             marginRight: "10px",
             borderRadius: "15px",
-             }}
+          }}
         />
       </Form>
-      <div><a href="/member-portal/login">Sign in</a> or <a href="/member-portal/register">register as a host</a> to View Contact Info</div>
       {filteredMessages.map(
         (message, index) =>
           index % 4 === 0 && (
@@ -111,11 +121,12 @@ useEffect(() => {
                 <Col key={subIndex}>
                   <Card
                     style={{
-                      border: "none",                
+                      border: "none",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       marginTop: "20px",
+                      marginBottom: "30px",
                     }}
                   >
                     <Card.Body
@@ -125,7 +136,6 @@ useEffect(() => {
                         lineHeight: "4px",
                       }}
                     >
-                      
                       {imageUrlsMap[message.uid] &&
                         imageUrlsMap[message.uid].map((url, index) => (
                           <img
@@ -140,12 +150,29 @@ useEffect(() => {
                           />
                         ))}
 
-                    <Card.Text>{message.city}, {message.territory}</Card.Text>
-                    
-                    <Card.Text>Vacancy: {message.vacancy}</Card.Text>
+                      <Card.Text>{message.address}</Card.Text>
+                      <Card.Text style={{ paddingBottom: "10px" }}>
+                        {message.city}, {message.territory}
+                      </Card.Text>
+                      <Card.Text style={{ paddingBottom: "10px" }}>
+                        Capacity: {message.availability}
+                      </Card.Text>
 
-                    <Card.Text>Capacity: {message.availability}</Card.Text>
-
+                      <Card
+                        style={{
+                          backgroundColor: "#d4e4fc",
+                          height: "80px",
+                          border: "none",
+                        }}
+                      >
+                        <Card.Body>
+                          <Card.Text>{message.name}</Card.Text>
+                          <Card.Text >
+                            <a href={`mailto:${message.email}`}>{message.email}</a>
+                          </Card.Text>
+                          <Card.Text>{message.phone}</Card.Text>
+                        </Card.Body>
+                      </Card>
                     </Card.Body>
                   </Card>
                 </Col>
@@ -157,4 +184,4 @@ useEffect(() => {
   );
 };
 
-export default PublicDirectory;
+export default Directory;

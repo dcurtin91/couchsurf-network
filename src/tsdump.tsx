@@ -10,23 +10,34 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 
+interface Message {
+  uid: string;
+  city: string;
+  territory: string;
+  availability: number;
+}
 
-const Directory: React.FC = () => {
-  const [messages, setMessages] = useState([]);
-  const [imageUrlsMap, setImageUrlsMap] = useState({});
+interface ImageUrlsMap {
+  [uid: string]: string[];
+}
+
+const PublicDirectory: React.FC = () => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [imageUrlsMap, setImageUrlsMap] = useState<ImageUrlsMap>({});
+  const [searchInput, setSearchInput] = useState<string>("");
   const [user, loading] = useAuthState(auth);
-  const [searchInput, setSearchInput] = useState("");
-  const [filteredMessages, setFilteredMessages] = useState([]);
+  const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
   const navigate = useNavigate();
 
+
   useEffect(() => {
-    if (!user) {
+    if (user) {
       const checkUserDocs = async () => {
         const querySnapshot = await getDocs(collection(db, "properties"));
         if (!querySnapshot.empty) {
-          navigate("/member-portal/");
-        } else {
           navigate("/member-portal/directory");
+        } else {
+          navigate("/member-portal/");
         }
       };
 
@@ -34,9 +45,8 @@ const Directory: React.FC = () => {
     }
   }, [user, loading, navigate]);
 
-
   useEffect(() => {
-    const unsubscribe = getMessages((newMessages) => {
+    const unsubscribe = getMessages((newMessages: Message[]) => {
       setMessages(newMessages);
     });
 
@@ -47,7 +57,7 @@ const Directory: React.FC = () => {
 
   useEffect(() => {
     let isMounted = true; 
-    const accumulatedUrls = {};
+    const accumulatedUrls: ImageUrlsMap = {};
     Promise.all(
       messages.map((message) => {
         const imagesListRef = ref(storage, `${message.uid}`);
@@ -65,20 +75,20 @@ const Directory: React.FC = () => {
       }
     });
 
- 
+   
     return () => {
       isMounted = false; 
     };
   }, [messages]);
 
-  useEffect(() => {
-    setFilteredMessages(
-      messages.filter((message) => {
-        const combinedSearch  = `${message.city} ${message.territory}`.toLowerCase();
-        return combinedSearch.includes(searchInput.toLowerCase());
-      })
-    );
-  }, [searchInput, messages]);
+useEffect(() => {
+  setFilteredMessages(
+    messages.filter((message) => {
+      const combinedSearch = `${message.city} ${message.territory}`.toLowerCase();
+      return combinedSearch.includes(searchInput.toLowerCase());
+    })
+  );
+}, [searchInput, messages]);
 
   return (
     <div
@@ -88,7 +98,7 @@ const Directory: React.FC = () => {
         alignItems: "center",
       }}
     >
-      <Form inline style={{ margin: "20px 0"  }}>
+      <Form style={{ margin: "20px 0"  }}>
         <Form.Control
           type="text"
           placeholder="Search by Location"
@@ -96,9 +106,11 @@ const Directory: React.FC = () => {
           onChange={(e) => setSearchInput(e.target.value)}
           style={{ 
             marginRight: "10px",
-            borderRadius: "15px" }}
+            borderRadius: "15px",
+             }}
         />
       </Form>
+      <div><a href="/member-portal/login">Sign in</a> or <a href="/member-portal/register">register as a host</a> to View Contact Info</div>
       {filteredMessages.map(
         (message, index) =>
           index % 4 === 0 && (
@@ -107,12 +119,11 @@ const Directory: React.FC = () => {
                 <Col key={subIndex}>
                   <Card
                     style={{
-                      border: "none",
+                      border: "none",                
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       marginTop: "20px",
-                      marginBottom: "30px"
                     }}
                   >
                     <Card.Body
@@ -123,7 +134,6 @@ const Directory: React.FC = () => {
                       }}
                     >
                       
-
                       {imageUrlsMap[message.uid] &&
                         imageUrlsMap[message.uid].map((url, index) => (
                           <img
@@ -138,21 +148,11 @@ const Directory: React.FC = () => {
                           />
                         ))}
 
-                      <Card.Text>{message.address}</Card.Text>
-                      <Card.Text style={{ paddingBottom: "10px"}}>{message.city}, {message.territory}</Card.Text>
-                      <Card.Text style={{ paddingBottom: "10px"}}>Capacity: {message.availability}</Card.Text>
-                      
-                      <Card style={{ 
-                        backgroundColor: "#d4e4fc",
-                        height: "80px",
-                        border: "none"
-                      }}>
-                        <Card.Body>
-                      <Card.Text>{message.name}</Card.Text>
-                      <Card.Text type="email"><a href={`mailto:${message.email}`}>{message.email}</a></Card.Text>
-                      <Card.Text>{message.phone}</Card.Text>
-                      </Card.Body>
-                      </Card>
+                    <Card.Text>{message.city}, {message.territory}</Card.Text>
+                    
+                    {/* <Card.Text>Vacancy: {message.vacancy}</Card.Text> */}
+
+                    <Card.Text>Capacity: {message.availability}</Card.Text>
 
                     </Card.Body>
                   </Card>
@@ -165,6 +165,4 @@ const Directory: React.FC = () => {
   );
 };
 
-export default Directory;
-
-
+export default PublicDirectory;
