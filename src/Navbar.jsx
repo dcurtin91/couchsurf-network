@@ -1,3 +1,4 @@
+import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Dropdown from "react-bootstrap/Dropdown";
 import Container from 'react-bootstrap/Container';
@@ -5,7 +6,7 @@ import { auth, logout } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./App.css";
 
-export default function Navigation() {
+function Navigation() {
   const [user] = useAuthState(auth);
 
   return (
@@ -94,4 +95,6 @@ export default function Navigation() {
       </Navbar>
     </Container>
   );
-}
+};
+
+export default Navigation;

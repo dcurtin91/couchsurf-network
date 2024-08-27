@@ -15,7 +15,7 @@ import Col from "react-bootstrap/Col";
 function PhotoUpload() {
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true); 
   const [user] = useAuthState(auth);
 
   useEffect(() => {
@@ -32,14 +32,14 @@ function PhotoUpload() {
             setImageUrls((prev) => [...prev, url]);
           });
         });
-        setLoading(false); // Set loading to false once images are loaded
+        setLoading(false); 
       }
     });
 
     return () => {
       isMounted = false;
     };
-  }, [user]); // Add user as a dependency
+  }, [user]); 
 
   const uploadFile = async () => {
     if (imageUpload === null || user === null) return;
@@ -53,7 +53,7 @@ function PhotoUpload() {
   };
 
   const deleteImage = async (url) => {
-    if (!user) return; // Ensure user is not null before proceeding
+    if (!user) return; 
 
     const index = imageUrls.findIndex((imageUrl) => imageUrl === url);
 
@@ -125,7 +125,7 @@ function PhotoUpload() {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Display a loading indicator while user data is loading
+    return <div>Loading...</div>; 
   }
 
   return (
