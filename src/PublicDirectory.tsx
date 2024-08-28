@@ -15,6 +15,7 @@ interface Message {
   city: string;
   territory: string;
   availability: number;
+  vacancy: string;
 }
 
 interface ImageUrlsMap {
@@ -59,15 +60,14 @@ const PublicDirectory: React.FC = () => {
     let isMounted = true; 
     const accumulatedUrls: ImageUrlsMap = {};
     Promise.all(
-      messages.map((message) => {
+      //messages.map((message) => { ?
+      messages.map(async (message) => {
         const imagesListRef = ref(storage, `${message.uid}`);
-        return listAll(imagesListRef).then((response) => {
-          return Promise.all(
-            response.items.map((item) => getDownloadURL(item))
-          ).then((urls) => {
-            accumulatedUrls[message.uid] = urls; 
-          });
-        });
+        const response = await listAll(imagesListRef);
+        const urls = await Promise.all(
+          response.items.map((item) => getDownloadURL(item))
+        );
+        accumulatedUrls[message.uid] = urls;
       })
     ).then(() => {
       if (isMounted) {
@@ -85,7 +85,7 @@ useEffect(() => {
   setFilteredMessages(
     messages.filter((message) => {
       const combinedSearch = `${message.city} ${message.territory}`.toLowerCase();
-      return combinedSearch.includes(searchInput.toLowerCase());
+      return combinedSearch.includes(searchInput.toLowerCase()) && message.vacancy === 'Yes';
     })
   );
 }, [searchInput, messages]);
@@ -110,9 +110,16 @@ useEffect(() => {
              }}
         />
       </Form>
-      <div><a href="/member-portal/login">Sign in</a> or <a href="/member-portal/register">register as a host</a> to View Contact Info</div>
+      <h2 style={{
+        display: "flex",
+        justifyContent: "flex-start",
+        alignContent: "flex-start",
+        textAlign: "left",
+      }}>Featured</h2>
+      <div><a href="/member-portal/login">Sign in</a> or <a href="/member-portal/register">register as a host</a> to view contact info</div>
+      
       {filteredMessages.map(
-        (message, index) =>
+        (_message, index) =>
           index % 4 === 0 && (
             <Row key={index}>
               {filteredMessages.slice(index, index + 4).map((message, subIndex) => (

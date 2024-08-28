@@ -20,6 +20,7 @@ interface Message {
   name: string;
   email: string;
   phone: string;
+  vacancy: string;
 }
 
 interface ImageUrlsMap {
@@ -63,15 +64,13 @@ const Directory: React.FC = () => {
     let isMounted = true; 
     const accumulatedUrls: ImageUrlsMap = {};
     Promise.all(
-      messages.map((message) => {
+      messages.map(async (message) => {
         const imagesListRef = ref(storage, `${message.uid}`);
-        return listAll(imagesListRef).then((response) => {
-          return Promise.all(
-            response.items.map((item) => getDownloadURL(item))
-          ).then((urls) => {
-            accumulatedUrls[message.uid] = urls; 
-          });
-        });
+        const response = await listAll(imagesListRef);
+        const urls = await Promise.all(
+          response.items.map((item) => getDownloadURL(item))
+        );
+        accumulatedUrls[message.uid] = urls;
       })
     ).then(() => {
       if (isMounted) {
@@ -88,7 +87,7 @@ const Directory: React.FC = () => {
     setFilteredMessages(
       messages.filter((message) => {
         const combinedSearch = `${message.city} ${message.territory}`.toLowerCase();
-        return combinedSearch.includes(searchInput.toLowerCase());
+        return combinedSearch.includes(searchInput.toLowerCase()) && message.vacancy === 'Yes';
       })
     );
   }, [searchInput, messages]);
@@ -114,7 +113,7 @@ const Directory: React.FC = () => {
         />
       </Form>
       {filteredMessages.map(
-        (message, index) =>
+        (_message, index) =>
           index % 4 === 0 && (
             <Row key={index}>
               {filteredMessages.slice(index, index + 4).map((message, subIndex) => (

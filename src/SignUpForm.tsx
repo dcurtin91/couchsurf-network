@@ -239,7 +239,7 @@ function SignUpForm() {
               <br></br>
               <button
                 type="submit"
-                disabled={formData.name < 1}
+                disabled={formData.name.length < 1}
                 style={{
                   borderRadius: "8px",
                   marginLeft: "94px",
@@ -257,4 +257,4 @@ function SignUpForm() {
   );
 }
 
-export { SignUpForm };
+export default SignUpForm;

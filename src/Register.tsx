@@ -6,9 +6,9 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Register: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
 
@@ -23,7 +23,8 @@ function Register() {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      registration(email, password);
+      registration();
+      //pass in email and password?
     }
   };
 
