@@ -98,7 +98,22 @@ useEffect(() => {
         //alignItems: "center",
       }}
     >
-      
+      <Row className="justify-content-center" style={{ marginTop: "100px" }}>
+    <Col xs={12} md={6} lg={4}>
+      <Form className="d-flex justify-content-center">
+        <Form.Control
+          type="text"
+          placeholder="Search by Location"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          style={{ 
+            borderRadius: "15px",
+            width: "260px"   
+          }}
+        />
+      </Form>
+    </Col>
+  </Row>
       <Row>
         <Col>
       <h2 style={{
@@ -111,19 +126,7 @@ useEffect(() => {
       <div><a href="/member-portal/login">Sign in</a> or <a href="/member-portal/register">register as a host</a> to view contact info</div>
       </Col>
       <Col>
-      <Form >
-        <Form.Control
-          type="text"
-          placeholder="Search by Location"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          style={{ 
-            //marginRight: "10px",
-            borderRadius: "15px",
-            width: "260px"
-             }}
-        />
-      </Form>
+      
       </Col>
       </Row>
       {filteredMessages.map(
