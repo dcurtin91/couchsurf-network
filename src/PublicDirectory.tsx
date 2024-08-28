@@ -95,29 +95,37 @@ useEffect(() => {
       style={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        //alignItems: "center",
       }}
     >
-      <Form style={{ margin: "20px 0"  }}>
+      
+      <Row>
+        <Col>
+      <h2 style={{
+        marginLeft: "60px",
+        marginTop: "60px"
+      }}>Featured listings</h2>
+      </Col>
+      
+      <Col>
+      <div><a href="/member-portal/login">Sign in</a> or <a href="/member-portal/register">register as a host</a> to view contact info</div>
+      </Col>
+      <Col>
+      <Form >
         <Form.Control
           type="text"
           placeholder="Search by Location"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           style={{ 
-            marginRight: "10px",
+            //marginRight: "10px",
             borderRadius: "15px",
+            width: "260px"
              }}
         />
       </Form>
-      <h2 style={{
-        display: "flex",
-        justifyContent: "flex-start",
-        alignContent: "flex-start",
-        textAlign: "left",
-      }}>Featured</h2>
-      <div><a href="/member-portal/login">Sign in</a> or <a href="/member-portal/register">register as a host</a> to view contact info</div>
-      
+      </Col>
+      </Row>
       {filteredMessages.map(
         (_message, index) =>
           index % 4 === 0 && (
@@ -130,7 +138,7 @@ useEffect(() => {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      marginTop: "20px",
+                      //marginTop: "20px",
                     }}
                   >
                     <Card.Body
@@ -169,6 +177,7 @@ useEffect(() => {
           )
       )}
     </div>
+    
   );
 };
 
