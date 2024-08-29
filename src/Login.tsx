@@ -8,11 +8,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
+
+  
 
   useEffect(() => {
     if (user) {
@@ -36,6 +39,7 @@ function Login() {
   };
 
   return (
+    
     <div
       style={{
         display: "flex",
@@ -116,7 +120,9 @@ function Login() {
           </Col>
         </Row>
       </Card>
+      
     </div>
+    
   );
 }
 

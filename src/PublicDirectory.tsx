@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getDocs, collection } from "firebase/firestore";
+//import Login from "./Login";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -29,6 +30,7 @@ const PublicDirectory: React.FC = () => {
   const [user, loading] = useAuthState(auth);
   const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
   const navigate = useNavigate();
+  
 
 
   useEffect(() => {
@@ -112,7 +114,7 @@ useEffect(() => {
           }}
         />
       </Form>
-
+      
       <div><a href="/member-portal/login">Sign in</a> or <a href="/member-portal/register">register as a host</a> to view contact info</div>
       {filteredMessages.map(
         (_message, index) =>
