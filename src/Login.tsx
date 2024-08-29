@@ -40,26 +40,9 @@ function Login() {
 
   return (
     
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-      }}
-    >
-      <Card
-        style={{
-          border: "1px solid black",
-          backgroundColor: "lightgrey",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "2em",
-        }}
-      >
-        <Row>
-          <Col>
+    <div>
+      
+      <div>
             <input
               type="text"
               className="login__textBox"
@@ -68,36 +51,10 @@ function Login() {
               placeholder="E-mail Address"
               onKeyDown={handleKeyPress}
             />
-
-            <div style={{ marginTop: "10px", display: "flex" }}>
-              <Link
-                className="navOption2"
-                to="/member-portal/reset"
-                tabIndex={-1}
-              >
-                Forgot Password
-              </Link>
-            </div>
-            <div
-              style={{
-                fontSize: "15px",
-                marginTop: "5px",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Don't have an account?{" "}
-              <Link
-                className="navOption2"
-                to="/member-portal/register"
-                tabIndex={-1}
-              >
-                Register
-              </Link>{" "}
-              now.
-            </div>
-          </Col>
-          <Col>
-            <input
+      </div>
+      
+      <div>
+      <input
               type="password"
               className="login__textBox"
               value={password}
@@ -105,21 +62,43 @@ function Login() {
               placeholder="Password"
               onKeyDown={handleKeyPress}
             />
-          </Col>
-          <Col style={{ marginTop: "-10px" }}>
+      </div>
+      <div>  
             <button
               style={{
                 borderRadius: "8px",
                 width: "80px",
-                display: "flex",
               }}
               onClick={() => logInWithEmailAndPassword(email, password)}
             >
               Login
             </button>
-          </Col>
-        </Row>
-      </Card>
+      </div> 
+      <div>
+            
+              <Link
+                to="/member-portal/reset"
+                tabIndex={-1}
+              >
+                Forgot Password
+              </Link>
+            
+      </div>
+      <div> 
+            
+              Don't have an account?{" "}
+              <Link
+                to="/member-portal/register"
+                tabIndex={-1}
+              >
+                Register
+              </Link>{" "}
+              now.
+            
+      </div>
+            
+         
+      
       
     </div>
     
