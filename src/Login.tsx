@@ -3,9 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { auth, logInWithEmailAndPassword, db } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getDocs, collection } from "firebase/firestore";
-import Card from "react-bootstrap/Card";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+
 
 
 
@@ -40,8 +38,9 @@ function Login() {
 
   return (
     
-    <div>
-      
+    <div style={{
+          textAlign: "center"
+    }}>
       <div>
             <input
               type="text"
@@ -51,8 +50,7 @@ function Login() {
               placeholder="E-mail Address"
               onKeyDown={handleKeyPress}
             />
-      </div>
-      
+      </div> 
       <div>
       <input
               type="password"
@@ -67,25 +65,25 @@ function Login() {
             <button
               style={{
                 borderRadius: "8px",
-                width: "80px",
+                width: "120px",
+                marginBottom: "12px"
               }}
               onClick={() => logInWithEmailAndPassword(email, password)}
             >
-              Login
+              Log In
             </button>
       </div> 
-      <div>
-            
+      <div style={{
+        marginBottom: "12px"
+      }}>      
               <Link
                 to="/member-portal/reset"
                 tabIndex={-1}
               >
                 Forgot Password
-              </Link>
-            
+              </Link>    
       </div>
-      <div> 
-            
+      <div>   
               Don't have an account?{" "}
               <Link
                 to="/member-portal/register"
@@ -96,10 +94,6 @@ function Login() {
               now.
             
       </div>
-            
-         
-      
-      
     </div>
     
   );

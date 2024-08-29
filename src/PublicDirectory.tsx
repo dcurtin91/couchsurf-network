@@ -124,12 +124,14 @@ useEffect(() => {
       
       <Offcanvas show={show} onHide={handleClose} placement="end"
         style={{
-          backgroundColor: "lightgrey"
-        }}>
-      <Offcanvas.Header closeButton>
           
-        </Offcanvas.Header>  
-        <Login /></Offcanvas>
+        }}>
+      <Offcanvas.Header closeButton></Offcanvas.Header>
+        <Offcanvas.Body>
+          <Login />
+          
+        </Offcanvas.Body>  
+      </Offcanvas>
     
       <div><a href="#" onClick={(e) => {e.preventDefault(); handleShow(); }}>Sign in</a> or <a href="/member-portal/register">register as a host</a> to view contact info</div>
       
