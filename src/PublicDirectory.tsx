@@ -95,40 +95,25 @@ useEffect(() => {
       style={{
         display: "flex",
         flexDirection: "column",
-        //alignItems: "center",
+        alignItems: "center",
+      
       }}
     >
-      <Row className="justify-content-center" style={{ marginTop: "100px" }}>
-    <Col xs={12} md={6} lg={4}>
-      <Form className="d-flex justify-content-center">
+      
+      <Form style={{ margin: "20px 0" }}>
         <Form.Control
           type="text"
           placeholder="Search by Location"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          style={{ 
+          style={{
+            marginRight: "10px",
             borderRadius: "15px",
-            width: "260px"   
           }}
         />
       </Form>
-    </Col>
-  </Row>
-      <Row>
-        <Col>
-      <h2 style={{
-        marginLeft: "60px",
-        marginTop: "60px"
-      }}>Featured listings</h2>
-      </Col>
-      
-      <Col>
+
       <div><a href="/member-portal/login">Sign in</a> or <a href="/member-portal/register">register as a host</a> to view contact info</div>
-      </Col>
-      <Col>
-      
-      </Col>
-      </Row>
       {filteredMessages.map(
         (_message, index) =>
           index % 4 === 0 && (
@@ -141,7 +126,8 @@ useEffect(() => {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      //marginTop: "20px",
+                      marginTop: "10px",
+                      marginBottom: "20px"
                     }}
                   >
                     <Card.Body
@@ -168,7 +154,7 @@ useEffect(() => {
 
                     <Card.Text>{message.city}, {message.territory}</Card.Text>
                     
-                    {/* <Card.Text>Vacancy: {message.vacancy}</Card.Text> */}
+                    
 
                     <Card.Text>Capacity: {message.availability}</Card.Text>
 
