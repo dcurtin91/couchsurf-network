@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { auth, registerWithEmailAndPassword } from "./Firebase";
+import Login from "./Login";
 import Card from "react-bootstrap/Card";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [user, loading, error] = useAuthState(auth);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showCard, setShowCard] = useState(true);
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    setShowLogin(true);
+    setShowCard(false);
+  };
 
   const registration = () => {
     registerWithEmailAndPassword(email, password);
@@ -29,73 +36,63 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-      }}
-    >
-      <Card
-        style={{
-          border: "1px solid black",
-          backgroundColor: "lightgrey",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "2em",
-        }}
-      >
-        <Row>
-          <Col>
-            <input
-              type="text"
-              className="login__textBox"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="E-mail Address"
-              onKeyDown={handleKeyPress}
-            />
-            <div
-              style={{
-                fontSize: "15px",
-                marginTop: "5px",
-              }}
+    <>
+      {showCard && <Card style={{
+        textAlign: "center",
+        padding: "40px",
+        backgroundColor: "#fafaf5"
+      }}>
+
+        <div>
+          <input
+            type="text"
+            className="login__textBox"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="E-mail Address"
+            onKeyDown={handleKeyPress}
+          />
+        </div>
+
+        <div>
+          <input
+            type="password"
+            className="login__textBox"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            onKeyDown={handleKeyPress}
+          />
+        </div>
+
+        <div>
+          <button
+            style={{
+              borderRadius: "8px",
+              width: "120px",
+              marginBottom: "12px"
+            }}
+            onClick={registration}
+          >
+            Register
+          </button>
+        </div>
+
+        <div>
+          Already have an account?{" "}
+          <a
+            href="#"
+            onClick={(e) => {e.preventDefault(); handleClick(); }}
             >
-              Already have an account?{" "}
-              <Link className="navOption2" to="/member-portal/" tabIndex={-1}>
-                Login
-              </Link>{" "}
-              now.
-            </div>
-          </Col>
-          <Col>
-            <input
-              type="password"
-              className="login__textBox"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              onKeyDown={handleKeyPress}
-            />
-          </Col>
-          <Col style={{ marginTop: "-10px" }}>
-            <button
-              style={{
-                borderRadius: "8px",
-                width: "80px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-              onClick={registration}
-            >
-              Register
-            </button>
-          </Col>
-        </Row>
-      </Card>
-    </div>
+            Log in
+          </a>{" "}
+          now.
+        </div>
+
+
+      </Card>}
+      {showLogin && <Login />}
+    </>
   );
 }
 

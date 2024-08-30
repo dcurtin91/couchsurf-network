@@ -6,14 +6,19 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { auth, logout } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Login from './Login';
+import Register from './Register';
 import "./App.css";
 
 function Navigation() {
   const [user] = useAuthState(auth);
   const [show, setShow] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleCloseRegister = () => setShowRegister(false);
+  const handleShowRegister = () => setShowRegister(true);
 
   return (
     <>
@@ -60,7 +65,7 @@ function Navigation() {
                 
               }}>
                 <Dropdown.Item href="#" onClick={(e) => {e.preventDefault(); handleShow(); }}>Sign In</Dropdown.Item>
-                <Dropdown.Item href="/member-portal/register">Sign Up</Dropdown.Item>
+                <Dropdown.Item href="#" onClick={(e) => {e.preventDefault(); handleShowRegister(); }}>Sign Up</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           )}
@@ -100,14 +105,24 @@ function Navigation() {
           )}
         </Navbar.Collapse>
       </Navbar>
+
     </Container>
+
     <Offcanvas show={show} onHide={handleClose} placement="end">
       <Offcanvas.Header closeButton></Offcanvas.Header>
         <Offcanvas.Body>
           <Login />
           
         </Offcanvas.Body>  
-      </Offcanvas>
+    </Offcanvas>
+
+    <Offcanvas show={showRegister} onHide={handleCloseRegister} placement="end">
+      <Offcanvas.Header closeButton></Offcanvas.Header>
+        <Offcanvas.Body>
+          <Register />
+          
+        </Offcanvas.Body>  
+    </Offcanvas>
     </>
   );
 };

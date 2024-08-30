@@ -6,6 +6,7 @@ import { auth, db } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getDocs, collection } from "firebase/firestore";
 import Login from "./Login";
+import Register from "./Register";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -32,11 +33,14 @@ const PublicDirectory: React.FC = () => {
   const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCloseRegister = () => setShowRegister(false);
+  const handleShowRegister = () => setShowRegister(true);
 
-  
+
 
 
   useEffect(() => {
@@ -65,7 +69,7 @@ const PublicDirectory: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    let isMounted = true; 
+    let isMounted = true;
     const accumulatedUrls: ImageUrlsMap = {};
     Promise.all(
       //messages.map((message) => { ?
@@ -83,20 +87,20 @@ const PublicDirectory: React.FC = () => {
       }
     });
 
-   
+
     return () => {
-      isMounted = false; 
+      isMounted = false;
     };
   }, [messages]);
 
-useEffect(() => {
-  setFilteredMessages(
-    messages.filter((message) => {
-      const combinedSearch = `${message.city} ${message.territory}`.toLowerCase();
-      return combinedSearch.includes(searchInput.toLowerCase()) && message.vacancy === 'Yes';
-    })
-  );
-}, [searchInput, messages]);
+  useEffect(() => {
+    setFilteredMessages(
+      messages.filter((message) => {
+        const combinedSearch = `${message.city} ${message.territory}`.toLowerCase();
+        return combinedSearch.includes(searchInput.toLowerCase()) && message.vacancy === 'Yes';
+      })
+    );
+  }, [searchInput, messages]);
 
   return (
     <div
@@ -104,10 +108,10 @@ useEffect(() => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-      
+
       }}
     >
-      
+
       <Form style={{ margin: "20px 0" }}>
         <Form.Control
           type="text"
@@ -120,19 +124,43 @@ useEffect(() => {
           }}
         />
       </Form>
-      
-      
+
+
       <Offcanvas show={show} onHide={handleClose} placement="end">
-      <Offcanvas.Header closeButton></Offcanvas.Header>
+        <Offcanvas.Header closeButton></Offcanvas.Header>
         <Offcanvas.Body>
           <Login />
-          
-        </Offcanvas.Body>  
+
+        </Offcanvas.Body>
       </Offcanvas>
-    
-      <div><a href="#" onClick={(e) => {e.preventDefault(); handleShow(); }}>Sign in</a> or <a href="/member-portal/register">register as a host</a> to view contact info</div>
-      
-      
+
+
+      <Offcanvas show={showRegister} onHide={handleCloseRegister} placement="end">
+        <Offcanvas.Header closeButton></Offcanvas.Header>
+        <Offcanvas.Body>
+          <Register />
+
+        </Offcanvas.Body>
+      </Offcanvas>
+
+      <div>
+        <a 
+          href="#" 
+          onClick={(e) => { e.preventDefault(); handleShow(); }}
+        >
+          Sign in
+        </a>{" "}
+        or{" "}
+        <a 
+          href="#" 
+          onClick={(e) => {e.preventDefault(); handleShowRegister(); }}
+          >
+            register as a host
+        </a>{" "}
+            to view contact info
+        </div>
+
+
       {filteredMessages.map(
         (_message, index) =>
           index % 4 === 0 && (
@@ -141,7 +169,7 @@ useEffect(() => {
                 <Col key={subIndex}>
                   <Card
                     style={{
-                      border: "none",                
+                      border: "none",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -156,7 +184,7 @@ useEffect(() => {
                         lineHeight: "4px",
                       }}
                     >
-                      
+
                       {imageUrlsMap[message.uid] &&
                         imageUrlsMap[message.uid].map((url, index) => (
                           <img
@@ -171,11 +199,11 @@ useEffect(() => {
                           />
                         ))}
 
-                    <Card.Text>{message.city}, {message.territory}</Card.Text>
-                    
-                    
+                      <Card.Text>{message.city}, {message.territory}</Card.Text>
 
-                    <Card.Text>Capacity: {message.availability}</Card.Text>
+
+
+                      <Card.Text>Capacity: {message.availability}</Card.Text>
 
                     </Card.Body>
                   </Card>
@@ -185,7 +213,7 @@ useEffect(() => {
           )
       )}
     </div>
-    
+
   );
 };
 
