@@ -6,6 +6,7 @@ import Login from "./Login";
 import Card from "react-bootstrap/Card";
 
 
+
 const Register: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -77,7 +78,7 @@ const Register: React.FC = () => {
             Register
           </button>
         </div>
-
+       
         <div>
           Already have an account?{" "}
           <a

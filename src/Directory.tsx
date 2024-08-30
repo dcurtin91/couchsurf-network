@@ -45,7 +45,7 @@ const Directory: React.FC = () => {
           const data = docRef.data();
           console.log(data);
         } else {
-          console.log("User data not found.");
+          navigate("/member-portal/signupform/");
         }
       }
     } catch (err) {
