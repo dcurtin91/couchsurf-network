@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Dropdown from "react-bootstrap/Dropdown";
 import Container from 'react-bootstrap/Container';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 import { auth, logout } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Login from './Login';
 import "./App.css";
 
 function Navigation() {
   const [user] = useAuthState(auth);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
+    <>
     <Container>
       <Navbar expand="lg">
         <Navbar.Brand href="/member-portal/"><img 
@@ -52,7 +59,7 @@ function Navigation() {
                 textAlign: "center",
                 
               }}>
-                <Dropdown.Item href="/member-portal/login">Sign In</Dropdown.Item>
+                <Dropdown.Item href="#" onClick={(e) => {e.preventDefault(); handleShow(); }}>Sign In</Dropdown.Item>
                 <Dropdown.Item href="/member-portal/register">Sign Up</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -87,13 +94,21 @@ function Navigation() {
               }}>
                 <Dropdown.Item href="/member-portal/dashboard">Profile</Dropdown.Item>
                 <Dropdown.Item href="/member-portal/directory">Directory</Dropdown.Item>
-                <Dropdown.Item href="/member-portal/login" onClick={logout}>Log Out</Dropdown.Item>
+                <Dropdown.Item href="/member-portal/" onClick={logout}>Log Out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           )}
         </Navbar.Collapse>
       </Navbar>
     </Container>
+    <Offcanvas show={show} onHide={handleClose} placement="end">
+      <Offcanvas.Header closeButton></Offcanvas.Header>
+        <Offcanvas.Body>
+          <Login />
+          
+        </Offcanvas.Body>  
+      </Offcanvas>
+    </>
   );
 };
 

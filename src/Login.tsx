@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { auth, logInWithEmailAndPassword, db } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getDocs, collection } from "firebase/firestore";
-
+import Card from "react-bootstrap/Card";
 
 
 
@@ -38,8 +38,10 @@ function Login() {
 
   return (
     
-    <div style={{
-          textAlign: "center"
+    <Card style={{
+          textAlign: "center",
+          padding: "40px",
+          backgroundColor: "#fafaf5"
     }}>
       <div>
             <input
@@ -49,6 +51,7 @@ function Login() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="E-mail Address"
               onKeyDown={handleKeyPress}
+              
             />
       </div> 
       <div>
@@ -94,7 +97,7 @@ function Login() {
               now.
             
       </div>
-    </div>
+    </Card>
     
   );
 }

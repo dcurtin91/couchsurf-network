@@ -29,18 +29,20 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
+  color: white;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 
 button:hover {
-  border-color: #646cff;
+  border-color: #f5ff64;
 }
 
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
 
 .dash_item {
   font-weight: bold;
@@ -93,7 +95,8 @@ img {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: rgb(215, 73, 73);
+    
   }
 }
 

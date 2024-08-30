@@ -122,10 +122,7 @@ useEffect(() => {
       </Form>
       
       
-      <Offcanvas show={show} onHide={handleClose} placement="end"
-        style={{
-          
-        }}>
+      <Offcanvas show={show} onHide={handleClose} placement="end">
       <Offcanvas.Header closeButton></Offcanvas.Header>
         <Offcanvas.Body>
           <Login />
