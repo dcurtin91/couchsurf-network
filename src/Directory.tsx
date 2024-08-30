@@ -4,7 +4,7 @@ import { ref, getDownloadURL, listAll } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { getDocs, collection } from "firebase/firestore";
+import { doc, getDoc, getDocs, collection } from "firebase/firestore";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -35,20 +35,60 @@ const Directory: React.FC = () => {
   const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) {
-      const checkUserDocs = async () => {
-        const querySnapshot = await getDocs(collection(db, "properties"));
-        if (!querySnapshot.empty) {
-          navigate("/member-portal/");
-        } else {
-          navigate("/member-portal/directory");
-        }
-      };
+  const fetchUserData = async () => {
+    try {
+      if (user) {
+        const docId = user.uid;
+        const docRef = await getDoc(doc(db, "properties", docId));
 
+        if (docRef.exists()) {
+          const data = docRef.data();
+          console.log(data);
+        } else {
+          console.log("User data not found.");
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      alert("An error occurred while fetching user data");
+    }
+  };
+  
+
+  // useEffect(() => {
+  //   if (!user) {
+  //     const checkUserDocs = async () => {
+  //       const querySnapshot = await getDocs(collection(db, "properties"));
+  //       if (!querySnapshot.empty) {
+  //         navigate("/member-portal/");
+  //       } else {
+  //         navigate("/member-portal/directory");
+          
+  //       }
+  //     };
+
+  //     checkUserDocs();
+  //     fetchUserData();
+  //   }
+  // }, [user, loading, navigate]);
+
+  useEffect(() => {
+    const checkUserDocs = async () => {
+      const querySnapshot = await getDocs(collection(db, "properties"));
+      if (!querySnapshot.empty) {
+        navigate("/member-portal/");
+      } else {
+        navigate("/member-portal/directory");
+      }
+    };
+  
+    if (user) {
+      fetchUserData();
+    } else if (!loading) {
       checkUserDocs();
     }
   }, [user, loading, navigate]);
+  
 
   
   useEffect(() => {
