@@ -11,7 +11,7 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import Offcanvas from "react-bootstrap/Offcanvas";
 
 interface Message {
   uid: string;
@@ -39,9 +39,6 @@ const PublicDirectory: React.FC = () => {
   const handleShow = () => setShow(true);
   const handleCloseRegister = () => setShowRegister(false);
   const handleShowRegister = () => setShowRegister(true);
-
-
-
 
   useEffect(() => {
     if (user) {
@@ -72,7 +69,6 @@ const PublicDirectory: React.FC = () => {
     let isMounted = true;
     const accumulatedUrls: ImageUrlsMap = {};
     Promise.all(
-      //messages.map((message) => { ?
       messages.map(async (message) => {
         const imagesListRef = ref(storage, `${message.uid}`);
         const response = await listAll(imagesListRef);
@@ -87,7 +83,6 @@ const PublicDirectory: React.FC = () => {
       }
     });
 
-
     return () => {
       isMounted = false;
     };
@@ -97,10 +92,23 @@ const PublicDirectory: React.FC = () => {
     setFilteredMessages(
       messages.filter((message) => {
         const combinedSearch = `${message.city} ${message.territory}`.toLowerCase();
-        return combinedSearch.includes(searchInput.toLowerCase()) && message.vacancy === 'Yes';
+        return combinedSearch.includes(searchInput.toLowerCase()) && message.vacancy === "Yes";
       })
     );
   }, [searchInput, messages]);
+
+  // Listen for the custom event
+  useEffect(() => {
+    const handleRegisterSuccess = () => {
+      handleCloseRegister();
+    };
+
+    window.addEventListener("registerSuccess", handleRegisterSuccess);
+
+    return () => {
+      window.removeEventListener("registerSuccess", handleRegisterSuccess);
+    };
+  }, []);
 
   return (
     <div
@@ -108,10 +116,8 @@ const PublicDirectory: React.FC = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-
       }}
     >
-
       <Form style={{ margin: "20px 0" }}>
         <Form.Control
           type="text"
@@ -125,41 +131,30 @@ const PublicDirectory: React.FC = () => {
         />
       </Form>
 
-
       <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton></Offcanvas.Header>
         <Offcanvas.Body>
           <Login />
-
         </Offcanvas.Body>
       </Offcanvas>
-
 
       <Offcanvas show={showRegister} onHide={handleCloseRegister} placement="end">
         <Offcanvas.Header closeButton></Offcanvas.Header>
         <Offcanvas.Body>
           <Register />
-
         </Offcanvas.Body>
       </Offcanvas>
 
       <div>
-        <a 
-          href="#" 
-          onClick={(e) => { e.preventDefault(); handleShow(); }}
-        >
+        <a href="#" onClick={(e) => { e.preventDefault(); handleShow(); }}>
           Sign in
         </a>{" "}
         or{" "}
-        <a 
-          href="#" 
-          onClick={(e) => {e.preventDefault(); handleShowRegister(); }}
-          >
-            register as a host
+        <a href="#" onClick={(e) => { e.preventDefault(); handleShowRegister(); }}>
+          register as a host
         </a>{" "}
-            to view contact info
-        </div>
-
+        to view contact info
+      </div>
 
       {filteredMessages.map(
         (_message, index) =>
@@ -174,7 +169,7 @@ const PublicDirectory: React.FC = () => {
                       alignItems: "center",
                       justifyContent: "center",
                       marginTop: "10px",
-                      marginBottom: "20px"
+                      marginBottom: "20px",
                     }}
                   >
                     <Card.Body
@@ -184,7 +179,6 @@ const PublicDirectory: React.FC = () => {
                         lineHeight: "4px",
                       }}
                     >
-
                       {imageUrlsMap[message.uid] &&
                         imageUrlsMap[message.uid].map((url, index) => (
                           <img
@@ -201,10 +195,7 @@ const PublicDirectory: React.FC = () => {
 
                       <Card.Text>{message.city}, {message.territory}</Card.Text>
 
-
-
                       <Card.Text>Capacity: {message.availability}</Card.Text>
-
                     </Card.Body>
                   </Card>
                 </Col>
@@ -213,7 +204,6 @@ const PublicDirectory: React.FC = () => {
           )
       )}
     </div>
-
   );
 };
 

@@ -5,12 +5,10 @@ import { auth, registerWithEmailAndPassword } from "./Firebase";
 import Login from "./Login";
 import Card from "react-bootstrap/Card";
 
-
-
 const Register: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const [showLogin, setShowLogin] = useState(false);
   const [showCard, setShowCard] = useState(true);
   const navigate = useNavigate();
@@ -21,80 +19,74 @@ const Register: React.FC = () => {
   };
 
   const registration = () => {
-    registerWithEmailAndPassword(email, password);
+    registerWithEmailAndPassword(email, password).then(() => {
+      const event = new CustomEvent("registerSuccess");
+      window.dispatchEvent(event); // Trigger the custom event
+    });
   };
 
   useEffect(() => {
     if (loading) return;
     if (user) navigate("/member-portal/signupform");
-  }, [user, loading]);
+  }, [user, loading, navigate]);
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       registration();
-      //pass in email and password?
     }
   };
 
   return (
     <>
-      {showCard && <Card style={{
-        textAlign: "center",
-        padding: "40px",
-        backgroundColor: "#fafaf5"
-      }}>
+      {showCard && (
+        <Card style={{ textAlign: "center", padding: "40px", backgroundColor: "#fafaf5" }}>
+          <div>
+            <input
+              type="text"
+              className="login__textBox"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="E-mail Address"
+              onKeyDown={handleKeyPress}
+            />
+          </div>
 
-        <div>
-          <input
-            type="text"
-            className="login__textBox"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="E-mail Address"
-            onKeyDown={handleKeyPress}
-          />
-        </div>
+          <div>
+            <input
+              type="password"
+              className="login__textBox"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              onKeyDown={handleKeyPress}
+            />
+          </div>
 
-        <div>
-          <input
-            type="password"
-            className="login__textBox"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            onKeyDown={handleKeyPress}
-          />
-        </div>
-
-        <div>
-          <button
-            style={{
-              borderRadius: "8px",
-              width: "120px",
-              marginBottom: "12px"
-            }}
-            onClick={registration}
-          >
-            Register
-          </button>
-        </div>
-       
-        <div>
-          Already have an account?{" "}
-          <a
-            href="#"
-            onClick={(e) => {e.preventDefault(); handleClick(); }}
+          <div>
+            <button
+              style={{
+                borderRadius: "8px",
+                width: "120px",
+                marginBottom: "12px",
+              }}
+              onClick={registration}
             >
-            Log in
-          </a>{" "}
-          now.
-        </div>
+              Register
+            </button>
+          </div>
 
-
-      </Card>}
+          <div>
+            Already have an account?{" "}
+            <a href="#" onClick={(e) => { e.preventDefault(); handleClick(); }}>
+              Log in
+            </a>{" "}
+            now.
+          </div>
+        </Card>
+      )}
       {showLogin && <Login />}
     </>
   );
-}
+};
 
 export default Register;
