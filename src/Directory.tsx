@@ -50,6 +50,7 @@ const Directory: React.FC = () => {
     }
   }, [user, loading, navigate]);
 
+  
   useEffect(() => {
     const unsubscribe = getMessages((newMessages: Message[]) => {
       setMessages(newMessages);
@@ -82,6 +83,8 @@ const Directory: React.FC = () => {
       isMounted = false; 
     };
   }, [messages]);
+
+  
 
   useEffect(() => {
     setFilteredMessages(
