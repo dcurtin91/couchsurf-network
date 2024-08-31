@@ -55,39 +55,39 @@ const Directory: React.FC = () => {
   };
   
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     const checkUserDocs = async () => {
-  //       const querySnapshot = await getDocs(collection(db, "properties"));
-  //       if (!querySnapshot.empty) {
-  //         navigate("/member-portal/");
-  //       } else {
-  //         navigate("/member-portal/directory");
-          
-  //       }
-  //     };
-
-  //     checkUserDocs();
-  //     fetchUserData();
-  //   }
-  // }, [user, loading, navigate]);
-
   useEffect(() => {
-    const checkUserDocs = async () => {
-      const querySnapshot = await getDocs(collection(db, "properties"));
-      if (!querySnapshot.empty) {
-        navigate("/member-portal/");
-      } else {
-        navigate("/member-portal/directory");
-      }
-    };
-  
-    if (user) {
-      fetchUserData();
-    } else if (!loading) {
+    if (!user) {
+      const checkUserDocs = async () => {
+        const querySnapshot = await getDocs(collection(db, "properties"));
+        if (!querySnapshot.empty) {
+          navigate("/member-portal/");
+        } else {
+          navigate("/member-portal/directory");
+          
+        }
+      };
+
       checkUserDocs();
+      fetchUserData();
     }
   }, [user, loading, navigate]);
+
+  // useEffect(() => {
+  //   const checkUserDocs = async () => {
+  //     const querySnapshot = await getDocs(collection(db, "properties"));
+  //     if (!querySnapshot.empty) {
+  //       navigate("/member-portal/");
+  //     } else {
+  //       navigate("/member-portal/directory");
+  //     }
+  //   };
+  
+  //   if (user) {
+  //     fetchUserData();
+  //   } else if (!loading) {
+  //     checkUserDocs();
+  //   }
+  // }, [user, loading, navigate]);
   
 
   

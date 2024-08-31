@@ -97,18 +97,18 @@ const PublicDirectory: React.FC = () => {
     );
   }, [searchInput, messages]);
 
-  // Listen for the custom event
-  useEffect(() => {
-    const handleRegisterSuccess = () => {
-      handleCloseRegister();
-    };
+  
+  // useEffect(() => {
+  //   const handleRegisterSuccess = () => {
+  //     handleCloseRegister();
+  //   };
 
-    window.addEventListener("registerSuccess", handleRegisterSuccess);
+  //   window.addEventListener("registerSuccess", handleRegisterSuccess);
 
-    return () => {
-      window.removeEventListener("registerSuccess", handleRegisterSuccess);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("registerSuccess", handleRegisterSuccess);
+  //   };
+  // }, []);
 
   return (
     <div

@@ -5,7 +5,7 @@ import Login from "./Login";
 import Reset from "./Reset";
 import Dashboard from "./Dashboard";
 import Directory from "./Directory";
-import SignUpForm from "./SignUpForm";
+//import SignUpForm from "./SignUpForm";
 import Navigation from "./Navbar";
 import PublicDirectory from "./PublicDirectory";
 
@@ -19,7 +19,7 @@ const App: React.FC = () => {
           <Route path="/member-portal/login" element={<Login />} />
           {/* <Route path="/member-portal/register" element={<Register />} /> */}
           <Route path="/member-portal/reset" element={<Reset />} />
-          <Route path="/member-portal/signupform" element={<SignUpForm />} />
+          {/* <Route path="/member-portal/signupform" element={<SignUpForm />} /> */}
           <Route path="/member-portal/dashboard" element={<Dashboard />} />
           <Route path="/member-portal/directory" element={<Directory />} />
         </Routes>

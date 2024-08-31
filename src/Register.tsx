@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, registerWithEmailAndPassword } from "./Firebase";
+import SignUpForm from "./SignUpForm";
 import Login from "./Login";
 import Card from "react-bootstrap/Card";
 
@@ -11,24 +12,36 @@ const Register: React.FC = () => {
   const [user, loading] = useAuthState(auth);
   const [showLogin, setShowLogin] = useState(false);
   const [showCard, setShowCard] = useState(true);
+  const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = () => {
     setShowLogin(true);
     setShowCard(false);
   };
+  
+
+  // const registration = () => {
+  //   registerWithEmailAndPassword(email, password).then(() => {
+  //     const event = new CustomEvent("registerSuccess");
+  //     window.dispatchEvent(event); 
+  //   });
+  // };
 
   const registration = () => {
-    registerWithEmailAndPassword(email, password).then(() => {
-      const event = new CustomEvent("registerSuccess");
-      window.dispatchEvent(event); // Trigger the custom event
-    });
+    registerWithEmailAndPassword(email, password);
+    setShowCard(false);
+    setShowForm(true);
   };
 
   useEffect(() => {
     if (loading) return;
-    if (user) navigate("/member-portal/signupform");
-  }, [user, loading, navigate]);
+  }, [loading]);
+
+  // useEffect(() => {
+  //   if (loading) return;
+  //   if (user) navigate("/member-portal/signupform");
+  // }, [user, loading, navigate]);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -85,6 +98,7 @@ const Register: React.FC = () => {
         </Card>
       )}
       {showLogin && <Login />}
+      {showForm && <SignUpForm />}
     </>
   );
 };
