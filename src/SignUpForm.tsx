@@ -21,8 +21,8 @@ function SignUpForm() {
     availability: "",
   });
 
-  const handleChange = (event) => {
-    const { name, value, type, checked } = event.target;
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
 
     setFormData((prevData) => ({
@@ -31,31 +31,43 @@ function SignUpForm() {
     }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    sendMessage(
-      user,
-      formData.address,
-      formData.city,
-      formData.territory,
-      formData.name,
-      formData.email,
-      formData.phone,
-      formData.vacancy,
-      formData.availability
-    );
-    setFormData({
-      address: "",
-      city: "",
-      territory: "",
-      name: "",
-      email: "",
-      phone: "",
-      vacancy: false,
-      availability: "",
-    });
-    navigate("/member-portal/dashboard");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await sendMessage(
+        user,
+        formData.address,
+        formData.city,
+        formData.territory,
+        formData.name,
+        formData.email,
+        formData.phone,
+        formData.vacancy,
+        formData.availability
+      );
+  
+      const event = new CustomEvent("formSuccess");
+      window.dispatchEvent(event);
+  
+     
+      setFormData({
+        address: "",
+        city: "",
+        territory: "",
+        name: "",
+        email: "",
+        phone: "",
+        vacancy: false,
+        availability: "",
+      });
+  
+      navigate("/member-portal/dashboard");
+    } catch (error) {
+      console.error("Error sending message:", error);
+     
+    }
   };
+  
 
   return (
     <div

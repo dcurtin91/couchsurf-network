@@ -55,22 +55,22 @@ const Directory: React.FC = () => {
   };
   
 
-  useEffect(() => {
-    if (!user) {
-      const checkUserDocs = async () => {
-        const querySnapshot = await getDocs(collection(db, "properties"));
-        if (!querySnapshot.empty) {
-          navigate("/member-portal/");
-        } else {
-          navigate("/member-portal/directory");
+  // useEffect(() => {
+  //   if (!user) {
+  //     const checkUserDocs = async () => {
+  //       const querySnapshot = await getDocs(collection(db, "properties"));
+  //       if (!querySnapshot.empty) {
+  //         navigate("/member-portal/");
+  //       } else {
+  //         navigate("/member-portal/directory");
           
-        }
-      };
+  //       }
+  //     };
 
-      checkUserDocs();
-      fetchUserData();
-    }
-  }, [user, loading, navigate]);
+  //     checkUserDocs();
+  //     fetchUserData();
+  //   }
+  // }, [user, loading, navigate]);
 
   // useEffect(() => {
   //   const checkUserDocs = async () => {

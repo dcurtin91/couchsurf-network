@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { getMessages, storage } from "./Firebase";
 import { ref, getDownloadURL, listAll } from "firebase/storage";
-import { useNavigate } from "react-router-dom";
-import { auth, db } from "./Firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { getDocs, collection } from "firebase/firestore";
 import Login from "./Login";
 import Register from "./Register";
+import SignUpForm from "./SignUpForm";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -29,31 +26,19 @@ const PublicDirectory: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [imageUrlsMap, setImageUrlsMap] = useState<ImageUrlsMap>({});
   const [searchInput, setSearchInput] = useState<string>("");
-  const [user, loading] = useAuthState(auth);
   const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
-  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseRegister = () => setShowRegister(false);
   const handleShowRegister = () => setShowRegister(true);
+  const handleCloseForm = () => setShowForm(false);
+  const handleShowForm = () => setShowForm(true);
 
-  useEffect(() => {
-    if (user) {
-      const checkUserDocs = async () => {
-        const querySnapshot = await getDocs(collection(db, "properties"));
-        if (!querySnapshot.empty) {
-          navigate("/member-portal/directory");
-        } else {
-          navigate("/member-portal/");
-        }
-      };
 
-      checkUserDocs();
-    }
-  }, [user, loading, navigate]);
 
   useEffect(() => {
     const unsubscribe = getMessages((newMessages: Message[]) => {
@@ -98,17 +83,17 @@ const PublicDirectory: React.FC = () => {
   }, [searchInput, messages]);
 
   
-  // useEffect(() => {
-  //   const handleRegisterSuccess = () => {
-  //     handleCloseRegister();
-  //   };
+  useEffect(() => {
+    const handleFormSuccess = () => {
+      handleCloseRegister();
+    };
 
-  //   window.addEventListener("registerSuccess", handleRegisterSuccess);
+    window.addEventListener("formSuccess", handleFormSuccess);
 
-  //   return () => {
-  //     window.removeEventListener("registerSuccess", handleRegisterSuccess);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener("formSuccess", handleFormSuccess);
+    };
+  }, []);
 
   return (
     <div
@@ -142,6 +127,13 @@ const PublicDirectory: React.FC = () => {
         <Offcanvas.Header closeButton></Offcanvas.Header>
         <Offcanvas.Body>
           <Register />
+        </Offcanvas.Body>
+      </Offcanvas>
+
+      <Offcanvas show={showForm} onHide={handleCloseForm} placement="end">
+        <Offcanvas.Header closeButton></Offcanvas.Header>
+        <Offcanvas.Body>
+          <SignUpForm />
         </Offcanvas.Body>
       </Offcanvas>
 
