@@ -145,7 +145,7 @@ const PublicDirectory: React.FC = () => {
         </Offcanvas.Body>
       </Offcanvas>
 
-      <Offcanvas show={showForm} onHide={handleCloseForm} placement="end">
+      <Offcanvas show={showForm} onHide={handleCloseRegister} placement="end">
         <Offcanvas.Header closeButton></Offcanvas.Header>
         <Offcanvas.Body>
           <SignUpForm />

@@ -101,7 +101,7 @@ function Navigation() {
                   backgroundColor: "white",
                   width: "30px",
                   height: "30px"
-                }} src="src/0000.png" alt="User Icon"/>
+                }} src="/0000.png" alt="User Icon"/>
               </Dropdown.Toggle>
 
               <Dropdown.Menu 
