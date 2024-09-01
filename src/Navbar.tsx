@@ -24,14 +24,26 @@ function Navigation() {
     <>
     <Container>
       <Navbar expand="lg">
-        <Navbar.Brand href="/member-portal/"><img 
-        src="src/DALL·E 2024-08-25 17.11.33 - A minimalist logo for 'Couch Surf' featuring a cozy, stylized couch with elements of a surfboard incorporated. The couch has a subtle wave pattern on .webp"
+        {!user && (<Navbar.Brand href="/member-portal/"><img 
+        src="/home_icon.webp"
+        alt="home icon"
         style={{
           height: "55px",
           width: "65px",
           borderRadius: "25px",
           marginTop: "10px"
         }}/></Navbar.Brand>
+      )}
+      {user && (<Navbar.Brand href="/member-portal/directory/"><img 
+        src="/home_icon.webp"
+        alt="home icon"
+        style={{
+          height: "55px",
+          width: "65px",
+          borderRadius: "25px",
+          marginTop: "10px"
+        }}/></Navbar.Brand>
+      )}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse className="justify-content-end">
           {!user && (
@@ -55,7 +67,7 @@ function Navigation() {
                   width: "30px",
                   height: "30px",
                   
-                }} src="src/0000.png" alt="User Icon"/>
+                }} src="/0000.png" alt="User Icon"/>
               </Dropdown.Toggle>
 
               <Dropdown.Menu 
