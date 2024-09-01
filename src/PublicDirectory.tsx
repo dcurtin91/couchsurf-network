@@ -36,7 +36,7 @@ const PublicDirectory: React.FC = () => {
   const handleCloseRegister = () => setShowRegister(false);
   const handleShowRegister = () => setShowRegister(true);
   const handleCloseForm = () => setShowForm(false);
-  const handleShowForm = () => setShowForm(true);
+  
 
 
 
@@ -81,6 +81,19 @@ const PublicDirectory: React.FC = () => {
       })
     );
   }, [searchInput, messages]);
+
+
+  useEffect(() => {
+    const handleLoginSuccess = () => {
+      handleClose();
+    };
+
+    window.addEventListener("loginSuccess", handleLoginSuccess);
+
+    // return () => {
+    //   window.removeEventListener("loginSuccess", handleLoginSuccess);
+    // };
+  }, []);
 
   
   useEffect(() => {

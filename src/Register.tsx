@@ -34,9 +34,9 @@ const Register: React.FC = () => {
     setShowForm(true);
   };
 
-  useEffect(() => {
-    if (loading) return;
-  }, [loading]);
+  // useEffect(() => {
+  //   if (loading) return;
+  // }, [loading]);
 
   // useEffect(() => {
   //   if (loading) return;

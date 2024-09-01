@@ -22,20 +22,35 @@ function Login() {
   };
 
 
-  useEffect(() => {
-    if (user) {
-      const checkUserDocs = async () => {
-        const querySnapshot = await getDocs(collection(db, "properties"));
-        if (!querySnapshot.empty) {
-          navigate("/member-portal/directory");
-        } else {
-          navigate("/member-portal/signupform");
-        }
-      };
+  // useEffect(() => {
+  //   if (user) {
+  //     const checkUserDocs = async () => {
+  //       const querySnapshot = await getDocs(collection(db, "properties"));
+  //       if (!querySnapshot.empty) {
+  //         navigate("/member-portal/directory");
+  //       } else {
+  //         navigate("/member-portal/signupform");
+  //       }
+  //     };
 
-      checkUserDocs();
-    }
-  }, [user, loading, navigate]);
+  //     checkUserDocs();
+  //   }
+  // }, [user, loading, navigate]);
+
+  const loginButton = async (e) => {
+    e.preventDefault();
+    try{
+    logInWithEmailAndPassword(email, password).then(() => {
+      const event = new CustomEvent("loginSuccess");
+      window.dispatchEvent(event);
+      setTimeout(() => {
+        navigate("/member-portal/directory");
+      }, 100);
+    });
+  } catch (error) {
+    console.error("login problem", error);
+  }  
+  };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -78,7 +93,7 @@ function Login() {
             width: "120px",
             marginBottom: "12px"
           }}
-          onClick={() => logInWithEmailAndPassword(email, password)}
+          onClick={loginButton}
         >
           Log In
         </button>

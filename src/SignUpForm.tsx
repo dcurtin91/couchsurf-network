@@ -50,18 +50,20 @@ function SignUpForm() {
       window.dispatchEvent(event);
   
      
-      setFormData({
-        address: "",
-        city: "",
-        territory: "",
-        name: "",
-        email: "",
-        phone: "",
-        vacancy: false,
-        availability: "",
-      });
+      // setFormData({
+      //   address: "",
+      //   city: "",
+      //   territory: "",
+      //   name: "",
+      //   email: "",
+      //   phone: "",
+      //   vacancy: false,
+      //   availability: "",
+      // });
   
+      setTimeout(() => { 
       navigate("/member-portal/dashboard");
+    }, 100);
     } catch (error) {
       console.error("Error sending message:", error);
      
