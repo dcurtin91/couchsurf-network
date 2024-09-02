@@ -81,33 +81,21 @@ function SignUpForm() {
       }}
     >
       <Card
-        style={{
-          border: "1px solid black",
-          backgroundColor: "lightgrey",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+        style={{ textAlign: "center", padding: "40px", backgroundColor: "#fafaf5" }}
       >
-        <Row>
-          <Col
-            style={{
-              justifyContent: "center",
-              textAlign: "center",
-            }}
-          >
+        
             <Card.Header
               style={{
                 backgroundColor: "white",
                 width: "100%",
                 marginTop: "0px",
                 textAlign: "center",
-                marginBottom: 0,
+                marginBottom: "12px"
               }}
             >
               Sign Up as a Host
             </Card.Header>
-            <form onSubmit={handleSubmit} style={{ padding: "2em" }}>
+            <form onSubmit={handleSubmit}>
               <input
                 type="text"
                 name="address"
@@ -189,7 +177,6 @@ function SignUpForm() {
               </select>
 
               <input
-                style={{ marginTop: "15px" }}
                 type="text"
                 name="name"
                 placeholder="contact first and last name"
@@ -200,7 +187,6 @@ function SignUpForm() {
                 minLength={1}
               />
               <input
-                style={{ marginTop: "15px" }}
                 type="email"
                 name="email"
                 placeholder="contact email"
@@ -211,7 +197,6 @@ function SignUpForm() {
                 minLength={1}
               />
               <PatternFormat
-                style={{ marginTop: "15px" }}
                 type="tel"
                 name="phone"
                 format="(###) ###-####" 
@@ -264,8 +249,7 @@ function SignUpForm() {
                 Submit
               </button>
             </form>
-          </Col>
-        </Row>
+         
       </Card>
     </div>
   );

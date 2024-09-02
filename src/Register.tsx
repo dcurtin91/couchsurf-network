@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { auth, registerWithEmailAndPassword } from "./Firebase";
 import SignUpForm from "./SignUpForm";
 import Login from "./Login";
@@ -13,7 +13,7 @@ const Register: React.FC = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showCard, setShowCard] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const handleClick = () => {
     setShowLogin(true);
