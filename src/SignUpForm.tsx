@@ -84,7 +84,7 @@ function SignUpForm() {
         style={{ textAlign: "center", padding: "40px", backgroundColor: "#fafaf5" }}
       >
         
-            <Card.Header
+            {/* <Card.Header
               style={{
                 backgroundColor: "white",
                 width: "100%",
@@ -94,7 +94,7 @@ function SignUpForm() {
               }}
             >
               Sign Up as a Host
-            </Card.Header>
+            </Card.Header> */}
             <form onSubmit={handleSubmit}>
               <input
                 type="text"
@@ -208,15 +208,15 @@ function SignUpForm() {
                 minLength={1}
                 required
               />
-              <label style={{ marginTop: "15px", fontSize: "13px" }}>
+              <label style={{ marginTop: "15px", fontSize: "14px" }}>
                 <input
                   type="checkbox"
                   name="vacancy"
                   checked={formData.vacancy}
                   onChange={handleChange}
-                  placeholder="number of rooms available"
                 />{" "}
-                Vacancy?
+                Vacancy?<br></br>
+                If left unchecked, your location will not be shown in the directory.
               </label>
               <br></br>
               <div style={{ marginTop: "15px", fontSize: "13px" }}>
@@ -230,7 +230,7 @@ function SignUpForm() {
                 placeholder="1"
                 value={formData.availability}
                 onChange={handleChange}
-                min={0}
+                min={1}
                 max={10}
               />
 

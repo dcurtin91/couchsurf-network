@@ -8,6 +8,7 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+
 const Dashboard: React.FC = () => {
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState<string>("");
@@ -21,14 +22,8 @@ const Dashboard: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const [isEditingName, setIsEditingName] = useState<boolean>(false);
-  const [isEditingEmail, setIsEditingEmail] = useState<boolean>(false);
-  const [isEditingVacancy, setIsEditingVacancy] = useState<boolean>(false);
-  const [isEditingAvailability, setIsEditingAvailability] = useState<boolean>(false);
-  const [isEditingAddress, setIsEditingAddress] = useState<boolean>(false);
-  const [isEditingCity, setIsEditingCity] = useState<boolean>(false);
-  const [isEditingTerritory, setIsEditingTerritory] = useState<boolean>(false);
-  const [isEditingPhone, setIsEditingPhone] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
 
   const fetchUserData = async () => {
     try {
@@ -98,14 +93,8 @@ const Dashboard: React.FC = () => {
           setAvailability(updatedData.availability || "");
         }
 
-        setIsEditingName(false);
-        setIsEditingEmail(false);
-        setIsEditingVacancy(false);
-        setIsEditingAvailability(false);
-        setIsEditingAddress(false);
-        setIsEditingCity(false);
-        setIsEditingTerritory(false);
-        setIsEditingPhone(false);
+    
+        setIsEditing(false);
       }
     } catch (error) {
       console.error(error);
@@ -157,7 +146,7 @@ const Dashboard: React.FC = () => {
             </Card.Header>
 
             <div className="dash_item">
-              {isEditingAddress ? (
+              {isEditing ? (
                 <input
                   type="text"
                   value={address}
@@ -166,14 +155,12 @@ const Dashboard: React.FC = () => {
               ) : (
                 <>
                   {address}{" "}
-                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingAddress)}>
-                    &#x270E;
-                  </span>
+                  
                 </>
               )}
             </div>
             <div className="dash_item">
-              {isEditingCity ? (
+              {isEditing ? (
                 <input
                   type="text"
                   value={city}
@@ -182,14 +169,12 @@ const Dashboard: React.FC = () => {
               ) : (
                 <>
                   {city}{" "}
-                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingCity)}>
-                    &#x270E;
-                  </span>
+                  
                 </>
               )}
             </div>
             <div className="dash_item">
-              {isEditingTerritory ? (
+              {isEditing ? (
                 <input
                   type="text"
                   value={territory}
@@ -198,51 +183,43 @@ const Dashboard: React.FC = () => {
               ) : (
                 <>
                   {territory}{" "}
-                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingTerritory)}>
-                    &#x270E;
-                  </span>
+                 
                 </>
               )}
             </div>
             <div className="dash_item">
-              {isEditingName ? (
+              {isEditing ? (
                 <input type="text" value={name} onChange={handleInputChange(setName)} />
               ) : (
                 <>
                   {name}{" "}
-                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingName)}>
-                    &#x270E;
-                  </span>
+                  
                 </>
               )}
             </div>
             <div className="dash_item">
-              {isEditingEmail ? (
+              {isEditing ? (
                 <input type="text" value={email} onChange={handleInputChange(setEmail)} />
               ) : (
                 <>
                   {email}{" "}
-                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingEmail)}>
-                    &#x270E;
-                  </span>
+                  
                 </>
               )}
             </div>
             <div className="dash_item">
-              {isEditingPhone ? (
+              {isEditing ? (
                 <input type="tel" value={phone} onChange={handleInputChange(setPhone)} />
               ) : (
                 <>
                   {phone}{" "}
-                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingPhone)}>
-                    &#x270E;
-                  </span>
+                  
                 </>
               )}
             </div>
             <div className="dash_item">
               Vacancy:{" "}
-              {isEditingVacancy ? (
+              {isEditing ? (
                 <select value={vacancy} onChange={handleInputChange(setVacancy)}>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
@@ -250,16 +227,14 @@ const Dashboard: React.FC = () => {
               ) : (
                 <>
                   {vacancy}{" "}
-                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingVacancy)}>
-                    &#x270E;
-                  </span>
+                  
                 </>
               )}
             </div>
 
             <div className="dash_item">
               Capacity:{" "}
-              {isEditingAvailability ? (
+              {isEditing ? (
                 <input
                   type="number"
                   value={availability}
@@ -270,12 +245,22 @@ const Dashboard: React.FC = () => {
               ) : (
                 <>
                   {availability}{" "}
-                  <span className="edit-icon" onClick={handleEditToggle(setIsEditingAvailability)}>
-                    &#x270E;
-                  </span>
                 </>
               )}
             </div>
+
+            <button
+              style={{
+                borderRadius: "8px",
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "10px",
+                marginLeft: "112px",
+              }}
+              onClick={handleEditToggle(setIsEditing)}
+            >
+              Edit
+            </button>
 
             <button
               style={{
@@ -292,7 +277,7 @@ const Dashboard: React.FC = () => {
           </Col>
         </Row>
       </Card>
-      <Card
+      {/* <Card
         style={{
           border: "1px solid black",
           backgroundColor: "lightgrey",
@@ -310,10 +295,10 @@ const Dashboard: React.FC = () => {
             marginBottom: 0,
           }}
         >
-          Add Property Photos
+          Property Photo
         </Card.Header>
         <PhotoUpload />
-      </Card>
+      </Card> */}
     </div>
   );
 };
