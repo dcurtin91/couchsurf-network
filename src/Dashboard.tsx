@@ -56,17 +56,17 @@ const Dashboard: React.FC = () => {
   };
 
   const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setter((event.target as HTMLInputElement).value);
+  };
+  
+  const handleVacancyInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setter(event.target.value);
   };
-
-  // const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (
-  //   event
-  // ) => {
-  //   setter(event.target.value);
-  // };
-
+  
   const handleEditToggle = (setter: React.Dispatch<React.SetStateAction<boolean>>) => () => {
     setter(true);
   };
@@ -119,84 +119,151 @@ const Dashboard: React.FC = () => {
 
   return (
    <Container>
-           
-            <div>
+         <Row> 
+          <Col>
+          <Card 
+          style={{ padding: "40px", backgroundColor: "#fafaf5" }}
+          >
+          <Form>
+            <Form.Group className="mb-3">
+            <Form.Label style={{
+              marginBottom: "-30px",
+              fontSize: "14px",
+              marginLeft: "5px"
+            }}>Address</Form.Label>
               {isEditing ? (
-                <input
+                <Form.Control
                   type="text"
                   value={address}
                   onChange={handleInputChange(setAddress)}
                 />
               ) : (
-                <>
-                  {address}{" "}
-                  
-                </>
+                <Form.Control
+                  value={address}
+                  readOnly
+                  disabled
+                />
               )}
-           </div>
+           </Form.Group>
             
-            <div className="dash_item">
+            <Row className="mb-3">
+
+            <Form.Group as={Col}>
+            <Form.Label style={{
+              marginBottom: "-30px",
+              fontSize: "14px",
+              marginLeft: "5px"
+            }}>City</Form.Label>
               {isEditing ? (
-                <input
+                <Form.Control
                   type="text"
                   value={city}
                   onChange={handleInputChange(setCity)}
                 />
               ) : (
-                <>
-                  {city}{" "}
-                  
-                </>
+                <Form.Control
+                  value={city}
+                  readOnly
+                  disabled
+                />
               )}
-            </div>
-            <div className="dash_item">
+            </Form.Group>
+
+
+            <Form.Group as={Col}>
+            <Form.Label style={{
+              marginBottom: "-30px",
+              fontSize: "14px",
+              marginLeft: "5px"
+            }}>State</Form.Label>
               {isEditing ? (
-                <input
+                <Form.Control
                   type="text"
                   value={territory}
                   onChange={handleInputChange(setTerritory)}
                 />
               ) : (
-                <>
-                  {territory}{" "}
-                 
-                </>
+                <Form.Control
+                  value={territory}
+                  readOnly
+                  disabled
+                />
               )}
-            </div>
-            <div className="dash_item">
+            </Form.Group>
+
+            </Row>
+
+
+            <Form.Group className="mb-3">
+            <Form.Label style={{
+              marginBottom: "-30px",
+              fontSize: "14px",
+              marginLeft: "5px"
+            }}>Preferred Name</Form.Label>
               {isEditing ? (
-                <input type="text" value={name} onChange={handleInputChange(setName)} />
+                <Form.Control 
+                type="text" 
+                value={name} 
+                onChange={handleInputChange(setName)} 
+                />
               ) : (
-                <>
-                  {name}{" "}
-                  
-                </>
+                <Form.Control
+                  value={name}
+                  readOnly
+                  disabled
+                />
               )}
-            </div>
-            <div className="dash_item">
+            </Form.Group>
+
+
+            <Row className="mb-3">
+            <Form.Group as={Col}>
+            <Form.Label style={{
+              marginBottom: "-30px",
+              fontSize: "14px",
+              marginLeft: "5px"
+            }}>Email</Form.Label>
               {isEditing ? (
-                <input type="text" value={email} onChange={handleInputChange(setEmail)} />
+                <Form.Control 
+                type="text" 
+                value={email} 
+                onChange={handleInputChange(setEmail)} 
+                />
               ) : (
-                <>
-                  {email}{" "}
-                  
-                </>
+                <Form.Control
+                  value={email}
+                  readOnly
+                  disabled
+                />
               )}
-            </div>
-            <div className="dash_item">
+            </Form.Group>
+
+            <Form.Group as={Col}>
+            <Form.Label style={{
+              marginBottom: "-30px",
+              fontSize: "14px",
+              marginLeft: "5px"
+            }}>Phone</Form.Label>
               {isEditing ? (
-                <input type="tel" value={phone} onChange={handleInputChange(setPhone)} />
+                <Form.Control
+                 type="tel" 
+                 value={phone} 
+                 onChange={handleInputChange(setPhone)} 
+                 />
               ) : (
-                <>
-                  {phone}{" "}
-                  
-                </>
+                <Form.Control
+                  value={phone}
+                  readOnly
+                  disabled
+                />
               )}
-            </div>
+            </Form.Group>
+            </Row>
+
             <div className="dash_item">
               Vacancy:{" "}
               {isEditing ? (
-                <select value={vacancy} onChange={handleInputChange(setVacancy)}>
+                <select value={vacancy} onChange={handleVacancyInputChange(setVacancy)}>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
                 </select>
@@ -211,7 +278,7 @@ const Dashboard: React.FC = () => {
             <div className="dash_item">
               Capacity:{" "}
               {isEditing ? (
-                <input
+                <Form.Control
                   type="number"
                   value={availability}
                   onChange={handleInputChange(setAvailability)}
@@ -224,7 +291,7 @@ const Dashboard: React.FC = () => {
                 </>
               )}
             </div>
-
+            </Form>
             <button
               style={{
                 borderRadius: "8px",
@@ -250,29 +317,18 @@ const Dashboard: React.FC = () => {
             >
               Update
             </button>
-       
-      {/* <Card
-        style={{
-          border: "1px solid black",
-          backgroundColor: "lightgrey",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+           
+            </Card>
+            </Col>
+            <Col>
+      <Card
+        style={{ textAlign: "center", padding: "40px", backgroundColor: "#fafaf5" }}
       >
-        <Card.Header
-          style={{
-            backgroundColor: "lightsteelblue",
-            width: "100%",
-            marginTop: "0px",
-            textAlign: "center",
-            marginBottom: 0,
-          }}
-        >
-          Property Photo
-        </Card.Header>
+        
         <PhotoUpload />
-      </Card> */}
+      </Card>
+      </Col>
+      </Row> 
    </Container>
   );
 };
