@@ -246,7 +246,8 @@ const Dashboard: React.FC = () => {
             }}>Phone</Form.Label>
               {isEditing ? (
                 <Form.Control
-                 type="tel" 
+                name="phone"
+                type="tel" 
                  value={phone} 
                  onChange={handleInputChange(setPhone)} 
                  />
@@ -259,24 +260,34 @@ const Dashboard: React.FC = () => {
               )}
             </Form.Group>
             </Row>
-
-            <div className="dash_item">
-              Vacancy:{" "}
+            
+            <Row className="mb-3">
+            <Form.Group as={Col}>
+            <Form.Label style={{
+              marginBottom: "-30px",
+              fontSize: "14px",
+              marginLeft: "5px"
+            }}>Vacancy</Form.Label>
               {isEditing ? (
-                <select value={vacancy} onChange={handleVacancyInputChange(setVacancy)}>
+                <Form.Select value={vacancy} onChange={handleVacancyInputChange(setVacancy)}>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
-                </select>
+                </Form.Select>
               ) : (
-                <>
-                  {vacancy}{" "}
-                  
-                </>
+                <Form.Control
+                  value={vacancy}
+                  readOnly
+                  disabled
+                />
               )}
-            </div>
+            </Form.Group>
 
-            <div className="dash_item">
-              Capacity:{" "}
+            <Form.Group as={Col}>
+            <Form.Label style={{
+              marginBottom: "-30px",
+              fontSize: "14px",
+              marginLeft: "5px"
+            }}>Capacity</Form.Label>
               {isEditing ? (
                 <Form.Control
                   type="number"
@@ -286,19 +297,22 @@ const Dashboard: React.FC = () => {
                   max={10}
                 />
               ) : (
-                <>
-                  {availability}{" "}
-                </>
+                <Form.Control
+                  value={availability}
+                  readOnly
+                  disabled
+                />
               )}
-            </div>
+            </Form.Group>
+            </Row>
             </Form>
+            <Row>
             <button
               style={{
                 borderRadius: "8px",
+                width: "40px",
                 display: "flex",
                 justifyContent: "center",
-                marginBottom: "10px",
-                marginLeft: "112px",
               }}
               onClick={handleEditToggle(setIsEditing)}
             >
@@ -308,16 +322,15 @@ const Dashboard: React.FC = () => {
             <button
               style={{
                 borderRadius: "8px",
+                
                 display: "flex",
                 justifyContent: "center",
-                marginBottom: "10px",
-                marginLeft: "112px",
               }}
               onClick={handleUpdate}
             >
               Update
             </button>
-           
+            </Row>
             </Card>
             </Col>
             <Col>
