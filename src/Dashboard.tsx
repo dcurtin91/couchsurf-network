@@ -7,6 +7,8 @@ import PhotoUpload from "./PhotoUpload";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Container from "react-bootstrap/Container";
 
 
 const Dashboard: React.FC = () => {
@@ -23,7 +25,7 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
+  const [isReadOnly, setIsReadOnly] = useState<boolean>(false);
 
   const fetchUserData = async () => {
     try {
@@ -59,9 +61,17 @@ const Dashboard: React.FC = () => {
     setter(event.target.value);
   };
 
+  // const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (
+  //   event
+  // ) => {
+  //   setter(event.target.value);
+  // };
+
   const handleEditToggle = (setter: React.Dispatch<React.SetStateAction<boolean>>) => () => {
     setter(true);
   };
+
+  
 
   const handleUpdate = async () => {
     try {
@@ -108,44 +118,9 @@ const Dashboard: React.FC = () => {
   }, [user, loading]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-      }}
-    >
-      <Card
-        style={{
-          border: "1px solid black",
-          backgroundColor: "lightgrey",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginRight: "20px",
-        }}
-      >
-        <Row>
-          <Col
-            style={{
-              justifyContent: "center",
-              textAlign: "center",
-            }}
-          >
-            <Card.Header
-              style={{
-                backgroundColor: "lightsteelblue",
-                width: "100%",
-                marginTop: "0px",
-                textAlign: "center",
-                marginBottom: 0,
-              }}
-            >
-              Your Property Address and Contact Info
-            </Card.Header>
-
-            <div className="dash_item">
+   <Container>
+           
+            <div>
               {isEditing ? (
                 <input
                   type="text"
@@ -158,7 +133,8 @@ const Dashboard: React.FC = () => {
                   
                 </>
               )}
-            </div>
+           </div>
+            
             <div className="dash_item">
               {isEditing ? (
                 <input
@@ -274,9 +250,7 @@ const Dashboard: React.FC = () => {
             >
               Update
             </button>
-          </Col>
-        </Row>
-      </Card>
+       
       {/* <Card
         style={{
           border: "1px solid black",
@@ -299,7 +273,7 @@ const Dashboard: React.FC = () => {
         </Card.Header>
         <PhotoUpload />
       </Card> */}
-    </div>
+   </Container>
   );
 };
 
