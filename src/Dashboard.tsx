@@ -66,21 +66,19 @@ const Dashboard: React.FC = () => {
   ) => {
     setter((event.target as HTMLInputElement).value);
   };
-  
+
   const handleVacancyInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setter(event.target.value);
   };
-  
+
   const handleEditToggle = (setter: React.Dispatch<React.SetStateAction<boolean>>) => () => {
     setter(true);
     enableButton();
   };
 
-  // const refresh = () => {
-  //   window.location.reload();
-  // }
+ 
 
   const handleUpdate = async () => {
     try {
@@ -112,35 +110,35 @@ const Dashboard: React.FC = () => {
           setAvailability(updatedData.availability || "");
         }
 
-    
+
         setIsEditing(false);
         navigate(0);
-        
+
       }
     } catch (error) {
       console.error(error);
     }
-    
+
   };
 
   useEffect(() => {
     if (loading) return;
-    if (!user) return navigate("/member-portal/");
+    if (!user) return navigate("/couchsurf-network/");
     fetchUserData();
   }, [user, loading]);
 
   return (
-   <Container>
-    <h3 style={{
-      
-      textAlign: "center",
-      marginBottom: "10px"
-    }}
-    >Visit the <a href="/member-portal/directory">Directory</a> to See Your Listing</h3>
-         <Row> 
-          <Col>
-          <Card 
-          style={{ padding: "40px", backgroundColor: "#fafaf5" }}
+    <Container>
+      <h3 style={{
+
+        textAlign: "center",
+        marginBottom: "10px"
+      }}
+      >Visit the <a href="/couchsurf-network/directory">Directory</a> to See Your Listing</h3>
+      <Row>
+        <Col>
+          <Card
+            style={{ padding: "40px", backgroundColor: "#fafaf5" }}
           >
             <Card.Header style={{
               textAlign: "center",
@@ -148,231 +146,231 @@ const Dashboard: React.FC = () => {
               marginBottom: "10px"
             }}>Your Location Address and Contact Info</Card.Header>
             <Card.Title
-            style={{
-              display: "flex",
-      justifyContent: "flex-end",
-      
-            }}>
-            <Pencil
-              onClick={handleEditToggle(setIsEditing)}
-              style={{ cursor: "pointer" }}
-            />
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+
+              }}>
+              <Pencil
+                onClick={handleEditToggle(setIsEditing)}
+                style={{ cursor: "pointer" }}
+              />
             </Card.Title>
-          <Form>
-            <Form.Group className="mb-3">
-            <Form.Label style={{
-              marginBottom: "-30px",
-              fontSize: "14px",
-              marginLeft: "5px"
-            }}>Address</Form.Label>
-              {isEditing ? (
-                <Form.Control
-                  type="text"
-                  value={address}
-                  onChange={handleInputChange(setAddress)}
-                />
-              ) : (
-                <Form.Control
-                  value={address}
-                  readOnly
-                  disabled
-                />
-              )}
-           </Form.Group>
-            
-            <Row className="mb-3">
+            <Form>
+              <Form.Group className="mb-3">
+                <Form.Label style={{
+                  marginBottom: "-30px",
+                  fontSize: "14px",
+                  marginLeft: "5px"
+                }}>Address</Form.Label>
+                {isEditing ? (
+                  <Form.Control
+                    type="text"
+                    value={address}
+                    onChange={handleInputChange(setAddress)}
+                  />
+                ) : (
+                  <Form.Control
+                    value={address}
+                    readOnly
+                    disabled
+                  />
+                )}
+              </Form.Group>
 
-            <Form.Group as={Col}>
-            <Form.Label style={{
-              marginBottom: "-30px",
-              fontSize: "14px",
-              marginLeft: "5px"
-            }}>City</Form.Label>
-              {isEditing ? (
-                <Form.Control
-                  type="text"
-                  value={city}
-                  onChange={handleInputChange(setCity)}
-                />
-              ) : (
-                <Form.Control
-                  value={city}
-                  readOnly
-                  disabled
-                />
-              )}
-            </Form.Group>
+              <Row className="mb-3">
 
-
-            <Form.Group as={Col}>
-            <Form.Label style={{
-              marginBottom: "-30px",
-              fontSize: "14px",
-              marginLeft: "5px"
-            }}>State</Form.Label>
-              {isEditing ? (
-                <Form.Control
-                  type="text"
-                  value={territory}
-                  onChange={handleInputChange(setTerritory)}
-                />
-              ) : (
-                <Form.Control
-                  value={territory}
-                  readOnly
-                  disabled
-                />
-              )}
-            </Form.Group>
-
-            </Row>
+                <Form.Group as={Col}>
+                  <Form.Label style={{
+                    marginBottom: "-30px",
+                    fontSize: "14px",
+                    marginLeft: "5px"
+                  }}>City</Form.Label>
+                  {isEditing ? (
+                    <Form.Control
+                      type="text"
+                      value={city}
+                      onChange={handleInputChange(setCity)}
+                    />
+                  ) : (
+                    <Form.Control
+                      value={city}
+                      readOnly
+                      disabled
+                    />
+                  )}
+                </Form.Group>
 
 
-            <Form.Group className="mb-3">
-            <Form.Label style={{
-              marginBottom: "-30px",
-              fontSize: "14px",
-              marginLeft: "5px"
-            }}>Preferred Name</Form.Label>
-              {isEditing ? (
-                <Form.Control 
-                type="text" 
-                value={name} 
-                onChange={handleInputChange(setName)} 
-                />
-              ) : (
-                <Form.Control
-                  value={name}
-                  readOnly
-                  disabled
-                />
-              )}
-            </Form.Group>
+                <Form.Group as={Col}>
+                  <Form.Label style={{
+                    marginBottom: "-30px",
+                    fontSize: "14px",
+                    marginLeft: "5px"
+                  }}>State</Form.Label>
+                  {isEditing ? (
+                    <Form.Control
+                      type="text"
+                      value={territory}
+                      onChange={handleInputChange(setTerritory)}
+                    />
+                  ) : (
+                    <Form.Control
+                      value={territory}
+                      readOnly
+                      disabled
+                    />
+                  )}
+                </Form.Group>
+
+              </Row>
 
 
-            <Row className="mb-3">
-            <Form.Group as={Col}>
-            <Form.Label style={{
-              marginBottom: "-30px",
-              fontSize: "14px",
-              marginLeft: "5px"
-            }}>Email</Form.Label>
-              {isEditing ? (
-                <Form.Control 
-                type="text" 
-                value={email} 
-                onChange={handleInputChange(setEmail)} 
-                />
-              ) : (
-                <Form.Control
-                  value={email}
-                  readOnly
-                  disabled
-                />
-              )}
-            </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label style={{
+                  marginBottom: "-30px",
+                  fontSize: "14px",
+                  marginLeft: "5px"
+                }}>Preferred Name</Form.Label>
+                {isEditing ? (
+                  <Form.Control
+                    type="text"
+                    value={name}
+                    onChange={handleInputChange(setName)}
+                  />
+                ) : (
+                  <Form.Control
+                    value={name}
+                    readOnly
+                    disabled
+                  />
+                )}
+              </Form.Group>
 
-            <Form.Group as={Col}>
-            <Form.Label style={{
-              marginBottom: "-30px",
-              fontSize: "14px",
-              marginLeft: "5px"
-            }}>Phone</Form.Label>
-              {isEditing ? (
-                <Form.Control
-                name="phone"
-                type="tel" 
-                 value={phone} 
-                 onChange={handleInputChange(setPhone)} 
-                 />
-              ) : (
-                <Form.Control
-                  value={phone}
-                  readOnly
-                  disabled
-                />
-              )}
-            </Form.Group>
-            </Row>
-            
-            <Row className="mb-3">
-            <Form.Group as={Col}>
-            <Form.Label style={{
-              marginBottom: "-30px",
-              fontSize: "14px",
-              marginLeft: "5px"
-            }}>Vacancy</Form.Label>
-              {isEditing ? (
-                <Form.Select value={vacancy} onChange={handleVacancyInputChange(setVacancy)}>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </Form.Select>
-              ) : (
-                <Form.Control
-                  value={vacancy}
-                  readOnly
-                  disabled
-                />
-              )}
-            </Form.Group>
 
-            <Form.Group as={Col}>
-            <Form.Label style={{
-              marginBottom: "-30px",
-              fontSize: "14px",
-              marginLeft: "5px"
-            }}>Capacity</Form.Label>
-              {isEditing ? (
-                <Form.Control
-                  type="number"
-                  value={availability}
-                  onChange={handleInputChange(setAvailability)}
-                  min={0}
-                  max={10}
-                />
-              ) : (
-                <Form.Control
-                  value={availability}
-                  readOnly
-                  disabled
-                />
-              )}
-            </Form.Group>
-            </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col}>
+                  <Form.Label style={{
+                    marginBottom: "-30px",
+                    fontSize: "14px",
+                    marginLeft: "5px"
+                  }}>Email</Form.Label>
+                  {isEditing ? (
+                    <Form.Control
+                      type="text"
+                      value={email}
+                      onChange={handleInputChange(setEmail)}
+                    />
+                  ) : (
+                    <Form.Control
+                      value={email}
+                      readOnly
+                      disabled
+                    />
+                  )}
+                </Form.Group>
+
+                <Form.Group as={Col}>
+                  <Form.Label style={{
+                    marginBottom: "-30px",
+                    fontSize: "14px",
+                    marginLeft: "5px"
+                  }}>Phone</Form.Label>
+                  {isEditing ? (
+                    <Form.Control
+                      name="phone"
+                      type="tel"
+                      value={phone}
+                      onChange={handleInputChange(setPhone)}
+                    />
+                  ) : (
+                    <Form.Control
+                      value={phone}
+                      readOnly
+                      disabled
+                    />
+                  )}
+                </Form.Group>
+              </Row>
+
+              <Row className="mb-3">
+                <Form.Group as={Col}>
+                  <Form.Label style={{
+                    marginBottom: "-30px",
+                    fontSize: "14px",
+                    marginLeft: "5px"
+                  }}>Vacancy</Form.Label>
+                  {isEditing ? (
+                    <Form.Select value={vacancy} onChange={handleVacancyInputChange(setVacancy)}>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </Form.Select>
+                  ) : (
+                    <Form.Control
+                      value={vacancy}
+                      readOnly
+                      disabled
+                    />
+                  )}
+                </Form.Group>
+
+                <Form.Group as={Col}>
+                  <Form.Label style={{
+                    marginBottom: "-30px",
+                    fontSize: "14px",
+                    marginLeft: "5px"
+                  }}>Capacity</Form.Label>
+                  {isEditing ? (
+                    <Form.Control
+                      type="number"
+                      value={availability}
+                      onChange={handleInputChange(setAvailability)}
+                      min={0}
+                      max={10}
+                    />
+                  ) : (
+                    <Form.Control
+                      value={availability}
+                      readOnly
+                      disabled
+                    />
+                  )}
+                </Form.Group>
+              </Row>
             </Form>
             <Row className="mb-3 justify-content-center">
-            <Col></Col>
-            <Col>
-            <button
-              style={buttonEnabled ?
-                styles.enabledButton : styles.disabledButton}
-              onClick={handleUpdate}
-              disabled={!buttonEnabled}
-            >
-              Update
-            </button>
-            </Col>
-            <Col></Col>
+              <Col></Col>
+              <Col>
+                <button
+                  style={buttonEnabled ?
+                    styles.enabledButton : styles.disabledButton}
+                  onClick={handleUpdate}
+                  disabled={!buttonEnabled}
+                >
+                  Update
+                </button>
+              </Col>
+              <Col></Col>
             </Row>
-            </Card>
-            </Col>
-            <Col>
-      <Card
-        style={{ 
-          textAlign: "center", 
-          padding: "40px", 
-          backgroundColor: "#fafaf5" 
-        }}
-      >
-        <Card.Header style={{
-          borderRadius: "10px",
+          </Card>
+        </Col>
+        <Col>
+          <Card
+            style={{
+              textAlign: "center",
+              padding: "40px",
+              backgroundColor: "#fafaf5"
+            }}
+          >
+            <Card.Header style={{
+              borderRadius: "10px",
               marginBottom: "10px"
-        }}>Upload a Photo of Your Space</Card.Header>
-        <PhotoUpload />
-      </Card>
-      </Col>
-      </Row> 
-   </Container>
+            }}>Upload a Photo of Your Space</Card.Header>
+            <PhotoUpload />
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

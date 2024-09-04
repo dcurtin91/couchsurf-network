@@ -16,7 +16,7 @@ import Col from "react-bootstrap/Col";
 function PhotoUpload() {
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const [user] = useAuthState(auth);
 
   const navigate = useNavigate();
@@ -35,14 +35,14 @@ function PhotoUpload() {
             setImageUrls((prev) => [...prev, url]);
           });
         });
-        setLoading(false); 
+        setLoading(false);
       }
     });
 
     return () => {
       isMounted = false;
     };
-  }, [user]); 
+  }, [user]);
 
   const uploadFile = async () => {
     if (imageUpload === null || user === null) return;
@@ -54,11 +54,11 @@ function PhotoUpload() {
       });
       navigate(0);
     });
-    
+
   };
 
   const deleteImage = async (url) => {
-    if (!user) return; 
+    if (!user) return;
 
     const index = imageUrls.findIndex((imageUrl) => imageUrl === url);
 
@@ -130,7 +130,7 @@ function PhotoUpload() {
   };
 
   if (loading) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
   return (
@@ -189,7 +189,7 @@ function PhotoUpload() {
                 style={{
                   border: "1px solid black",
                   marginBottom: "85px"
-                  
+
                 }}
                 src={url}
                 alt="Uploaded"
@@ -214,8 +214,8 @@ export default PhotoUpload;
 const styles = {
   enabledButton: {
     borderRadius: "8px",
-            marginBottom: "10px",
-            marginTop: "20px",
+    marginBottom: "10px",
+    marginTop: "20px",
   },
   disabledButton: {
     display: "none"

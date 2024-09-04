@@ -4,7 +4,7 @@ import { resolve } from 'path'; // Add this line
 
 export default defineConfig({
   plugins: [react()],
-  base: "/member-portal/",
+  base: "/couchsurf-network/",
   build: {
     rollupOptions: {
       input: {

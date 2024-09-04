@@ -45,7 +45,7 @@ const Directory: React.FC = () => {
           const data = docRef.data();
           console.log(data);
         } else {
-          navigate("/member-portal/signupform/");
+          navigate("/couchsurf-network/signupform/");
         }
       }
     } catch (err) {
@@ -53,44 +53,29 @@ const Directory: React.FC = () => {
       alert("An error occurred while fetching user data");
     }
   };
-  
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     const checkUserDocs = async () => {
-  //       const querySnapshot = await getDocs(collection(db, "properties"));
-  //       if (!querySnapshot.empty) {
-  //         navigate("/member-portal/");
-  //       } else {
-  //         navigate("/member-portal/directory");
-          
-  //       }
-  //     };
 
-  //     checkUserDocs();
-  //     //fetchUserData();
-  //   }
-  // }, [user, loading, navigate]);
+
 
   useEffect(() => {
     const checkUserDocs = async () => {
       const querySnapshot = await getDocs(collection(db, "properties"));
       if (!querySnapshot.empty) {
-        navigate("/member-portal/");
+        navigate("/couchsurf-network/");
       } else {
-        navigate("/member-portal/directory");
+        navigate("/couchsurf-network/directory");
       }
     };
-  
+
     if (user) {
       fetchUserData();
     } else if (!loading) {
       checkUserDocs();
     }
   }, [user, loading, navigate]);
-  
 
-  
+
+
   useEffect(() => {
     const unsubscribe = getMessages((newMessages: Message[]) => {
       setMessages(newMessages);
@@ -102,7 +87,7 @@ const Directory: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    let isMounted = true; 
+    let isMounted = true;
     const accumulatedUrls: ImageUrlsMap = {};
     Promise.all(
       messages.map(async (message) => {
@@ -120,11 +105,11 @@ const Directory: React.FC = () => {
     });
 
     return () => {
-      isMounted = false; 
+      isMounted = false;
     };
   }, [messages]);
 
-  
+
 
   useEffect(() => {
     setFilteredMessages(

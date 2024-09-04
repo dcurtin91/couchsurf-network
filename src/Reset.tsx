@@ -14,7 +14,7 @@ function Reset() {
 
   useEffect(() => {
     if (loading) return;
-    if (user) navigate("/member-portal/dashboard");
+    if (user) navigate("/couchsurf-network/dashboard");
   }, [user, loading]);
 
   return (
@@ -69,7 +69,7 @@ function Reset() {
               }}
             >
               Don't have an account?{" "}
-              <Link className="navOption2" to="/member-portal/register">
+              <Link className="navOption2" to="/couchsurf-network/register">
                 Register
               </Link>{" "}
               now.

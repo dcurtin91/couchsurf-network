@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getMessages, storage, auth } from "./Firebase";
+import { getMessages, storage } from "./Firebase";
 import { ref, getDownloadURL, listAll } from "firebase/storage";
 import Login from "./Login";
 import Register from "./Register";
@@ -30,16 +30,16 @@ const PublicDirectory: React.FC = () => {
   const [show, setShow] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseRegister = () => setShowRegister(false);
   const handleShowRegister = () => setShowRegister(true);
   const handleCloseForm = () => setShowForm(false);
-  
 
- 
+
+
 
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const PublicDirectory: React.FC = () => {
     // };
   }, []);
 
-  
+
   useEffect(() => {
     const handleFormSuccess = () => {
       handleCloseRegister();
@@ -105,9 +105,7 @@ const PublicDirectory: React.FC = () => {
 
     window.addEventListener("formSuccess", handleFormSuccess);
 
-    // return () => {
-    //   window.removeEventListener("formSuccess", handleFormSuccess);
-    // };
+    
   }, []);
 
   return (
