@@ -3,12 +3,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "./Firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { Pencil } from 'lucide-react';
 import PhotoUpload from "./PhotoUpload";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
+
 
 
 const Dashboard: React.FC = () => {
@@ -25,7 +27,11 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [isReadOnly, setIsReadOnly] = useState<boolean>(false);
+  const [buttonEnabled, setButtonEnabled] = useState<boolean>(false);
+
+  const enableButton = () => {
+    setButtonEnabled(true);
+  }
 
   const fetchUserData = async () => {
     try {
@@ -69,9 +75,12 @@ const Dashboard: React.FC = () => {
   
   const handleEditToggle = (setter: React.Dispatch<React.SetStateAction<boolean>>) => () => {
     setter(true);
+    enableButton();
   };
 
-  
+  // const refresh = () => {
+  //   window.location.reload();
+  // }
 
   const handleUpdate = async () => {
     try {
@@ -105,10 +114,13 @@ const Dashboard: React.FC = () => {
 
     
         setIsEditing(false);
+        navigate(0);
+        
       }
     } catch (error) {
       console.error(error);
     }
+    
   };
 
   useEffect(() => {
@@ -119,11 +131,33 @@ const Dashboard: React.FC = () => {
 
   return (
    <Container>
+    <h3 style={{
+      
+      textAlign: "center",
+      marginBottom: "10px"
+    }}
+    >Visit the <a href="/member-portal/directory">Directory</a> to See Your Listing</h3>
          <Row> 
           <Col>
           <Card 
           style={{ padding: "40px", backgroundColor: "#fafaf5" }}
           >
+            <Card.Header style={{
+              textAlign: "center",
+              borderRadius: "10px",
+              marginBottom: "10px"
+            }}>Your Location Address and Contact Info</Card.Header>
+            <Card.Title
+            style={{
+              display: "flex",
+      justifyContent: "flex-end",
+      
+            }}>
+            <Pencil
+              onClick={handleEditToggle(setIsEditing)}
+              style={{ cursor: "pointer" }}
+            />
+            </Card.Title>
           <Form>
             <Form.Group className="mb-3">
             <Form.Label style={{
@@ -306,38 +340,34 @@ const Dashboard: React.FC = () => {
             </Form.Group>
             </Row>
             </Form>
-            <Row>
+            <Row className="mb-3 justify-content-center">
+            <Col></Col>
+            <Col>
             <button
-              style={{
-                borderRadius: "8px",
-                width: "40px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-              onClick={handleEditToggle(setIsEditing)}
-            >
-              Edit
-            </button>
-
-            <button
-              style={{
-                borderRadius: "8px",
-                
-                display: "flex",
-                justifyContent: "center",
-              }}
+              style={buttonEnabled ?
+                styles.enabledButton : styles.disabledButton}
               onClick={handleUpdate}
+              disabled={!buttonEnabled}
             >
               Update
             </button>
+            </Col>
+            <Col></Col>
             </Row>
             </Card>
             </Col>
             <Col>
       <Card
-        style={{ textAlign: "center", padding: "40px", backgroundColor: "#fafaf5" }}
+        style={{ 
+          textAlign: "center", 
+          padding: "40px", 
+          backgroundColor: "#fafaf5" 
+        }}
       >
-        
+        <Card.Header style={{
+          borderRadius: "10px",
+              marginBottom: "10px"
+        }}>Upload a Photo of Your Space</Card.Header>
         <PhotoUpload />
       </Card>
       </Col>
@@ -347,3 +377,16 @@ const Dashboard: React.FC = () => {
 };
 
 export default Dashboard;
+
+const styles = {
+  enabledButton: {
+    borderRadius: "8px",
+    display: "flex",
+    justifyContent: "center",
+    width: "90px",
+    marginLeft: "28px"
+  },
+  disabledButton: {
+    display: "none"
+  }
+}

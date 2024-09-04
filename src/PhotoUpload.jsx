@@ -7,6 +7,7 @@ import {
   listAll,
   deleteObject,
 } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 import { storage, auth } from "./Firebase";
 import image from "./hd1080.png";
 import Row from "react-bootstrap/Row";
@@ -17,6 +18,8 @@ function PhotoUpload() {
   const [imageUrls, setImageUrls] = useState([]);
   const [loading, setLoading] = useState(true); 
   const [user] = useAuthState(auth);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) return; // Return early if user is null
@@ -49,7 +52,9 @@ function PhotoUpload() {
       getDownloadURL(snapshot.ref).then((url) => {
         setImageUrls((prev) => [...prev, croppedImageUrl]);
       });
+      navigate(0);
     });
+    
   };
 
   const deleteImage = async (url) => {
@@ -153,13 +158,10 @@ function PhotoUpload() {
           }}
         />
         <button
-          style={{
-            borderRadius: "8px",
-            marginBottom: "10px",
-            marginTop: "20px",
-          }}
+          style={imageUpload ?
+            styles.enabledButton : styles.disabledButton}
           onClick={uploadFile}
-          disabled={imageUpload === null}
+          disabled={!imageUpload}
         >
           Upload Image
         </button>
@@ -168,8 +170,7 @@ function PhotoUpload() {
           <img
             style={{
               border: "1px solid black",
-              marginBottom: "20px",
-              marginTop: "20px",
+              marginBottom: "85px"
             }}
             src={image}
             alt="Placeholder"
@@ -187,8 +188,8 @@ function PhotoUpload() {
               <img
                 style={{
                   border: "1px solid black",
-                  marginBottom: "20px",
-                  marginTop: "20px",
+                  marginBottom: "85px"
+                  
                 }}
                 src={url}
                 alt="Uploaded"
@@ -208,3 +209,15 @@ function PhotoUpload() {
 }
 
 export default PhotoUpload;
+
+
+const styles = {
+  enabledButton: {
+    borderRadius: "8px",
+            marginBottom: "10px",
+            marginTop: "20px",
+  },
+  disabledButton: {
+    display: "none"
+  }
+}

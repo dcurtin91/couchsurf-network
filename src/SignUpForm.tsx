@@ -18,7 +18,7 @@ function SignUpForm() {
     email: "",
     phone: "",
     vacancy: false,
-    availability: "",
+    availability: 1,
   });
 
   const handleChange = (e) => {
@@ -208,7 +208,7 @@ function SignUpForm() {
                 minLength={1}
                 required
               />
-              <label style={{ marginTop: "15px", fontSize: "14px" }}>
+              <label style={{ marginTop: "10px", fontSize: "14px" }}>
                 <input
                   type="checkbox"
                   name="vacancy"
@@ -219,7 +219,7 @@ function SignUpForm() {
                 If left unchecked, your location will not be shown in the directory.
               </label>
               <br></br>
-              <div style={{ marginTop: "15px", fontSize: "13px" }}>
+              <div style={{ marginTop: "15px", fontSize: "14px" }}>
                 {" "}
                 Capacity{" "}
               </div>
