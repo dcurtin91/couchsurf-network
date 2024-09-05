@@ -24,14 +24,5 @@ To set up the Couchsurf Network locally:
 3. Start the dev server:
    npm run dev
 4. Create a new project in Firebase and enable Firestore and Firebase Authentication.
-5. Obtain your Firebase credentials and replace the values in the Firebase.jsx file:
-   const firebaseConfig = {
-  apiKey: "<YOUR-API-KEY>",
-  authDomain: "<YOUR-AUTH-DOMAIN>",
-  projectId: "<YOUR-PROJECT-ID>",
-  storageBucket: "<YOUR-STORAGE-BUCKET>",
-  messagingSenderId: "<YOUR-MESSAGING-SENDER-ID>",
-  appId: "<YOUR-APP-ID>",
-  measurementId: "<YOUR-MEASUREMENT-ID>",
-};
+5. Obtain your Firebase credentials and replace the values in 'firebaseConfig' in the Firebase.jsx file. 
 6. Save your changes and restart the server.
