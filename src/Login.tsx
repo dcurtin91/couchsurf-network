@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, logInWithEmailAndPassword } from "./Firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { logInWithEmailAndPassword } from "./Firebase";
 import Register from "./Register";
 import Card from "react-bootstrap/Card";
 
@@ -10,7 +9,7 @@ import Card from "react-bootstrap/Card";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, loading] = useAuthState(auth);
+  //const [user, loading] = useAuthState(auth);
   const [showRegister, setShowRegister] = useState(false);
   const [showCard, setShowCard] = useState(true);
   const navigate = useNavigate();
