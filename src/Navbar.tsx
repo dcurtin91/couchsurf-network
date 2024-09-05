@@ -3,6 +3,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Dropdown from "react-bootstrap/Dropdown";
 import Container from 'react-bootstrap/Container';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import image from "./home_icon.webp";
+import image2 from "./0000.png"
 import { auth, logout } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Login from './Login';
@@ -25,7 +27,7 @@ function Navigation() {
       <Container>
         <Navbar expand="lg">
           {!user && (<Navbar.Brand href="/couchsurf-network/"><img
-            src="/home_icon.webp"
+            src={image}
             alt="home icon"
             style={{
               height: "55px",
@@ -35,7 +37,7 @@ function Navigation() {
             }} /></Navbar.Brand>
           )}
           {user && (<Navbar.Brand href="/couchsurf-network/directory/"><img
-            src="/home_icon.webp"
+            src={image}
             alt="home icon"
             style={{
               height: "55px",
@@ -67,7 +69,7 @@ function Navigation() {
                     width: "30px",
                     height: "30px",
 
-                  }} src="/0000.png" alt="User Icon" />
+                  }} src={image2} alt="User Icon" />
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu
@@ -101,7 +103,7 @@ function Navigation() {
                     backgroundColor: "white",
                     width: "30px",
                     height: "30px"
-                  }} src="/0000.png" alt="User Icon" />
+                  }} src={image2} alt="User Icon" />
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu
