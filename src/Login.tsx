@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, logInWithEmailAndPassword, db } from "./Firebase";
+import { auth, logInWithEmailAndPassword } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Register from "./Register";
 import Card from "react-bootstrap/Card";
