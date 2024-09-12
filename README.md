@@ -1,10 +1,10 @@
 # CouchSurf Network
 
-Live URL: [Couchsurf Network](https://dcurtin91.github.io/couchsurf-network/)
+Live URL: [CouchSurf Network](https://dcurtin91.github.io/couchsurf-network/)
 
 ## Overview
 
-**Couchsurf Network** is a platform for travelers to find and offer couches to crash on. The app allows users to browse available spaces and contact hosts. To unlock access to contact information and full listings, users must sign up as hosts by registering their own spaces. If a host's space is not ready or unavailable, they can simply leave the 'vacancy' option unchecked during registration, which hides their listing from the public directory.
+**CouchSurf Network** is a platform for travelers to find and offer couches to crash on. The app allows users to browse available spaces and contact hosts. To unlock access to contact information and full listings, users must sign up as hosts by registering their own spaces. If a host's space is not ready or unavailable, they can simply leave the 'vacancy' option unchecked during registration, which hides their listing from the public directory.
 
 ## How to Explore the Site
 
@@ -16,7 +16,7 @@ You can either:
 
 ## Running the App Locally
 
-To set up the Couchsurf Network locally:
+To set up the CouchSurf Network locally:
 
 1. Clone this repository to your local machine.
 2. Install dependencies:
