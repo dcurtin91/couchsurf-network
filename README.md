@@ -1,4 +1,4 @@
-# Couchsurf Network
+# CouchSurf Network
 
 Live URL: [Couchsurf Network](https://dcurtin91.github.io/couchsurf-network/)
 
