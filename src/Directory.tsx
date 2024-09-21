@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { getMessages, storage } from "./Firebase";
+import { getMessages, storage, auth, db } from "./Firebase";
 import { ref, getDownloadURL, listAll } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { doc, getDoc, getDocs, collection } from "firebase/firestore";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-
+import placeholder from "./hd1080.png";
 
 interface Message {
   uid: string;
@@ -54,9 +53,6 @@ const Directory: React.FC = () => {
     }
   };
 
-
-
-
   useEffect(() => {
     const checkUserDocs = async () => {
       const querySnapshot = await getDocs(collection(db, "properties"));
@@ -73,8 +69,6 @@ const Directory: React.FC = () => {
       checkUserDocs();
     }
   }, [user, loading, navigate]);
-
-
 
   useEffect(() => {
     const unsubscribe = getMessages((newMessages: Message[]) => {
@@ -109,13 +103,15 @@ const Directory: React.FC = () => {
     };
   }, [messages]);
 
-
-
   useEffect(() => {
     setFilteredMessages(
       messages.filter((message) => {
-        const combinedSearch = `${message.city} ${message.territory}`.toLowerCase();
-        return combinedSearch.includes(searchInput.toLowerCase()) && message.vacancy === 'Yes';
+        const combinedSearch =
+          `${message.city} ${message.territory}`.toLowerCase();
+        return (
+          combinedSearch.includes(searchInput.toLowerCase()) &&
+          message.vacancy === "Yes"
+        );
       })
     );
   }, [searchInput, messages]);
@@ -144,66 +140,82 @@ const Directory: React.FC = () => {
         (_message, index) =>
           index % 4 === 0 && (
             <Row key={index}>
-              {filteredMessages.slice(index, index + 4).map((message, subIndex) => (
-                <Col key={subIndex}>
-                  <Card
-                    style={{
-                      border: "none",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginTop: "20px",
-                      marginBottom: "30px",
-                    }}
-                  >
-                    <Card.Body
+              {filteredMessages
+                .slice(index, index + 4)
+                .map((message, subIndex) => (
+                  <Col key={subIndex}>
+                    <Card
                       style={{
+                        border: "none",
+                        display: "flex",
+                        alignItems: "center",
                         justifyContent: "center",
-                        textAlign: "center",
-                        lineHeight: "4px",
+                        marginTop: "20px",
+                        marginBottom: "30px",
                       }}
                     >
-                      {imageUrlsMap[message.uid] &&
-                        imageUrlsMap[message.uid].map((url, index) => (
+                      <Card.Body
+                        style={{
+                          justifyContent: "center",
+                          textAlign: "center",
+                          lineHeight: "4px",
+                        }}
+                      >
+                        {imageUrlsMap[message.uid] &&
+                        imageUrlsMap[message.uid].length > 0 ? (
+                          imageUrlsMap[message.uid].map((url, index) => (
+                            <img
+                              style={{
+                                borderRadius: "10px",
+                                marginBottom: "20px",
+                                marginTop: "20px",
+                              }}
+                              key={index}
+                              src={url}
+                              alt="Uploaded"
+                            />
+                          ))
+                        ) : (
                           <img
                             style={{
                               borderRadius: "10px",
                               marginBottom: "20px",
                               marginTop: "20px",
                             }}
-                            key={index}
-                            src={url}
+                            src={placeholder}
                             alt="Uploaded"
                           />
-                        ))}
+                        )}
 
-                      <Card.Text>{message.address}</Card.Text>
-                      <Card.Text style={{ paddingBottom: "10px" }}>
-                        {message.city}, {message.territory}
-                      </Card.Text>
-                      <Card.Text style={{ paddingBottom: "10px" }}>
-                        Capacity: {message.availability}
-                      </Card.Text>
+                        <Card.Text>{message.address}</Card.Text>
+                        <Card.Text style={{ paddingBottom: "10px" }}>
+                          {message.city}, {message.territory}
+                        </Card.Text>
+                        <Card.Text style={{ paddingBottom: "10px" }}>
+                          Capacity: {message.availability}
+                        </Card.Text>
 
-                      <Card
-                        style={{
-                          backgroundColor: "#d4e4fc",
-                          height: "80px",
-                          border: "none",
-                        }}
-                      >
-                        <Card.Body>
-                          <Card.Text>{message.name}</Card.Text>
-                          <Card.Text >
-                            <a href={`mailto:${message.email}`}>{message.email}</a>
-                          </Card.Text>
-                          <Card.Text>{message.phone}</Card.Text>
-                        </Card.Body>
-                      </Card>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))}
+                        <Card
+                          style={{
+                            backgroundColor: "#d4e4fc",
+                            height: "80px",
+                            border: "none",
+                          }}
+                        >
+                          <Card.Body>
+                            <Card.Text>{message.name}</Card.Text>
+                            <Card.Text>
+                              <a href={`mailto:${message.email}`}>
+                                {message.email}
+                              </a>
+                            </Card.Text>
+                            <Card.Text>{message.phone}</Card.Text>
+                          </Card.Body>
+                        </Card>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
             </Row>
           )
       )}
