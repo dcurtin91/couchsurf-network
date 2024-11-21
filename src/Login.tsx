@@ -28,7 +28,7 @@ function Login() {
         const event = new CustomEvent("loginSuccess");
         window.dispatchEvent(event);
         setTimeout(() => {
-          navigate("/directory/");
+          navigate("/directory");
         }, 100);
       });
     } catch (error) {

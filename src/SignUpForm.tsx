@@ -52,7 +52,7 @@ function SignUpForm() {
 
 
       setTimeout(() => {
-        navigate("/dashboard/");
+        navigate("/dashboard");
       }, 100);
     } catch (error) {
       console.error("Error sending message:", error);

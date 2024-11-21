@@ -36,7 +36,7 @@ function Navigation() {
               marginTop: "10px"
             }} /></Navbar.Brand>
           )}
-          {user && (<Navbar.Brand href="/directory/"><img
+          {user && (<Navbar.Brand href="/directory"><img
             src={image}
             alt="home icon"
             style={{
@@ -110,8 +110,8 @@ function Navigation() {
                   style={{
                     textAlign: "center"
                   }}>
-                  <Dropdown.Item href="/dashboard/">Profile</Dropdown.Item>
-                  <Dropdown.Item href="/directory/">Directory</Dropdown.Item>
+                  <Dropdown.Item href="/dashboard">Profile</Dropdown.Item>
+                  <Dropdown.Item href="/directory">Directory</Dropdown.Item>
                   <Dropdown.Item href="/" onClick={logout}>Log Out</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>

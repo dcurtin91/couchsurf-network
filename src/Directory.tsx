@@ -44,7 +44,7 @@ const Directory: React.FC = () => {
           const data = docRef.data();
           console.log(data);
         } else {
-          navigate("/signupform/");
+          navigate("/signupform");
         }
       }
     } catch (err) {
@@ -59,7 +59,7 @@ const Directory: React.FC = () => {
       if (!querySnapshot.empty) {
         navigate("/");
       } else {
-        navigate("/directory/");
+        navigate("/directory");
       }
     };
 

@@ -134,7 +134,7 @@ const Dashboard: React.FC = () => {
         textAlign: "center",
         marginBottom: "10px"
       }}
-      >Visit the <a href="/directory/">Directory</a> to See Your Listing</h3>
+      >Visit the <a href="/directory">Directory</a> to See Your Listing</h3>
       <Row>
         <Col>
           <Card
