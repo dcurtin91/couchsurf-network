@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getMessages, storage, auth, db } from "./Firebase";
+import { getMessages, storage, auth, db } from "./Firebase.jsx";
 import { ref, getDownloadURL, listAll } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";

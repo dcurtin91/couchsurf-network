@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { logInWithEmailAndPassword } from "./Firebase";
+import { logInWithEmailAndPassword } from "./Firebase.jsx";
 import Register from "./Register";
 import Card from "react-bootstrap/Card";
 
@@ -21,7 +21,7 @@ function Login() {
 
 
 
-  const loginButton = async (e) => {
+  const loginButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       logInWithEmailAndPassword(email, password).then(() => {
@@ -36,7 +36,7 @@ function Login() {
     }
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       logInWithEmailAndPassword(email, password);
     }

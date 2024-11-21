@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, registerWithEmailAndPassword } from "./Firebase";
+import { auth, registerWithEmailAndPassword } from "./Firebase.jsx";
 import SignUpForm from "./SignUpForm";
 import Login from "./Login";
 import Card from "react-bootstrap/Card";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { auth, sendMessage } from "./Firebase";
+import { auth, sendMessage } from "./Firebase.jsx";
 import { PatternFormat } from "react-number-format";
 import Card from "react-bootstrap/Card";
 
@@ -20,8 +20,9 @@ function SignUpForm() {
     availability: 1,
   });
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const target = e.target as HTMLInputElement;
+    const { name, value, type, checked } = target;
     const newValue = type === "checkbox" ? checked : value;
 
     setFormData((prevData) => ({
@@ -30,7 +31,7 @@ function SignUpForm() {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await sendMessage(

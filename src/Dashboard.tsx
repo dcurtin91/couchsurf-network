@@ -1,10 +1,10 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "./Firebase";
+import { auth, db } from "./Firebase.jsx";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { Pencil } from 'lucide-react';
-import PhotoUpload from "./PhotoUpload";
+import PhotoUpload from "./PhotoUpload.jsx";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";

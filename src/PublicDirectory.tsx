@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getMessages, storage } from "./Firebase";
+import { getMessages, storage } from "./Firebase.jsx";
 import { ref, getDownloadURL, listAll } from "firebase/storage";
 import Login from "./Login";
 import Register from "./Register";
