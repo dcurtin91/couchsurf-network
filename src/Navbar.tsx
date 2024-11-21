@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import image from "./home_icon.webp";
 import image2 from "./0000.png"
-import { auth, logout } from "./Firebase";
+import { auth, logout } from "./Firebase.jsx";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Login from './Login';
 import Register from './Register';
@@ -46,8 +46,7 @@ function Navigation() {
               marginTop: "10px"
             }} /></Navbar.Brand>
           )}
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse className="justify-content-end">
+          
             {!user && (
               <Dropdown className="custom-dropdown p-3" align="end" style={{
                 backgroundColor: "white",
@@ -64,7 +63,7 @@ function Navigation() {
                   alignItems: "center",
                   padding: "0"
                 }}>
-                  <img style={{
+                  <img className="user-icon" style={{
                     backgroundColor: "white",
                     width: "30px",
                     height: "30px",
@@ -117,7 +116,7 @@ function Navigation() {
                 </Dropdown.Menu>
               </Dropdown>
             )}
-          </Navbar.Collapse>
+          
           </Container>
         </Navbar>
 
