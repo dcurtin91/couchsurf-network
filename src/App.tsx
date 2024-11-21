@@ -13,11 +13,11 @@ const App: React.FC = () => {
       <Router>
         <Navigation />
         <Routes>
-          <Route path="/couchsurf-network/" element={<PublicDirectory />} />
-          <Route path="/couchsurf-network/login" element={<Login />} />
-          <Route path="/couchsurf-network/reset" element={<Reset />} />
-          <Route path="/couchsurf-network/dashboard" element={<Dashboard />} />
-          <Route path="/couchsurf-network/directory" element={<Directory />} />
+          <Route path="/" element={<PublicDirectory />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/reset" element={<Reset />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/directory" element={<Directory />} />
         </Routes>
       </Router>
     </div>

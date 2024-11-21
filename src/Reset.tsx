@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -9,7 +9,7 @@ import Col from "react-bootstrap/Col";
 
 function Reset() {
   const [email, setEmail] = useState("");
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading ] = useAuthState(auth);
   const navigate = useNavigate();
 
   useEffect(() => {

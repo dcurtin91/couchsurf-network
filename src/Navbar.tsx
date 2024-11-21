@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Dropdown from "react-bootstrap/Dropdown";
 import Container from 'react-bootstrap/Container';

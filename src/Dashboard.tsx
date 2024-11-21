@@ -14,7 +14,7 @@ import Container from "react-bootstrap/Container";
 
 
 const Dashboard: React.FC = () => {
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading ] = useAuthState(auth);
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [address, setAddress] = useState<string>(" ");

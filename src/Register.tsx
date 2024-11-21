@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, registerWithEmailAndPassword } from "./Firebase.jsx";
+//import { useAuthState } from "react-firebase-hooks/auth";
+//import { auth, registerWithEmailAndPassword } from "./Firebase.jsx";
+import { registerWithEmailAndPassword } from "./Firebase.jsx";
 import SignUpForm from "./SignUpForm";
 import Login from "./Login";
 import Card from "react-bootstrap/Card";
@@ -8,7 +9,7 @@ import Card from "react-bootstrap/Card";
 const Register: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [user, loading] = useAuthState(auth);
+  //const [user, loading] = useAuthState(auth);
   const [showLogin, setShowLogin] = useState(false);
   const [showCard, setShowCard] = useState(true);
   const [showForm, setShowForm] = useState(false);
