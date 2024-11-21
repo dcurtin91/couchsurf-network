@@ -24,8 +24,8 @@ function Navigation() {
 
   return (
     <>
-      <Container>
         <Navbar expand="lg">
+          <Container>
           {!user && (<Navbar.Brand href="/couchsurf-network/"><img
             src={image}
             alt="home icon"
@@ -118,9 +118,10 @@ function Navigation() {
               </Dropdown>
             )}
           </Navbar.Collapse>
+          </Container>
         </Navbar>
 
-      </Container>
+     
 
       <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton></Offcanvas.Header>
