@@ -123,7 +123,7 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     if (loading) return;
-    if (!user) return navigate("/couchsurf-network/");
+    if (!user) return navigate("/");
     fetchUserData();
   }, [user, loading]);
 
@@ -134,7 +134,7 @@ const Dashboard: React.FC = () => {
         textAlign: "center",
         marginBottom: "10px"
       }}
-      >Visit the <a href="/couchsurf-network/directory">Directory</a> to See Your Listing</h3>
+      >Visit the <a href="/directory/">Directory</a> to See Your Listing</h3>
       <Row>
         <Col>
           <Card

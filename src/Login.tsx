@@ -28,7 +28,7 @@ function Login() {
         const event = new CustomEvent("loginSuccess");
         window.dispatchEvent(event);
         setTimeout(() => {
-          navigate("/couchsurf-network/directory");
+          navigate("/directory/");
         }, 100);
       });
     } catch (error) {
@@ -87,7 +87,7 @@ function Login() {
           marginBottom: "12px"
         }}>
           <Link
-            to="/couchsurf-network/reset"
+            to="/reset/"
             tabIndex={-1}
           >
             Forgot Password

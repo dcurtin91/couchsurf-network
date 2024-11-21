@@ -26,7 +26,7 @@ function Navigation() {
     <>
         <Navbar expand="lg">
           <Container>
-          {!user && (<Navbar.Brand href="/couchsurf-network/"><img
+          {!user && (<Navbar.Brand href="/"><img
             src={image}
             alt="home icon"
             style={{
@@ -36,7 +36,7 @@ function Navigation() {
               marginTop: "10px"
             }} /></Navbar.Brand>
           )}
-          {user && (<Navbar.Brand href="/couchsurf-network/directory/"><img
+          {user && (<Navbar.Brand href="/directory/"><img
             src={image}
             alt="home icon"
             style={{
@@ -110,9 +110,9 @@ function Navigation() {
                   style={{
                     textAlign: "center"
                   }}>
-                  <Dropdown.Item href="/couchsurf-network/dashboard">Profile</Dropdown.Item>
-                  <Dropdown.Item href="/couchsurf-network/directory">Directory</Dropdown.Item>
-                  <Dropdown.Item href="/couchsurf-network/" onClick={logout}>Log Out</Dropdown.Item>
+                  <Dropdown.Item href="/dashboard/">Profile</Dropdown.Item>
+                  <Dropdown.Item href="/directory/">Directory</Dropdown.Item>
+                  <Dropdown.Item href="/" onClick={logout}>Log Out</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             )}

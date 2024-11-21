@@ -44,7 +44,7 @@ const Directory: React.FC = () => {
           const data = docRef.data();
           console.log(data);
         } else {
-          navigate("/couchsurf-network/signupform/");
+          navigate("/signupform/");
         }
       }
     } catch (err) {
@@ -57,9 +57,9 @@ const Directory: React.FC = () => {
     const checkUserDocs = async () => {
       const querySnapshot = await getDocs(collection(db, "properties"));
       if (!querySnapshot.empty) {
-        navigate("/couchsurf-network/");
+        navigate("/");
       } else {
-        navigate("/couchsurf-network/directory");
+        navigate("/directory/");
       }
     };
 
