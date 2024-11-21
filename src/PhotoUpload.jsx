@@ -49,7 +49,7 @@ function PhotoUpload() {
     const croppedImageUrl = await cropImage(imageUpload);
     const imageRef = ref(storage, `${user.uid}/${imageUpload.name}`);
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
+      getDownloadURL(snapshot.ref).then(() => { //url as argument
         setImageUrls((prev) => [...prev, croppedImageUrl]);
       });
       navigate(0);
