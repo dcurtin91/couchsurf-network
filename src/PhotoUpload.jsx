@@ -22,7 +22,7 @@ function PhotoUpload() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) return; // Return early if user is null
+    if (!user) return; 
 
     const imagesListRef = ref(storage, `${user.uid}`);
     let isMounted = true;
