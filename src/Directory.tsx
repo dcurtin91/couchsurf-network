@@ -45,9 +45,10 @@ const Directory: React.FC = () => {
         if (docRef.exists()) {
           const data = docRef.data();
           console.log(data);
-        } else {
-          navigate("/signupform");
-        }
+        } 
+        // else {
+        //   navigate("/signupform");
+        // }
       } else {
         navigate("/");
       }
