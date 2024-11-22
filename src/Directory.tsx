@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getMessages, storage, auth, db } from "./Firebase.jsx";
 import { ref, getDownloadURL, listAll } from "firebase/storage";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 // import { doc, getDoc, getDocs, collection } from "firebase/firestore";
 import { doc, getDoc } from "firebase/firestore";
@@ -34,7 +34,7 @@ const Directory: React.FC = () => {
   const [user] = useAuthState(auth);
   const [searchInput, setSearchInput] = useState<string>("");
   const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const fetchUserData = async () => {
     try {
@@ -49,9 +49,10 @@ const Directory: React.FC = () => {
         // else {
         //   navigate("/signupform");
         // }
-      } else {
-        navigate("/");
-      }
+      } 
+      // else {
+      //   navigate("/");
+      // }
     } catch (err) {
       console.error(err);
       alert("An error occurred while fetching user data");
