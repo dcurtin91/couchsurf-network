@@ -3,7 +3,8 @@ import { getMessages, storage, auth, db } from "./Firebase.jsx";
 import { ref, getDownloadURL, listAll } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { doc, getDoc, getDocs, collection } from "firebase/firestore";
+// import { doc, getDoc, getDocs, collection } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -29,7 +30,8 @@ interface ImageUrlsMap {
 const Directory: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [imageUrlsMap, setImageUrlsMap] = useState<ImageUrlsMap>({});
-  const [user, loading] = useAuthState(auth);
+  // const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const [searchInput, setSearchInput] = useState<string>("");
   const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
   const navigate = useNavigate();
@@ -46,6 +48,8 @@ const Directory: React.FC = () => {
         } else {
           navigate("/signupform");
         }
+      } else {
+        navigate("/");
       }
     } catch (err) {
       console.error(err);
@@ -53,24 +57,25 @@ const Directory: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const checkUserDocs = async () => {
-      const querySnapshot = await getDocs(collection(db, "properties"));
-      if (!querySnapshot.empty) {
-        navigate("/");
-      } else {
-        navigate("/directory");
-      }
-    };
+  // useEffect(() => {
+  //   const checkUserDocs = async () => {
+  //     const querySnapshot = await getDocs(collection(db, "properties"));
+  //     if (!querySnapshot.empty) {
+  //       navigate("/");
+  //     } else {
+  //       navigate("/directory");
+  //     }
+  //   };
 
-    if (user) {
-      fetchUserData();
-    } else if (!loading) {
-      checkUserDocs();
-    }
-  }, [user, loading, navigate]);
+  //   if (user) {
+  //     fetchUserData();
+  //   } else if (!loading) {
+  //     checkUserDocs();
+  //   }
+  // }, [user, loading, navigate]);
 
   useEffect(() => {
+    fetchUserData();
     const unsubscribe = getMessages((newMessages: Message[]) => {
       setMessages(newMessages);
     });
