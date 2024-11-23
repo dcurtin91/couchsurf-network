@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Dropdown from "react-bootstrap/Dropdown";
 import Container from 'react-bootstrap/Container';
@@ -15,6 +15,7 @@ function Navigation() {
   const [user] = useAuthState(auth);
   const [show, setShow] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -22,11 +23,22 @@ function Navigation() {
   const handleCloseRegister = () => setShowRegister(false);
   const handleShowRegister = () => setShowRegister(true);
 
+
+  useEffect(() => {
+    setLoggedIn(!!user); // Set to true if user exists, otherwise false
+  }, [user]);
+
+  // useEffect(() => {
+  //   if (!loggedIn && window.location.pathname === "/directory") {
+  //     navigate("/"); 
+  //   }
+  // }, [loggedIn, location.pathname, navigate]);
+
   return (
     <>
         <Navbar expand="lg">
           <Container>
-          {!user && (<Navbar.Brand href="/"><img
+          {!loggedIn && (<Navbar.Brand href="/"><img
             src={image}
             alt="home icon"
             style={{
@@ -36,7 +48,7 @@ function Navigation() {
               marginTop: "10px"
             }} /></Navbar.Brand>
           )}
-          {user && (<Navbar.Brand href="/directory"><img
+          {loggedIn && (<Navbar.Brand href="/directory"><img
             src={image}
             alt="home icon"
             style={{
@@ -47,7 +59,7 @@ function Navigation() {
             }} /></Navbar.Brand>
           )}
           
-            {!user && (
+            {!loggedIn && (
               <Dropdown className="custom-dropdown p-3" align="end" style={{
                 backgroundColor: "white",
                 borderRadius: "12px",
@@ -82,7 +94,7 @@ function Navigation() {
                 </Dropdown.Menu>
               </Dropdown>
             )}
-            {user && (
+            {loggedIn && (
               <Dropdown className="custom-dropdown p-3" align="end" style={{
                 backgroundColor: "white",
                 borderRadius: "12px",

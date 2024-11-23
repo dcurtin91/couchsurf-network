@@ -24,21 +24,24 @@ function Login() {
   const loginButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      logInWithEmailAndPassword(email, password).then(() => {
-        const event = new CustomEvent("loginSuccess");
-        window.dispatchEvent(event);
-        setTimeout(() => {
-          navigate("/directory");
-        }, 100);
-      });
+      await logInWithEmailAndPassword(email, password);
+      navigate("/directory");
     } catch (error) {
       console.error("login problem", error);
+      alert("Failed to log in. Please check your email and password.");
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      logInWithEmailAndPassword(email, password);
+      e.preventDefault();
+      try {
+        await logInWithEmailAndPassword(email, password);
+        navigate("/directory");
+      } catch (error) {
+        console.error("login problem", error);
+        alert("Failed to log in. Please check your email and password.");
+      }
     }
   };
 
@@ -95,12 +98,11 @@ function Login() {
         </div>
         <div>
           Don't have an account?{" "}
-          <a
-            href="#"
+          <Link to="#"
             onClick={(e) => { e.preventDefault(); handleClick(); }}
           >
             Register
-          </a>{" "}
+          </Link>{" "}
           now.
 
         </div>
