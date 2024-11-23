@@ -123,7 +123,7 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     if (loading) return;
-    if (!user && window.location.pathname !== "/") return navigate("/");
+    //if (!user && window.location.pathname !== "/") return navigate("/");
     fetchUserData();
   }, [user, loading]);
 
