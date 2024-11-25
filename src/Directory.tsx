@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getMessages, storage } from "./Firebase.jsx"; //auth, db
+import { getMessages, storage, auth, db } from "./Firebase.jsx"; 
 import { ref, getDownloadURL, listAll } from "firebase/storage";
-// import { useNavigate } from "react-router-dom";
-// import { useAuthState } from "react-firebase-hooks/auth";
-// import { doc, getDoc, getDocs, collection } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { doc, getDoc } from "firebase/firestore"; //getDocs, collection
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -29,33 +29,31 @@ interface ImageUrlsMap {
 const Directory: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [imageUrlsMap, setImageUrlsMap] = useState<ImageUrlsMap>({});
-  //const [user, loading] = useAuthState(auth);
+  const [user ] = useAuthState(auth); //loading
   const [searchInput, setSearchInput] = useState<string>("");
   const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
+  const navigate = useNavigate();
+
+  const fetchUserData = async () => {
+    try {
+      if (user) {
+        const docId = user.uid;
+        const docRef = await getDoc(doc(db, "properties", docId));
+
+        if (docRef.exists()) {
+          const data = docRef.data();
+          console.log(data);
+        } 
   
-
-  // const fetchUserData = async () => {
-  //   try {
-  //     if (user) {
-  //       const docId = user.uid;
-  //       const docRef = await getDoc(doc(db, "properties", docId));
-
-  //       if (docRef.exists()) {
-  //         const data = docRef.data();
-  //         console.log(data);
-  //       } 
-  //       // else {
-  //       //   navigate("/signupform");
-  //       // }
-  //     } 
-  //     // else {
-  //     //   navigate("/");
-  //     // }
-  //   } catch (err) {
-  //     console.error(err);
-  //     alert("An error occurred while fetching user data");
-  //   }
-  // };
+      } 
+      else {
+        navigate("/");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("An error occurred while fetching user data");
+    }
+  };
 
   // useEffect(() => {
   //   const checkUserDocs = async () => {
@@ -77,6 +75,7 @@ const Directory: React.FC = () => {
   // }, [loading, navigate]); //user was here
 
   useEffect(() => {
+    fetchUserData();
     const unsubscribe = getMessages((newMessages: Message[]) => {
       setMessages(newMessages);
     });

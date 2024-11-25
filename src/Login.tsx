@@ -9,7 +9,6 @@ import Card from "react-bootstrap/Card";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //const [user, loading] = useAuthState(auth);
   const [showRegister, setShowRegister] = useState(false);
   const [showCard, setShowCard] = useState(true);
   const navigate = useNavigate();
