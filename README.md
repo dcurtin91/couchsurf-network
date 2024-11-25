@@ -1,6 +1,6 @@
 # CouchSurf Network
 
-Live URL: [CouchSurf Network](https://dcurtin91.github.io/couchsurf-network/)
+Live URL: [CouchSurf Network](https://couchsurfportal.netlify.app/)
 
 ## Overview
 
