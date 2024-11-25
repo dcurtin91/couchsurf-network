@@ -25,6 +25,7 @@ function Login() {
     e.preventDefault();
     try {
       await logInWithEmailAndPassword(email, password);
+      setShowCard(false);
       navigate("/directory");
     } catch (error) {
       console.error("login problem", error);
