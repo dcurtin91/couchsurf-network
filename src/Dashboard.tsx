@@ -1,6 +1,6 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { auth, db } from "./Firebase.jsx";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { Pencil } from 'lucide-react';
@@ -24,7 +24,7 @@ const Dashboard: React.FC = () => {
   const [vacancy, setVacancy] = useState<string>(" ");
   const [availability, setAvailability] = useState<string>(" ");
 
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [buttonEnabled, setButtonEnabled] = useState<boolean>(false);
@@ -112,7 +112,7 @@ const Dashboard: React.FC = () => {
 
 
         setIsEditing(false);
-        //navigate(0);
+        navigate(0);
 
       }
     } catch (error) {
@@ -123,7 +123,7 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     if (loading) return;
-    //if (!user && window.location.pathname !== "/") return navigate("/");
+    if (!user && window.location.pathname !== "/") return navigate("/");
     fetchUserData();
   }, [user, loading]);
 

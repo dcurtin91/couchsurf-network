@@ -24,8 +24,8 @@ function Login() {
     e.preventDefault();
     try {
       await logInWithEmailAndPassword(email, password);
-      setShowCard(false);
       navigate("/directory");
+      setShowCard(false);
     } catch (error) {
       console.error("login problem", error);
       alert("Failed to log in. Please check your email and password.");
