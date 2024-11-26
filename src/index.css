@@ -12,6 +12,8 @@ body {
  
 }
 
+
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -99,6 +101,10 @@ img {
     background-color: rgb(21, 153, 37);
     
   }
+}
+
+.is-active {
+  color: gray !important;
 }
 
 /* @media (max-width: 768px) {

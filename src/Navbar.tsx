@@ -16,6 +16,7 @@ function Navigation() {
   const [show, setShow] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [currentPage, setCurrentPage] = useState('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -23,6 +24,13 @@ function Navigation() {
   const handleCloseRegister = () => setShowRegister(false);
   const handleShowRegister = () => setShowRegister(true);
 
+  useEffect(() => {
+    setCurrentPage(window.location.pathname);
+  }, []);
+
+  const isActive = (href: string) => {
+    return href === currentPage ? 'is-active' : '';
+  };
 
   useEffect(() => {
     setLoggedIn(!!user); // Set to true if user exists, otherwise false
@@ -113,8 +121,8 @@ function Navigation() {
                 style={{
                   textAlign: "center"
                 }}>
-                <Dropdown.Item href="/dashboard">Profile</Dropdown.Item>
-                <Dropdown.Item href="/">Directory</Dropdown.Item>
+                <Dropdown.Item href="/dashboard" className={`${isActive("/dashboard")}`}>Profile</Dropdown.Item>
+                <Dropdown.Item href="/" className={`${isActive("/")}`}>Directory</Dropdown.Item>
                 <Dropdown.Item href="/" onClick={logout}>Log Out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
