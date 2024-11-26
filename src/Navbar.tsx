@@ -36,9 +36,9 @@ function Navigation() {
 
   return (
     <>
-        <Navbar expand="lg">
-          <Container>
-          {!loggedIn && (<Navbar.Brand href="/"><img
+      <Navbar expand="lg">
+        <Container>
+          <Navbar.Brand href="/"><img
             src={image}
             alt="home icon"
             style={{
@@ -47,92 +47,83 @@ function Navigation() {
               borderRadius: "25px",
               marginTop: "10px"
             }} /></Navbar.Brand>
-          )}
-          {loggedIn && (<Navbar.Brand href="/directory"><img
-            src={image}
-            alt="home icon"
-            style={{
-              height: "55px",
-              width: "65px",
-              borderRadius: "25px",
-              marginTop: "10px"
-            }} /></Navbar.Brand>
-          )}
-          
-            {!loggedIn && (
-              <Dropdown className="custom-dropdown p-3" align="end" style={{
+
+
+
+          {!loggedIn && (
+            <Dropdown className="custom-dropdown p-3" align="end" style={{
+              backgroundColor: "white",
+              borderRadius: "12px",
+              height: "60px",
+              width: "60px",
+
+            }}>
+              <Dropdown.Toggle style={{
                 backgroundColor: "white",
-                borderRadius: "12px",
-                height: "60px",
-                width: "60px",
-
+                border: "none",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "0"
               }}>
-                <Dropdown.Toggle style={{
+                <img className="user-icon" style={{
                   backgroundColor: "white",
-                  border: "none",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  padding: "0"
+                  width: "30px",
+                  height: "30px",
+
+                }} src={image2} alt="User Icon" />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu
+                className="shadow p-3"
+                style={{
+                  textAlign: "center",
+
                 }}>
-                  <img className="user-icon" style={{
-                    backgroundColor: "white",
-                    width: "30px",
-                    height: "30px",
+                <Dropdown.Item href="#" onClick={(e) => { e.preventDefault(); handleShow(); }}>Sign In</Dropdown.Item>
+                <Dropdown.Item href="#" onClick={(e) => { e.preventDefault(); handleShowRegister(); }}>Sign Up</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
+          {loggedIn && (
+            <Dropdown className="custom-dropdown p-3" align="end" style={{
+              backgroundColor: "white",
+              borderRadius: "12px",
+              height: "60px",
+              width: "60px",
 
-                  }} src={image2} alt="User Icon" />
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu
-                  className="shadow p-3"
-                  style={{
-                    textAlign: "center",
-
-                  }}>
-                  <Dropdown.Item href="#" onClick={(e) => { e.preventDefault(); handleShow(); }}>Sign In</Dropdown.Item>
-                  <Dropdown.Item href="#" onClick={(e) => { e.preventDefault(); handleShowRegister(); }}>Sign Up</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            )}
-            {loggedIn && (
-              <Dropdown className="custom-dropdown p-3" align="end" style={{
+            }}>
+              <Dropdown.Toggle style={{
                 backgroundColor: "white",
-                borderRadius: "12px",
-                height: "60px",
-                width: "60px",
-
+                border: "none",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "0"
               }}>
-                <Dropdown.Toggle style={{
+                <img style={{
                   backgroundColor: "white",
-                  border: "none",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  padding: "0"
+                  width: "30px",
+                  height: "30px"
+                }} src={image2} alt="User Icon" />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu
+                className="shadow p-3"
+                style={{
+                  textAlign: "center"
                 }}>
-                  <img style={{
-                    backgroundColor: "white",
-                    width: "30px",
-                    height: "30px"
-                  }} src={image2} alt="User Icon" />
-                </Dropdown.Toggle>
+                <Dropdown.Item href="/dashboard">Profile</Dropdown.Item>
+                <Dropdown.Item href="/">Directory</Dropdown.Item>
+                <Dropdown.Item href="/" onClick={logout}>Log Out</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
 
-                <Dropdown.Menu
-                  className="shadow p-3"
-                  style={{
-                    textAlign: "center"
-                  }}>
-                  <Dropdown.Item href="/dashboard">Profile</Dropdown.Item>
-                  <Dropdown.Item href="/directory">Directory</Dropdown.Item>
-                  <Dropdown.Item href="/" onClick={logout}>Log Out</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            )}
-          
-          </Container>
-        </Navbar>
+        </Container>
+      </Navbar>
 
-     
+
 
       <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton></Offcanvas.Header>
